@@ -1,0 +1,775 @@
+{
+  "id": "what-is-justice",
+  "title": "What Is Justice? Plato's Republic",
+  "personaId": "vlachos",
+  "description": "Six weeks, one book, one question. Prof. Vlachos does not lecture the Republic at you; he reads it with you as what it is — the record of an ambush. An old man is asked a polite question about money and by nightfall every definition of justice in the room is dead, a ring has made a shepherd a king, a city has been built in speech, and you have been dragged out of a cave by the hair. The course runs the whole arc: the demolitions of Book I, Glaucon's challenge, the city-soul analogy, the philosopher-rulers, the Cave, the tyrant, and the Myth of Er. Your final task is the one Socrates accepts in Book II — to show, or honestly fail to show, that justice pays even when no one is watching. Expect to be asked what you think, and then asked why, and then asked again.",
+  "difficulty": "intermediate",
+  "estWeeks": 6,
+  "texts": [
+    {
+      "bookID": "republic-jowett",
+      "title": "The Republic",
+      "author": "Plato (trans. Benjamin Jowett)",
+      "source": "gutenberg",
+      "sourceUrl": "https://www.gutenberg.org/cache/epub/1497/pg1497.txt",
+      "license": "public-domain-us",
+      "licenseNote": "Jowett translation (1871/1894); translator died 1893; public domain in the US."
+    }
+  ],
+  "units": [
+    {
+      "number": 1,
+      "title": "Book I — Three Definitions Dismantled",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 0,
+          "chEnd": 0
+        }
+      ],
+      "lectureOutline": [
+        "The scene: the Piraeus, a festival, an old man at his sacrifices — why the Republic begins with Cephalus, money, and the fear of death.",
+        "Cephalus's definition — truth-telling and debt-paying — and the madman's weapon: what a counterexample is and what this one leaves standing.",
+        "Polemarchus inherits the argument: Simonides, friends and enemies, and the two Socratic attacks — the misjudged friend, and whether harming can ever be the work of justice.",
+        "Thrasymachus enters like a wild beast: the advantage of the stronger as a debunking of justice, not a definition of it.",
+        "The ruler-as-craftsman argument: every craft, in the strict sense, serves its subject — the shepherd fattens the sheep for whom?",
+        "The wage argument and the function argument: why Book I's closing proofs feel too fast, and why Plato may agree with you about that.",
+        "The elenchus as a method: what refutation is for, and why an evening that ends in confessed ignorance is not a wasted evening."
+      ],
+      "seminarQuestionBank": [
+        "Cephalus says justice is telling the truth and paying your debts. Before Socrates says a word — what do you make of that answer? Where did an honest old man get it?",
+        "Why a madman's weapon? Say exactly what that counterexample proves — and, just as exactly, what it does not prove.",
+        "Polemarchus inherits the argument as he will inherit the estate. What does he change in his father's definition, and what does he quietly keep?",
+        "Harming a horse makes it worse as a horse; harming a man, Socrates says, makes him worse as a man. Worse at what? What is Socrates assuming a human being is for?",
+        "Thrasymachus demands that Socrates stop asking questions and give an answer of his own. Is that demand fair? Is it one you would like to make?",
+        "'Justice is the advantage of the stronger.' State precisely what that sentence claims. Is it a definition of justice, or an unmasking of it — and which would be more dangerous?",
+        "When Socrates observes that rulers err about their own interest, Thrasymachus repairs rather than retreats: the ruler 'in the strict sense' never errs. What did that repair cost him?",
+        "Book I ends with no definition standing. Socrates calls himself a glutton who tasted every dish and learned nothing. Was the evening wasted? Say what, exactly, you now know that you did not know this morning."
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "wij-elenchus-what-is-justice",
+          "openingQuestion": "What is justice?",
+          "span": {
+            "bookID": "republic-jowett",
+            "chStart": 0,
+            "chEnd": 0
+          },
+          "passageIds": [
+            "republic-jowett:0:30",
+            "republic-jowett:0:140",
+            "republic-jowett:0:198"
+          ],
+          "classicMoves": [
+            {
+              "definition": "Justice is speaking the truth and returning what one has received — telling no lies and paying one's debts (Cephalus).",
+              "counterexample": "A friend, sane when he left his weapons with you, demands them back mad. Returning them is 'paying what is owed,' yet no one calls it just — and telling a madman the plain truth may be no better. So justice cannot simply be truth-telling and debt-paying."
+            },
+            {
+              "definition": "Justice is giving each what is owed: benefit to friends, harm to enemies (Polemarchus, citing Simonides).",
+              "counterexample": "We misjudge who our friends are, so the definition licenses helping the wicked and harming the good. Worse: harming a man makes him worse in human virtue — less just — and justice cannot be a craft whose product is injustice, any more than heat can produce cold."
+            },
+            {
+              "definition": "Justice is nothing other than the advantage of the stronger — obedience to the laws the ruling power lays down in its own interest (Thrasymachus).",
+              "counterexample": "Rulers err about their own advantage, so obeying them is sometimes to the stronger's disadvantage — justice becomes the advantage and the disadvantage of the stronger at once. And when Thrasymachus repairs to the ruler 'in the strict sense,' the craft analogy turns on him: every craft, strictly speaking, serves its subject — medicine the patient, ruling the ruled — not the practitioner."
+            }
+          ],
+          "relatedClaims": [
+            "political.justice-advantage-of-stronger"
+          ],
+          "reflectionPrompt": "Book I destroys three definitions and builds nothing in their place. Write down the definition of justice you walked in with tonight — the one you would have given if Socrates had turned to you first — and then administer to it, yourself, the counterexample it most fears. If you cannot find one, say what makes your definition safe where Cephalus's was not."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wij-u1-response",
+          "kind": "response",
+          "prompt": "Socrates dismantles three definitions in a single evening, and none of the defendants mounts a serious defense. Choose the one you think deserved a better advocate — Cephalus, Polemarchus, or Thrasymachus — and give the definition that defense in your own voice. Reconstruct it in its strongest form, answer the Socratic counterexample directly rather than pretending it away, and then state plainly where you think the definition still fails, if it does.",
+          "lengthWords": 500,
+          "rubric": [
+            {
+              "name": "Reconstruction",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "States the chosen definition and its supporting reasons accurately and in their strongest form; the definer would recognize and accept the account.",
+                "B": "Accurate on the definition itself but flattens or omits the reasoning behind it; the position is recognizable but not at full strength.",
+                "C": "Misstates the definition or substitutes a vaguer paraphrase; the target of the counterexample is blurred."
+              }
+            },
+            {
+              "name": "Engagement with the counterexample",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "Meets the Socratic counterexample head-on: either shows how the repaired definition survives it or shows precisely why it cannot; distinguishes killing the claim from killing its wording.",
+                "B": "Acknowledges the counterexample and gestures at a reply, but the reply does not fully engage its force.",
+                "C": "Evades, restates, or ignores the counterexample; the defense proceeds as if Socrates had not spoken."
+              }
+            },
+            {
+              "name": "Independent judgment",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Reaches and states a clear verdict on the repaired definition, with a reason that is the writer's own and follows from the preceding argument.",
+                "B": "Reaches a verdict, but it is asserted rather than earned by the argument.",
+                "C": "No verdict, or a verdict that contradicts the paper's own reasoning."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The unit's whole yield is negative, and that is the lesson: you watched three definitions of justice fail in three different ways. Cephalus's rule fell to a single counterexample — a rule of justice with one exception is not yet justice. Polemarchus's fell twice: to our fallibility about friends, and to the deeper principle that justice cannot make anyone worse. Thrasymachus's fell to the erring ruler, and his 'strict sense' repair walked him into the craft argument, where every craft serves its subject. Keep three tools from tonight: the counterexample, the demand that a definition cover every case, and the distinction between defining justice and debunking it. And keep the dissatisfaction — Socrates shares it. Book I proves nothing about what justice is; it proves only that nobody in the room knew. Glaucon noticed the same thing, and Book II is his refusal to let the matter rest there."
+    },
+    {
+      "number": 2,
+      "title": "Book II — Glaucon's Challenge and the Ring of Gyges",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 1,
+          "chEnd": 1
+        }
+      ],
+      "lectureOutline": [
+        "Glaucon's taxonomy: goods welcomed for their own sake, for their consequences, or for both — and the scandal of where most people file justice.",
+        "The social-contract genealogy: justice as a compromise struck by those too weak to do wrong with impunity and too proud to suffer it without redress.",
+        "The Ring of Gyges: the thought experiment as a laboratory instrument — deleting detection in order to isolate motive.",
+        "The two statues: the perfectly unjust man with a perfect reputation, the perfectly just man scourged and impaled — what the comparison is built to force out of you.",
+        "Adeimantus's supplement: even justice's praisers praise its reputation and its wages; the poets sell absolution by the sacrifice.",
+        "Socrates's strange reply: the letters writ large — why answer a question about one soul by founding a city.",
+        "Setting the terms: what would count as answering Glaucon? The success conditions we will hold Socrates to for the remaining five weeks."
+      ],
+      "seminarQuestionBank": [
+        "Glaucon sorts goods into three classes. Where does he put justice, where do 'the many' put it, and where does Socrates insist it belongs?",
+        "Now remove the story. State the Ring of Gyges argument as an argument — premises, conclusion — without mentioning the shepherd once. What is left?",
+        "What exactly is Glaucon asking Socrates to prove? Notice how much he strips away: reputation, reward, the gods. Why must the just man be thought unjust for the test to work?",
+        "Adeimantus complains that fathers and poets praise justice only for its wages. What does his speech add that his brother's lacks — and why does Socrates need both?",
+        "Is Glaucon right that no one is just willingly — that everyone who practices justice does so as a second-best? What evidence could settle that question, even in principle?",
+        "The comparison of the two lives — is it a fair test, or has Glaucon rigged the scales by making injustice invisible and justice slandered? Could a rigged case still prove his point?",
+        "Why does Socrates answer with a city? What is he assuming when he reads the large letters and transfers them to the small — and should someone at the table have objected right there?",
+        "Does Glaucon's whole challenge rest on psychological egoism — the claim that everyone pursues only their own good? If that premise fell, what would be left of the challenge?"
+      ],
+      "thoughtExperiments": [
+        {
+          "id": "wij-te-ring-of-gyges",
+          "title": "The Ring of Gyges",
+          "setup": "You are a shepherd in the hills of Lydia, poor enough that no one has ever asked your opinion about justice. After a storm and an earthquake split the ground, you climb down into the chasm and find, among older and stranger things, a corpse of more than human size wearing nothing but a gold ring. You take it — who would not? — and think no more of it until, sitting bored in the monthly assembly of shepherds, you turn the bezel toward your palm and the man beside you asks where you went. You turn it back and he startles: there you are again. You test it all evening. It is exact, obedient, and yours. Invisible, you can be in any room, any treasury, any bedchamber; you can speak and be a rumor, act and be an accident. The king's court is a long walk away, and the king has never done anything for you. Nobody knows the ring exists. Nobody will ever inventory what you own against what you were born owning. Glaucon's wager is on the table: that the just man and the unjust man, each wearing this ring, would arrive by different roads at the same appetites — and that anyone who did not use it would be called, in private, by everyone who heard the tale, a pitiable fool. The ring is on your finger. What do you do first?",
+          "philosophicalPayload": "Deletes detection to isolate the motive for justice. If just behavior evaporates the moment impunity is guaranteed, then justice is at best instrumentally good — a hedge against punishment — and the many are right against Socrates. The experiment forces a choice between psychological egoism and the claim that justice is intrinsically choiceworthy, and it sets the success conditions for the entire Republic: Socrates must show that the ring-bearer who abstains loses nothing and keeps everything that matters.",
+          "sourceRefs": [
+            "republic-jowett:1:16"
+          ],
+          "nodes": [
+            {
+              "id": "find",
+              "text": "The ring works. It is exact, obedient, and secret. What do you do first?",
+              "options": [
+                {
+                  "label": "Use it — tonight.",
+                  "next": "use"
+                },
+                {
+                  "label": "Resolve never to use it; bury it back in the chasm.",
+                  "next": "abstain"
+                },
+                {
+                  "label": "Keep it, but only for a true emergency.",
+                  "next": "emergency"
+                }
+              ]
+            },
+            {
+              "id": "use",
+              "text": "Tonight, then. Invisible and unaccountable. Be honest about what it is for.",
+              "options": [
+                {
+                  "label": "Small things — food, money, comforts no one will miss.",
+                  "next": "petty"
+                },
+                {
+                  "label": "The whole of Gyges's road: the court, the queen, the kingdom.",
+                  "next": "power"
+                },
+                {
+                  "label": "Only to right wrongs — an invisible hand for justice.",
+                  "next": "vigilante"
+                }
+              ]
+            },
+            {
+              "id": "abstain",
+              "text": "You bury it. Now the harder question: why? What were you protecting?",
+              "options": [
+                {
+                  "label": "Honestly — the fear that somehow, someday, someone would know.",
+                  "next": "fear"
+                },
+                {
+                  "label": "Using it would make me someone I refuse to become, witnessed or not.",
+                  "next": "integrity"
+                }
+              ]
+            },
+            {
+              "id": "emergency",
+              "text": "Reserved for emergencies. Tonight your family is hungry — not starving, hungry — and the granary is unguarded. Is this the emergency?",
+              "options": [
+                {
+                  "label": "Yes. The line was always going to be here.",
+                  "next": "use"
+                },
+                {
+                  "label": "No. If hunger qualifies, everything will qualify by spring.",
+                  "next": "integrity"
+                }
+              ]
+            },
+            {
+              "id": "vigilante",
+              "text": "An invisible enforcer of justice, judge and executioner, answerable to no one. Who audits your verdicts? Gyges also began with reasons.",
+              "options": [
+                {
+                  "label": "I trust my judgment — someone must act, and I can.",
+                  "next": "power"
+                },
+                {
+                  "label": "I would bind myself with limits set in advance, and stop where they stop.",
+                  "next": "limits"
+                }
+              ]
+            },
+            {
+              "id": "fear",
+              "text": "Then suppose it guaranteed — metaphysically guaranteed — that no one will ever know. Not the victim, not the gods, not you in some confessional old age. Still buried?",
+              "options": [
+                {
+                  "label": "No. If detection is truly impossible, I dig it up.",
+                  "next": "use"
+                },
+                {
+                  "label": "Yes, still. Apparently it was never really about being seen.",
+                  "next": "integrity"
+                }
+              ]
+            },
+            {
+              "id": "petty",
+              "text": "Small thefts, then slightly larger ones; each is as invisible as the last, and no single one changes anything. Glaucon smiles: the just and the unjust man, he said, arrive at the same place, only at different speeds. You have proven his minor premise with groceries. Sit with that.",
+              "terminal": true
+            },
+            {
+              "id": "power",
+              "text": "Gyges's road, walked to its end: the messenger, the queen, the dead king, the throne. Everything he wanted, he has; nothing he fears can find him. The question the rest of this course must answer is whether this man has gained the world or lost something you can name — and whether you can name it without the word 'caught.'",
+              "terminal": true
+            },
+            {
+              "id": "integrity",
+              "text": "You keep it buried, with detection impossible and hunger at the door — which means your justice is loyal to something other than reputation. Glaucon's challenge is now personally yours: say what that something is, and what it is worth, and whether it would survive the granary being your child's last chance. You have taken Socrates's side of the bet before he has argued it.",
+              "terminal": true
+            },
+            {
+              "id": "limits",
+              "text": "Limits set in advance, by you, enforced by no one. Notice what you have built: a constitution with a population of one, ruled by the only person it restrains. If it holds, you believe self-rule without witnesses is possible — the very thing Book IV will call justice in the soul. If it slips, Glaucon inherits you. Watch which happens.",
+              "terminal": true
+            }
+          ],
+          "pumps": [
+            {
+              "id": "pump-never-known",
+              "afterNode": "abstain",
+              "variation": "Strengthen the seal: not merely 'no one will find out,' but a standing guarantee that no witness, human or divine, present or future, will ever know — including a version of you that forgets by morning.",
+              "testsPrinciple": "Whether abstention is loyalty to justice itself or to the shadow of a witness — the psychological-egoist reading of conscience as internalized surveillance."
+            },
+            {
+              "id": "pump-starving",
+              "afterNode": "emergency",
+              "variation": "Raise the stakes: not hungry — starving. A physician has told you which week your youngest will die without food, and the granary belongs to a man who has three years' surplus.",
+              "testsPrinciple": "Whether the verdict that justice is intrinsically good survives catastrophic stakes, or whether justice is a luxury priced for the comfortable — and whether a just exception can be written without dissolving the rule."
+            },
+            {
+              "id": "pump-once",
+              "afterNode": "use",
+              "variation": "Shrink the instrument: the ring works exactly once, for one hour, and then is ordinary gold forever. One use, guaranteed undetected, and no slope to slide down afterward.",
+              "testsPrinciple": "Whether the wrongness of using the ring lies in habituation and character-corruption or in the act itself — if a single sealed use is permissible, why not each use, considered alone?"
+            }
+          ],
+          "interrogation": [
+            "Glaucon claims the just and the unjust man, each wearing the ring, would arrive at the same place. Is that a claim about all people, most people, or you in particular — and which version does his argument actually need?",
+            "State psychological egoism in one sentence. Did your path through the scenario confirm it, refute it, or merely fail to test it? Be suspicious of the last answer; it is the most comfortable.",
+            "If you refrained only because someone might somehow know, say what exactly you were loyal to — justice, or the shadow of a witness. Is there a difference in practice? Is there a difference in you?",
+            "Suppose justice is only instrumentally good — good for its wages and reputation. What follows about the person who can obtain those wages another way? What follows about a whole city of ring-bearers?",
+            "Now the claim Socrates must make good: that injustice damages the unjust man himself, detection aside. Name the damage — without using the word 'soul.' Then decide whether you needed the word after all."
+          ],
+          "relatedClaims": [
+            "ethics.psychological-egoism",
+            "political.justice-intrinsically-good"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wij-u2-imitation",
+          "kind": "imitation",
+          "prompt": "Rewrite Glaucon's challenge for our own city. Keep his architecture exactly — first the genealogy (justice as a contract among those who cannot do wrong safely), then the thought experiment that deletes detection, then the comparison of the two lives — but build it from contemporary materials: your ring need not be a ring. Make injustice as attractive as you honestly can; Glaucon is playing devil's advocate at full strength, and so must you. End as he ends: with the explicit demand that justice be praised for what it is in the soul, all reputations stripped away.",
+          "lengthWords": 600,
+          "rubric": [
+            {
+              "name": "Fidelity to Glaucon's structure",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "All three movements present, in order, each doing its distinct work; the modern materials map cleanly onto the original's machinery.",
+                "B": "The three movements are present but blurred together, or one is vestigial; the mapping to the original is loose.",
+                "C": "The structure is lost — a general complaint about hypocrisy rather than Glaucon's ordered argument."
+              }
+            },
+            {
+              "name": "Strength of the case for injustice",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "The devil's advocacy is genuinely strong: detection is convincingly deleted, the unjust life is made attractive without cartoonishness, and the writer's own resistance is nowhere visible.",
+                "B": "The case is competent but pulls its punches — the unjust life is subtly strawmanned or the escape hatch is left visible.",
+                "C": "The case is weak or self-refuting; the writer editorializes against injustice instead of arguing for it."
+              }
+            },
+            {
+              "name": "Precision of the closing demand",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The final demand states exactly what a defender of justice must now prove and under what constraints (no appeal to reputation, reward, or detection); Socrates's task is fully specified.",
+                "B": "The demand is present but partially contaminated — some appeal to consequences or reputation survives.",
+                "C": "The piece ends in complaint or rhetorical questions rather than a testable demand."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Glaucon did Socrates the great favor of stating the strongest case against him. Hold onto its three parts: the contract genealogy (justice as a truce among the weak), the ring (delete detection and watch motive stand naked), and the two statues (the just man must be thought unjust, or we are only praising reputation). Adeimantus sharpened the knife: even justice's friends praise its wages. The demand on the table is exact — praise justice for what it does in the soul of its possessor, all consequences stripped away — and Socrates accepted it. Note his opening move for next week: he answers a question about one soul by founding a city, on the wager that justice is written there in larger letters. That analogy is a premise, not a courtesy, and you should treat it as arrestable. Everything from here to the Myth of Er is the attempt to pay Glaucon in full."
+    },
+    {
+      "number": 3,
+      "title": "Books III–IV — The City, the Soul, and Justice as Harmony",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 2,
+          "chEnd": 3
+        }
+      ],
+      "lectureOutline": [
+        "Founding the city in speech: need, the division of labor, the 'city of pigs,' and Glaucon's demand for relishes — how luxury conjures the army.",
+        "The guardians and their education: why the first legislation in the ideal city is about which stories children may hear.",
+        "The noble lie and the metals: what the city asks its citizens to believe about themselves, and what that price tag tells us.",
+        "The virtues located: wisdom in the rulers, courage in the auxiliaries, moderation as an agreement running through the whole — and justice found last, as the remainder: each part doing its own work.",
+        "Dividing the soul: the principle of opposites, the thirsty man who refuses to drink, and Leontius at the corpses — spirit as the third thing.",
+        "Justice as psychic harmony: the analogy cashed out, the just man as one 'who sets his house in order' — and the nagging question of whether the inner definition still touches outer conduct.",
+        "Health of the soul: virtue as the natural order of the parts, vice as civil war — why Socrates thinks Glaucon's question is now almost answered, and why 'almost' is doing heavy work."
+      ],
+      "seminarQuestionBank": [
+        "Why does the healthy city need only farmers and craftsmen, and what exactly does Glaucon's demand for 'relishes' set in motion? Who invited the army?",
+        "The principle of specialization — one person, one job — enters as a remark about efficiency. How much weight is it carrying by the end of Book IV? Should a remark about shoemaking bear that much?",
+        "Socrates finds justice in the city only after wisdom, courage, and moderation have claimed their seats — justice is what is left over. Is that a discovery or a bookkeeping trick?",
+        "The thirsty man who refuses to drink: walk through the argument from opposites. Does it establish parts of the soul, or only conflicts in it? What is the difference?",
+        "Leontius cannot look away from the corpses and curses his own eyes. What is that story doing in the argument? What would be lost if spirit were merely a kind of desire?",
+        "Justice, we are now told, is each part of the soul doing its own work. Is this the same subject Cephalus and Polemarchus were discussing — or has Socrates quietly changed the question from 'who gets what' to 'inner order'?",
+        "Here is the gap to probe: imagine a man whose soul is in perfect harmony — reason ruling, appetites obedient — who calmly embezzles. Is he possible? If not, what makes him impossible? Say it without repeating the definition.",
+        "Socrates says it remains to ask whether justice profits its possessor, then calls the question ridiculous — the soul's health, like the body's, is obviously worth having. Has he answered Glaucon, or postponed him?"
+      ],
+      "argumentLabs": [
+        {
+          "id": "wij-lab-city-soul",
+          "title": "The City–Soul Analogy Under Load",
+          "source": {
+            "bookID": "republic-jowett",
+            "passageIds": [
+              "republic-jowett:3:250",
+              "republic-jowett:3:367"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "Justice in a person is each part of the soul doing its own work — reason ruling, spirit enforcing reason's rule, appetite obeying."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "A city is just when each of its three classes — rulers, auxiliaries, producers — does its own work and does not meddle in the others'.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "The soul has three parts — reason, spirit, and appetite — corresponding to the city's three classes (established by the principle of opposites and the cases of the reluctant drinker and Leontius).",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "Justice is one and the same form wherever it occurs: whatever makes a city just must be the very thing that makes a person just.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p4",
+              "text": "Justice is written in the city in larger letters; what we read there may be transferred to the smaller inscription of the soul.",
+              "stated": true,
+              "supports": "p3"
+            }
+          ],
+          "mode": "collapse",
+          "removedPremiseId": "p3",
+          "pedagogicalPoint": "The entire transfer from politics to psychology rides on a single premise: that justice is the same form in city and soul. Remove p3 and nothing connects the two halves of the argument — Socrates has described an admirably organized city and, separately, a three-part soul, and proven nothing about what justice in a person is. The larger-letters image (p4) is not evidence for p3; it is p3 wearing a metaphor. Students should come away seeing that an analogy is a premise like any other — demandable, deniable, and in this case the most expensive item on the bill.",
+          "elicitationQuestions": [
+            "Read the conclusion, then cover premise p3 with your hand. Walk from p1 and p2 to the conclusion without it. Where exactly does the walk stop?",
+            "Socrates offers the 'larger letters' image where an argument for p3 might have gone. Is an image ever evidence? What would actual evidence for p3 look like?",
+            "Suppose justice in a city and justice in a person merely share a name, as a river bank and a savings bank do. Which parts of Books II–IV survive, and which are rubble?",
+            "Cities are made of people; souls are not made of little people. Find one place where the analogy's limbs do not match — and say whether the mismatch is decorative or fatal.",
+            "If you wanted to rescue the argument without p3, what weaker premise might do the work — and what would the conclusion shrink to under it?"
+          ],
+          "relatedClaims": [
+            "ethics.virtue-ethics",
+            "political.justice-intrinsically-good"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wij-u3-response",
+          "kind": "response",
+          "prompt": "Socrates has moved justice indoors: it is no longer about who gets what, but about each part of the soul doing its own work. Test the move. Does a person with a perfectly harmonious soul necessarily keep contracts, tell the truth, and refrain from theft — or could psychic harmony and ordinary wrongdoing coexist? Trace the connection between inner order and just action as Socrates would draw it, then either defend that connection or expose the gap in it. Use the text of Book IV; do not argue from the definition alone.",
+          "lengthWords": 600,
+          "rubric": [
+            {
+              "name": "Accuracy on the tripartite argument",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "The principle of opposites, the reluctant drinker, and the location of the virtues are deployed accurately and only where the argument needs them.",
+                "B": "The tripartite account is broadly right but with slippage — spirit collapsed into desire, or the virtues mislocated.",
+                "C": "The account of Book IV is garbled; the essay argues against a position Socrates does not hold."
+              }
+            },
+            {
+              "name": "The harmony-action connection",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "Constructs or dismantles a real bridge between psychic order and just conduct — e.g., what a ruling reason would and would not endorse — and considers the strongest reply to its own position.",
+                "B": "Identifies the question correctly but resolves it by assertion; the harmonious embezzler is declared possible or impossible without argument.",
+                "C": "Does not distinguish inner order from outer conduct; restates the definition as if it were the answer."
+              }
+            },
+            {
+              "name": "Use of the text",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "Claims about Socrates's view are anchored to specific moments in Books III–IV, accurately characterized.",
+                "B": "Textual support is present but generic — the book invoked rather than used.",
+                "C": "The text is absent; the essay floats free of the Republic."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Socrates has now produced his definition — justice is each part doing its own work, in the city among classes, in the soul among reason, spirit, and appetite — and has relocated justice from the marketplace to the interior. Two things to carry forward. First, the definition's power: it explains why injustice harms the unjust (civil war in the soul is bad for its owner the way disease is), which is exactly the coin Glaucon demanded payment in. Second, its two open liabilities: the analogy premise (justice must be the same form in city and soul — the lab showed you what collapses without it) and the harmony-action gap (why must the inwardly harmonious man behave justly outdoors?). Socrates believes reason's rule closes the gap, because a ruling reason knows what is truly good. Whether that holds depends on what reason can know — which is precisely where Books V through VII are about to take us."
+    },
+    {
+      "number": 4,
+      "title": "Book V — The Three Waves: Equality, Family, Philosopher-Rulers",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 4,
+          "chEnd": 4
+        }
+      ],
+      "lectureOutline": [
+        "The interruption: Polemarchus's whisper and Adeimantus's arrest of the argument — why the community of women and children cannot be waved through, and why Socrates calls what follows three waves that may drown him.",
+        "The first wave: women guardians. The argument from the irrelevance of irrelevant difference — bald men and long-haired men may practice the same craft; what matters is sameness of nature with respect to the work.",
+        "Reading the first wave honestly: what Socrates grants about average strength, what he refuses to infer from it, and what the guardian woman is equal to — and for whose sake.",
+        "The second wave: the abolition of the private family among guardians — wives and children in common, and what the word 'mine' does to a city.",
+        "Unity as the civic good: the city as a single body that feels one citizen's pain as its own; the lurking objection (which Aristotle will later press) that a city made too unified stops being a city.",
+        "The third wave: 'until philosophers are kings' — the sentence Socrates was most afraid to say, and why he says it anyway.",
+        "Who is the philosopher? Lovers of sights and sounds versus lovers of the thing itself: the many beautifuls and the beautiful; belief and knowledge given separate offices.",
+        "The promissory notes: Book V's politics now owes a debt to metaphysics — the account of knowledge that Books VI and VII must supply."
+      ],
+      "seminarQuestionBank": [
+        "Book V begins as an arrest: Polemarchus and Adeimantus refuse to let a remark slip past. What does it tell us about this dialogue that its deepest books exist because someone interrupted?",
+        "State the first-wave argument in your own words. What work is the claim 'the natures are the same with respect to the craft' doing — and how would you test such a claim, then or now?",
+        "Socrates grants that women are on average weaker, then denies this settles anything about guardianship. Is the bald-cobbler move sound? Find a modern argument that fails exactly the way he says his opponents' does.",
+        "Is Plato a feminist here? Careful: ask what the guardian woman is made equal to, under what conditions, and for whose benefit — and whether liberation for the city's sake is liberation.",
+        "The second wave abolishes the guardian family. What problem is this solving? Is the private family a rival government inside the city — and is that an argument for or against it?",
+        "Socrates's measure of the good city is that it is most like a single body, feeling each part's pain. Is maximal unity really a city's virtue? At what point does a city unified become a barracks — or a person?",
+        "'Until philosophers are kings, cities will have no rest from evils.' What must 'philosopher' mean for this sentence to be anything but absurd? What has been quietly built into the word?",
+        "The lovers of sights and sounds adore beautiful things but deny the beautiful itself. Why does Socrates say they live in a dream? What exactly is the difference between believing many things and knowing one?",
+        "Would you live in this city — as a guardian, not a tourist? Name the wave that breaks you, and say precisely which premise of Socrates's you are rejecting when it does."
+      ],
+      "assignments": [
+        {
+          "id": "wij-u4-response",
+          "kind": "response",
+          "prompt": "Socrates argues that sex is as irrelevant to guardianship as baldness is to cobbling: what matters is sameness of nature with respect to the work. Reconstruct the first-wave argument carefully — including what Socrates concedes about average difference and why he thinks the concession is harmless. Then test the argument: what would count as evidence against 'the natures are the same with respect to this craft'? Would the argument's form survive transplanting to another exclusion, ancient or modern? Conclude with a verdict on whether the first wave stands.",
+          "lengthWords": 500,
+          "rubric": [
+            {
+              "name": "Reconstruction",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "The argument is laid out with its concession intact and its key premise explicit; the bald-cobbler analogy is placed where it actually functions.",
+                "B": "The argument is recognizable but the concession or the key premise is blurred; the analogy is decoration rather than machinery.",
+                "C": "The argument is reduced to its conclusion; reconstruction is paraphrase of a slogan."
+              }
+            },
+            {
+              "name": "The test",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "Specifies what evidence would bear on the sameness-of-nature premise and honestly assesses the transplant to other exclusions, including at least one uncomfortable case.",
+                "B": "Gestures at testing but the evidence conditions stay vague; the transplant is attempted only where it is easy.",
+                "C": "No test; agreement or disagreement is asserted on other grounds."
+              }
+            },
+            {
+              "name": "Clarity of verdict",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "A definite verdict that follows from the preceding test, with its remaining vulnerability named.",
+                "B": "A verdict is reached but is only loosely connected to the test performed.",
+                "C": "No verdict, or a verdict that ignores the paper's own findings."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Three waves, each higher. The first: guardianship follows nature-with-respect-to-the-work, and sex is no more relevant to ruling than baldness to cobbling — note the argument's form, because it is detachable from Plato's city and still in daily use. The second: the guardian family dissolved so that 'mine' and 'not mine' stop carving the city into factions — and note the cost accounting, because what unity purchases here, privacy pays for. The third and highest: philosophers must rule, which is either the course's most preposterous sentence or its most consequential, depending entirely on what a philosopher turns out to be. Book V's closing distinction — the lovers of sights and sounds who adore many beautiful things versus the lovers of what beauty is — is the down payment on that question. Socrates has now written a check his epistemology must cash: he owes us an account of knowledge itself. The Sun, the Line, and the Cave are that account."
+    },
+    {
+      "number": 5,
+      "title": "Books VI–VII — The Sun, the Divided Line, and the Cave",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 5,
+          "chEnd": 6
+        }
+      ],
+      "lectureOutline": [
+        "Why the Good outranks justice: the guardians must know not merely what justice is but what makes it good — and Socrates's confession that he can offer only an image, the offspring of the Good.",
+        "The Sun: what the Good does for the knowable, the sun does for the visible — light as the medium of knowing, and the Good as what gives truth to objects and the power of knowing to the mind.",
+        "The Divided Line: images, visible things, mathematical thought, dialectic — the four segments, their proportions, and what each level trusts as evidence.",
+        "The Cave, walked through slowly: the bonds, the fire, the puppet-handlers, the wall, the echoes — the furniture of the image and what each piece answers to in the Line.",
+        "The ascent: why the prisoner is freed 'by force,' why every stage of the climb hurts, and what he can bear to look at, in what order — shadows, reflections, things, stars, at last the sun.",
+        "The return: the philosopher's debt to the city that reared him; why going back down into the dark is required by the city's own definition of justice, and what it costs the one who descends.",
+        "Education as turning the soul: the Cave's polemic against teaching as filling — sight is not put into blind eyes; the whole soul is turned until it can bear to look.",
+        "The Line and the Cave laid over each other: rationalism's boldest picture — and the standing empiricist rejoinder that the senses are not a prison but the only door."
+      ],
+      "seminarQuestionBank": [
+        "Begin at the bottom: describe the prisoners' situation exactly. What do they see, what do they hear, and what would 'truth' mean to someone who had never seen anything else?",
+        "Map the image: fire, puppets, wall, echoes, the rough ascent, the sun. What does each answer to in the Divided Line — and where are we, right now, in this seminar, on that map?",
+        "The prisoner is freed 'by force' and dragged up the ascent 'reluctantly and against his will.' Who does the forcing, and why must liberation hurt? What would a painless education leave undone?",
+        "Notice the order of what the freed prisoner can bear to look at: shadows first, then reflections, then things themselves, then the night sky, at last the sun. Why that sequence? What is Plato saying about how understanding ripens?",
+        "The returned prisoner stumbles in the dark and the cave laughs at him; they would kill the man who tried to free them, Socrates says. Who is he talking about? Is the Cave, among other things, an apology?",
+        "Why must the philosopher go back down? Run the argument from the city's own definition of justice — and then ask whether compelling the philosopher to rule wrongs the philosopher, by that same definition.",
+        "Education, the Cave insists, is not putting sight into blind eyes but turning the whole soul until it faces the light. What pedagogy follows from that? What common teaching practice does it convict?",
+        "Is the Cave epistemology, politics, or psychology — a theory of knowledge, an indictment of the city, or a map of the self? Who are the puppet-handlers on your reading, and what is the fire?",
+        "The Line ranks what the eyes deliver below what the mind constructs. Give the empiricist's best reply — that all knowledge enters through the senses — and say where, precisely, it and the Line disagree about the shadows."
+      ],
+      "closeReadingPassages": [
+        "republic-jowett:6:0",
+        "republic-jowett:6:10",
+        "republic-jowett:6:16",
+        "republic-jowett:6:37"
+      ],
+      "assignments": [
+        {
+          "id": "wij-u5-closereading",
+          "kind": "closeReading",
+          "prompt": "Take the freed prisoner's ascent — from the moment he is compelled to stand until he can look at the sun itself. Account for the sequence: what he can bear to see at each stage, in what order, and what he suffers between stages. Every detail is a decision: why reflections before things, why the night sky before the day, why pain at every threshold. Read the sequence as an argument about how understanding is acquired, and state that argument in your final paragraph.",
+          "lengthWords": 400,
+          "rubric": [
+            {
+              "name": "Attention to sequence and detail",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Every stage of the ascent is accounted for in order, with the text's own details (compulsion, glare, pain, habituation) doing the work.",
+                "B": "The major stages are present but some details are skipped or reordered; the reading summarizes where it should observe.",
+                "C": "The ascent is treated as a single event; the sequence — which is the entire point — is lost."
+              }
+            },
+            {
+              "name": "Interpretive payoff",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The closing statement of the allegory's argument about understanding follows from the observed sequence and could not have been written without it.",
+                "B": "The closing interpretation is plausible but only loosely tethered to the observations.",
+                "C": "The interpretation is a commonplace about enlightenment that ignores the reading performed."
+              }
+            },
+            {
+              "name": "Economy",
+              "weight": 0.2,
+              "descriptors": {
+                "A": "Every sentence earns its place; observation and interpretation are cleanly separated.",
+                "B": "Some padding or repetition; observation and interpretation occasionally blur.",
+                "C": "Diffuse; the word count is spent on throat-clearing."
+              }
+            }
+          ]
+        },
+        {
+          "id": "wij-u5-essay",
+          "kind": "essay",
+          "prompt": "What does the Cave claim education is — and what does it claim education is not? Socrates says the power to learn is present in everyone's soul, and that education is not putting sight into blind eyes but turning the whole soul around. Write an essay that takes this claim seriously as a theory: state it precisely, show how the allegory's details support it (the compulsion, the stages of habituation, the return), confront its most serious difficulty — if the capacity is already present, why is force required, and who has the right to apply it? — and conclude with your own assessment of the turning-the-soul picture against the filling-the-vessel picture it opposes.",
+          "lengthWords": 1200,
+          "rubric": [
+            {
+              "name": "Thesis and precision",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "The periagoge claim is stated precisely and the essay's own position on it is announced early and pursued throughout.",
+                "B": "The claim is stated but loosely; the essay's position emerges late or wobbles.",
+                "C": "No determinate thesis; the essay tours the allegory without a claim."
+              }
+            },
+            {
+              "name": "Command of the allegory",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The Cave's details are mapped accurately and marshaled as evidence — the essay uses the compulsion, the sequence of habituation, and the return, not just the headline image.",
+                "B": "The allegory is broadly accurate but used selectively; some machinery is misassigned or ignored.",
+                "C": "The allegory is reduced to 'ignorance versus enlightenment'; details are absent or wrong."
+              }
+            },
+            {
+              "name": "Argument and difficulty",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The force-and-authority difficulty is stated at full strength and genuinely engaged; the conclusion is earned against real resistance.",
+                "B": "The difficulty is mentioned but domesticated; the reply is quick or evasive.",
+                "C": "No difficulty is confronted; the essay advocates without opposition."
+              }
+            },
+            {
+              "name": "Prose",
+              "weight": 0.15,
+              "descriptors": {
+                "A": "Clear, economical, exact; terms are used consistently and images are not mistaken for arguments.",
+                "B": "Serviceable prose with occasional fog or ornament doing argument's work.",
+                "C": "Unclear or inflated; the reader must reconstruct the argument."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The debt from Book V is paid in three images, in ascending order of ambition. The Sun: the Good stands to knowing as the sun to seeing — it is what makes objects intelligible and minds able. The Line: four conditions of the soul, from imaging to dialectic, each trusting a different kind of evidence; the proportions insist that most of what we call knowledge is opinion about images. The Cave: the Line dramatized as a rescue — and a warning, since the rescued must return and the cave does not thank its liberators. Hold three things. First, the theory of education: turning the soul, not filling the vessel — a claim about teaching you can test against every class you have ever sat in, including this one. Second, the political payment: the philosopher's compelled return is justified by the city's own justice — each part doing its own work — which quietly makes the ruler the one citizen the just city treats as a means. Third, the standing quarrel: the Line is rationalism at full stretch, and the empiricist's reply — that the senses are the only door we have — has never gone away. Next week we watch the just city die, regime by regime, and the argument come home to Glaucon."
+    },
+    {
+      "number": 6,
+      "title": "Books VIII–X — Degenerate Regimes, the Tyrant's Soul, and the Myth of Er",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 7,
+          "chEnd": 9
+        }
+      ],
+      "lectureOutline": [
+        "The single arc of decline: how each regime's ruling love — honor, money, freedom, lawless desire — becomes its solvent; regimes fall not to enemies but to their own definition of the good.",
+        "Timocracy and oligarchy: the man divided against himself, and the city that is 'not one city but two, the rich and the poor, at war' — property as the first civil war.",
+        "Democracy: the most beautiful of regimes, 'like an embroidered robe' — the equality of desires, the affection inside the satire, and why Socrates's portrait of the democratic man is the course's most uncomfortable mirror.",
+        "The tyrant's genesis: the people's protector, the taste of kindred blood, the bodyguard he cannot dismiss — how the freest city births the most enslaved man.",
+        "The tyrant's soul: ruled by its most lawless desire, the waking version of what other men do only in dreams; master of the city, he cannot master an appetite, trust a friend, or leave his house.",
+        "The three proofs that the just life is happiest: the judge who has lived all three lives, the calculation of true and false pleasures, and the image of the man, the lion, and the many-headed beast.",
+        "The quarrel with poetry: imitation at third remove from truth, the poet as maker of images of images — why Homer is exiled with honors, and what this says about the power Plato feared.",
+        "The Myth of Er: souls choosing their next lives, 'the blame is his who chooses; God is justified' — responsibility relocated from the gods to the chooser, and Glaucon's answer assembled at last."
+      ],
+      "seminarQuestionBank": [
+        "Trace the arc once, quickly: timocracy, oligarchy, democracy, tyranny. What does each regime love, and how exactly does that love unmake it? Why do regimes fall to their own principle rather than to their enemies?",
+        "The oligarchic city is 'two cities at war, the rich and the poor.' Is that a fact about fourth-century Athens or a standing law of political economy? What would falsify it?",
+        "Socrates gives democracy the most charming portrait in the book — many-colored, various, free — and the most cutting. Locate the affection and the knife in the same passage. Why does he satirize what he plainly enjoys?",
+        "The democratic man lives 'day by day,' honoring all desires equally. Is that a portrait of freedom or of dissolution — and by what standard could you tell the difference from inside such a life?",
+        "How does the tyrant emerge from the democratic city? Follow the mechanism — the protector, the accusation, the bodyguard. At which step could it have been stopped, and by whom?",
+        "In what sense is the tyrant the least free man in the city? He does whatever he wants — state the account of freedom on which that sentence comes out false, and defend or refute that account.",
+        "Three proofs that the just life is happiest: the experienced judge, the calculus of pleasures, the beast within. Which is strongest? Which would Glaucon, by the terms he set in Book II, be entitled to reject?",
+        "Why does the argument about poetry belong in a book about justice? What does imitation at third remove have to do with the soul's parts — and would this course survive Socrates's censorship?",
+        "The Myth of Er: after nine books of argument, a story. The souls choose their lives, and 'the blame is his who chooses.' Does the myth complete the argument, or confess that argument was never going to be enough?",
+        "Last question of the course, and it was always going to be yours: has Socrates paid Glaucon in full — is justice shown to be worth choosing with the ring on your finger and no one watching? Answer, and name the strongest consideration against your answer."
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "wij-elenchus-tyrant-free",
+          "openingQuestion": "The tyrant does whatever he wants. Is he free?",
+          "span": {
+            "bookID": "republic-jowett",
+            "chStart": 7,
+            "chEnd": 8
+          },
+          "passageIds": [
+            "republic-jowett:8:148"
+          ],
+          "classicMoves": [
+            {
+              "definition": "Freedom is doing whatever you desire — the democratic creed the tyrant inherits and perfects.",
+              "counterexample": "The tyrant is dragged by desires he did not choose and cannot refuse; he 'does what he wants' the way an addict does. Master of the city, he cannot master an appetite — if freedom is doing what you desire, the question becomes who authored the desires."
+            },
+            {
+              "definition": "Freedom is the absence of external constraint — no law above you, no master over you.",
+              "counterexample": "By this measure the tyrant should be the freest man in Greece, and he lives under the heaviest constraint in the city: he cannot travel, cannot trust a friend, cannot walk unguarded, cannot stop. He is a prisoner in his own house who envies the private citizen his walk to the market — the absence of masters has not produced the absence of chains."
+            },
+            {
+              "definition": "Freedom is power — the ability to make others serve your will.",
+              "counterexample": "The city enslaved by a tyrant is the very image Socrates gives of the soul enslaved by its worst part. If the tyrannical city is the least free of cities — and its own citizens say so the moment it is safe to — then the tyrannical soul is the least free of souls, and power over others has purchased slavery at home."
+            }
+          ],
+          "relatedClaims": [
+            "political.justice-intrinsically-good",
+            "ethics.virtue-ethics"
+          ],
+          "reflectionPrompt": "You called the tyrant unfree tonight — most people do, by the end. Now write down what you meant by 'freedom' when the seminar began, and check it against your verdict: does your original definition deliver the conclusion you actually reached? If not, you have learned something Socratic about yourself: you already believed a better definition than the one you carry. Write the better one."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wij-u6-final-essay",
+          "kind": "essay",
+          "prompt": "Give Glaucon his answer. In Book II he demanded that justice be praised for what it is in the soul of its possessor — with reputation, reward, gods, and detection all stripped away, and the just man thought unjust by everyone. Ten books later, you have Socrates's full case: justice as psychic harmony, the knowledge of the Good that makes reason fit to rule, the tyrant's soul as the completed portrait of injustice, the three proofs of Book IX, and the Myth of Er. Write the essay that answers Glaucon — in your own voice, not as a summary of Socrates. Marshal the Republic's resources where they hold; concede honestly where they do not (the city-soul analogy, the harmony-action gap, the myth's late appeal to rewards are all fair targets); and end with a verdict a ring-bearer could use: is justice worth choosing when no one will ever know? Your verdict may be Socrates's, Glaucon's, or a third thing — but it must be argued, and it must face its strongest opponent.",
+          "lengthWords": 1500,
+          "rubric": [
+            {
+              "name": "Grasp of the challenge",
+              "weight": 0.2,
+              "descriptors": {
+                "A": "Glaucon's terms are stated exactly — the classes of goods, the stripping of consequences, the two-lives comparison — and the essay is visibly answerable to them throughout.",
+                "B": "The challenge is stated but loosely; the essay occasionally answers an easier question (e.g., praising justice's consequences).",
+                "C": "The challenge is misstated or forgotten; the essay praises or attacks justice on grounds Glaucon ruled out."
+              }
+            },
+            {
+              "name": "Marshaling the Republic",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Deploys the argument's actual machinery — psychic harmony, the tyrant's soul, the Book IX proofs — accurately and selectively, as evidence rather than plot summary.",
+                "B": "Uses the Republic's resources but unevenly: some machinery misdescribed, or summary standing in for argument.",
+                "C": "The Republic is background scenery; the essay argues from general opinion."
+              }
+            },
+            {
+              "name": "Argumentative honesty",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "Concedes real weaknesses at full strength — the analogy premise, the harmony-action gap, or the Myth's reintroduction of rewards — and shows how the verdict survives them, or adjusts the verdict because it doesn't.",
+                "B": "Acknowledges a weakness but understates it, or concedes and then proceeds as if nothing happened.",
+                "C": "Presents the case as airtight, or the opposition as foolish; no genuine concession appears."
+              }
+            },
+            {
+              "name": "The verdict",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "Delivers a definite, argued answer to the ring-bearer's question, with its strongest opponent named and engaged in the essay's final movement.",
+                "B": "Delivers a verdict but shelters it from its strongest opponent, or the verdict floats free of the essay's own findings.",
+                "C": "Ends in balance-striking or rhetorical questions; the ring-bearer leaves without an answer."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The course ends where it began, with Glaucon's question, but you no longer stand where you stood. The regimes' decline gave the definition of justice its stress test: each city dies of its own ruling love, and the sequence terminates in the tyrant — the ring-bearer made flesh, the man who can do anything and is therefore, by the book's account of the soul, the completed slave. Book IX offered three payments on Glaucon's debt: the judge's verdict, the pleasure calculus, and the beast within; you should know which you accept and what accepting it costs. The Myth of Er closes the ledger ambiguously — 'the blame is his who chooses' relocates responsibility to the soul, but the myth also restores the rewards Glaucon had banished, and you should decide whether that is a completion or a confession. What you keep is not Plato's answer but the discipline of the question: you have watched every easy definition of justice die, and you have written your own answer under the hardest conditions the tradition knows how to set. That was the course. The question, of course, keeps."
+    }
+  ]
+}

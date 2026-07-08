@@ -1,0 +1,26 @@
+[
+  {
+    "id": "vlachos",
+    "name": "Sokratis Vlachos",
+    "title": "The Gadfly",
+    "blurb": "Claims to know nothing and proves it is the strongest position in the room, leading you by questions until your own definitions give way — then thanks you for the collapse. In his signature course on Plato's Republic, getting stuck is not failure but the first honest thing that happens all term.",
+    "courses": ["what-is-justice"],
+    "version": 1
+  },
+  {
+    "id": "whitmore",
+    "name": "Ada Whitmore",
+    "title": "The Analytic",
+    "blurb": "A former structural failure analyst who treats every argument as a machine that can be inspected part by part, Prof. Whitmore will number your claims, hunt the premise you didn't know you were standing on, and insist you refute the best version of a view or admit you refuted nothing. Precise, cheerful, and allergic to fog, she believes clarity is kindness.",
+    "courses": ["how-arguments-work"],
+    "version": 1
+  },
+  {
+    "id": "lindqvist",
+    "name": "Íris Lindqvist",
+    "title": "The Continental",
+    "blurb": "Reads philosophy as something written by a body, in a mood, in a century — and teaches you to ask of every idea, including your own, where it came from and whom it serves. Expansive, warm, and merciless to slogans, she close-reads Nietzsche's forms as rigorously as her colleague Whitmore numbers premises, and insists that suspicion is not shrugging: it ranks.",
+    "courses": [],
+    "version": 1
+  }
+]

@@ -1,0 +1,644 @@
+{
+  "version": 1,
+  "claims": [
+    {
+      "id": "ethics.moral-realism",
+      "claim": "There are moral facts that hold independently of what anyone believes or feels.",
+      "domain": "ethics",
+      "summary": "The view, classical in Plato's Republic and Kant's Groundwork, that moral truths are discovered rather than made. It grounds the possibility of genuine moral error: a whole society can be wrong about what is just.",
+      "entails": [],
+      "conflictsWith": ["ethics.moral-anti-realism", "ethics.moral-relativism"],
+      "supports": ["epistemology.moral-knowledge-possible", "ethics.moral-universalism"]
+    },
+    {
+      "id": "ethics.moral-anti-realism",
+      "claim": "There are no moral facts that hold independently of human attitudes, feelings, or conventions.",
+      "domain": "ethics",
+      "summary": "Morality is a human projection or construction, not a feature of mind-independent reality. Hume's sentiment-based account of morals and Nietzsche's genealogy of values are its classical homes.",
+      "entails": [],
+      "conflictsWith": ["ethics.moral-realism"],
+      "supports": []
+    },
+    {
+      "id": "ethics.consequentialism",
+      "claim": "The rightness of an action is determined solely by the goodness of its consequences.",
+      "domain": "ethics",
+      "summary": "Only outcomes ultimately matter to right action; motives and rules matter only insofar as they affect outcomes. Its classical development is the utilitarianism of Bentham and Mill.",
+      "entails": [],
+      "conflictsWith": ["ethics.deontology"],
+      "supports": []
+    },
+    {
+      "id": "ethics.deontology",
+      "claim": "Some actions are right or wrong in themselves, regardless of their consequences.",
+      "domain": "ethics",
+      "summary": "Certain duties and prohibitions bind us no matter what good could be bought by violating them. Kant's Groundwork, with the categorical imperative and its ban on treating persons merely as means, is the classical home.",
+      "entails": [],
+      "conflictsWith": ["ethics.consequentialism"],
+      "supports": []
+    },
+    {
+      "id": "ethics.virtue-ethics",
+      "claim": "The fundamental question of ethics is what kind of person to be, and right action flows from good character.",
+      "domain": "ethics",
+      "summary": "Ethics centers on virtues, practical wisdom, and human flourishing rather than on rules or outcome-calculations. Aristotle's Nicomachean Ethics is the classical home. It rivals consequentialism and deontology as an approach, though it does not strictly contradict either.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "ethics.psychological-egoism",
+      "claim": "Every human action is ultimately motivated by the agent's own self-interest.",
+      "domain": "ethics",
+      "summary": "A descriptive thesis about human nature: apparent altruism is always disguised self-concern. Glaucon's story of the Ring of Gyges in Republic II gives it classic expression; Hobbes's Leviathan builds on it, and Bishop Butler's sermons are the classic rebuttal.",
+      "entails": [],
+      "conflictsWith": ["ethics.altruism-possible"],
+      "supports": ["ethics.ethical-egoism"]
+    },
+    {
+      "id": "ethics.ethical-egoism",
+      "claim": "Each person ought to do whatever most promotes their own self-interest.",
+      "domain": "ethics",
+      "summary": "A normative thesis: self-interest is the standard of right action. Thrasymachus in Republic I gestures at it, and it is the position Socrates' defense of justice is meant to defeat. It is distinct from the descriptive claim that people in fact always act selfishly.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "ethics.altruism-possible",
+      "claim": "People sometimes act from genuine concern for others, not from disguised self-interest.",
+      "domain": "ethics",
+      "summary": "The commonsense thesis that benevolence is a real and irreducible human motive. Bishop Butler's sermons classically defend it against Hobbesian egoism; Hume's account of sympathy assumes it.",
+      "entails": [],
+      "conflictsWith": ["ethics.psychological-egoism"],
+      "supports": []
+    },
+    {
+      "id": "ethics.hedonism",
+      "claim": "Pleasure is the only thing good in itself, and pain the only thing bad in itself.",
+      "domain": "ethics",
+      "summary": "All other goods are good only as means to pleasure or the avoidance of pain. Epicurus is the ancient home; Bentham states it bluntly, and Mill's Utilitarianism refines it with the distinction between higher and lower pleasures.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "ethics.greatest-happiness-principle",
+      "claim": "The right action is the one that produces the greatest happiness for the greatest number.",
+      "domain": "ethics",
+      "summary": "The core principle of classical utilitarianism in Bentham's Introduction to the Principles of Morals and Legislation and Mill's Utilitarianism. It commits its holder to judging actions by their consequences, counted impartially across everyone affected.",
+      "entails": ["ethics.consequentialism"],
+      "conflictsWith": [],
+      "supports": ["ethics.hedonism"]
+    },
+    {
+      "id": "ethics.moral-relativism",
+      "claim": "Moral truths hold only relative to particular cultures or individuals, never universally.",
+      "domain": "ethics",
+      "summary": "What is right is constituted by the standards of a culture or person, so the same act can be right in one society and wrong in another with no further fact of the matter. Protagoras's dictum that man is the measure of all things, discussed in Plato's Theaetetus, is its ancient source.",
+      "entails": ["ethics.moral-anti-realism"],
+      "conflictsWith": ["ethics.moral-universalism", "ethics.moral-realism"],
+      "supports": []
+    },
+    {
+      "id": "ethics.moral-universalism",
+      "claim": "At least some moral standards bind all people, in all cultures, at all times.",
+      "domain": "ethics",
+      "summary": "A minimal objectivism: whatever else varies, some requirements (e.g., against gratuitous cruelty) are not merely local conventions. Kant's categorical imperative and the Stoic idea of a universal moral law are classical homes.",
+      "entails": [],
+      "conflictsWith": ["ethics.moral-relativism"],
+      "supports": []
+    },
+    {
+      "id": "ethics.divine-command",
+      "claim": "Actions are morally right or wrong because God commands or forbids them.",
+      "domain": "ethics",
+      "summary": "Morality is constituted by divine will. Plato's Euthyphro poses the classical dilemma for the view: is the pious loved by the gods because it is pious, or pious because it is loved?",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": ["metaphysics.god-exists"]
+    },
+    {
+      "id": "ethics.moral-responsibility-exists",
+      "claim": "People are at least sometimes genuinely morally responsible for what they do.",
+      "domain": "ethics",
+      "summary": "Praise, blame, punishment, and gratitude are sometimes truly deserved, not merely useful. Aristotle's discussion of voluntary action in Nicomachean Ethics III is the classical treatment of its conditions.",
+      "entails": [],
+      "conflictsWith": ["ethics.moral-responsibility-skepticism"],
+      "supports": []
+    },
+    {
+      "id": "ethics.moral-responsibility-skepticism",
+      "claim": "No one is ever genuinely morally responsible for anything they do.",
+      "domain": "ethics",
+      "summary": "Desert-entailing praise and blame are never warranted, typically because our actions are the product of causes we did not choose. Baron d'Holbach's System of Nature draws this conclusion from determinism; Spinoza's Ethics points the same way.",
+      "entails": [],
+      "conflictsWith": ["ethics.moral-responsibility-exists"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.rationalism",
+      "claim": "Reason alone, independently of the senses, can yield substantive knowledge of reality.",
+      "domain": "epistemology",
+      "summary": "The intellect can grasp truths about what exists that no experience could teach or overturn. Descartes' Meditations, Spinoza, and Leibniz are the classical rationalists.",
+      "entails": ["epistemology.apriori-knowledge-exists"],
+      "conflictsWith": ["epistemology.empiricism"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.empiricism",
+      "claim": "All substantive knowledge of the world ultimately derives from sensory experience.",
+      "domain": "epistemology",
+      "summary": "There are no innate ideas and no insight into reality by pure reason; the mind begins as a blank slate. Locke's Essay Concerning Human Understanding and Hume's Enquiry are the classical homes. Classical empiricists still allow a priori knowledge of 'relations of ideas' such as mathematics.",
+      "entails": [],
+      "conflictsWith": ["epistemology.rationalism"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.skepticism-external-world",
+      "claim": "We cannot know whether an external world exists beyond our own experiences.",
+      "domain": "epistemology",
+      "summary": "Since our evidence is exhausted by how things appear, we cannot rule out dreaming or systematic deception. Descartes' First Meditation, with the dream argument and the evil demon, is the classical source of the problem.",
+      "entails": [],
+      "conflictsWith": ["epistemology.external-world-knowable"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.external-world-knowable",
+      "claim": "We can know that an external world exists beyond our own experiences.",
+      "domain": "epistemology",
+      "summary": "Skeptical scenarios do not defeat our knowledge of ordinary things. Descartes' later Meditations argue for it via God's non-deception; G. E. Moore's appeal to his own two hands is the blunt commonsense classic.",
+      "entails": [],
+      "conflictsWith": ["epistemology.skepticism-external-world"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.moral-knowledge-possible",
+      "claim": "We can have genuine knowledge of at least some moral truths.",
+      "domain": "epistemology",
+      "summary": "Moral questions admit of answers we can know, not merely opinions we happen to hold. Plato's Republic treats knowledge of the Good as the summit of philosophy; Aristotle grounds moral knowledge in cultivated practical wisdom.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "epistemology.foundationalism",
+      "claim": "All justified belief rests ultimately on basic beliefs that are justified without inference from other beliefs.",
+      "domain": "epistemology",
+      "summary": "Justification is a structure built on foundations that need no further support, on pain of infinite regress. Descartes' Meditations, rebuilding knowledge from the indubitable cogito, is the classical model.",
+      "entails": [],
+      "conflictsWith": ["epistemology.coherentism"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.coherentism",
+      "claim": "Beliefs are justified by their coherence with one another, not by resting on any foundation of basic beliefs.",
+      "domain": "epistemology",
+      "summary": "Justification is holistic: a belief is justified by its fit within a mutually supporting web, and no belief is justified entirely on its own. It develops in the idealist tradition after Kant and Hegel as the chief rival to Cartesian foundationalism.",
+      "entails": [],
+      "conflictsWith": ["epistemology.foundationalism"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.knowledge-jtb",
+      "claim": "Knowledge is exactly justified true belief; nothing more is required.",
+      "domain": "epistemology",
+      "summary": "To know something is to believe it, for it to be true, and to be justified in believing it. Plato's Theaetetus explores 'true belief with an account' as a definition of knowledge, and the analysis was standard until Gettier's counterexamples.",
+      "entails": [],
+      "conflictsWith": ["epistemology.gettier-cases-refute-jtb"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.gettier-cases-refute-jtb",
+      "claim": "A belief can be justified and true and still fail to be knowledge.",
+      "domain": "epistemology",
+      "summary": "In Gettier's famous cases, a person is justified in believing something that is true only by luck, and intuitively does not know it. This shows justified true belief is not sufficient for knowledge.",
+      "entails": [],
+      "conflictsWith": ["epistemology.knowledge-jtb"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.induction-justified",
+      "claim": "Reasoning from observed cases to unobserved cases is rationally justified.",
+      "domain": "epistemology",
+      "summary": "Experience of past regularities gives us good reason for expectations about the future, as both science and common life assume. Hume's Enquiry Section IV poses the classical challenge this claim must answer.",
+      "entails": [],
+      "conflictsWith": ["epistemology.inductive-skepticism"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.inductive-skepticism",
+      "claim": "We have no rational justification for expecting unobserved cases to resemble observed ones.",
+      "domain": "epistemology",
+      "summary": "Hume's conclusion in the Enquiry: any argument for induction either presupposes the uniformity of nature or argues in a circle, so our inductive habits rest on custom, not reason.",
+      "entails": [],
+      "conflictsWith": ["epistemology.induction-justified"],
+      "supports": []
+    },
+    {
+      "id": "epistemology.apriori-knowledge-exists",
+      "claim": "Some knowledge is justified independently of sensory experience.",
+      "domain": "epistemology",
+      "summary": "Mathematics and logic are the standard examples: we do not need to run experiments to know that 7 + 5 = 12. Kant's Critique of Pure Reason makes the scope of the a priori a central question; even Hume grants a priori knowledge of relations of ideas.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.determinism",
+      "claim": "Every event, including every human choice, is the inevitable outcome of prior causes and the laws of nature.",
+      "domain": "metaphysics",
+      "summary": "Given the past and the laws, only one future is possible. Ancient Stoic fate and the clockwork universe of early modern science, canonized in Laplace's demon, are its classical homes. By itself it takes no stand on whether it undermines freedom.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.libertarian-free-will"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.hard-determinism",
+      "claim": "Because every choice is causally determined, no one has free will and no one is genuinely morally responsible.",
+      "domain": "metaphysics",
+      "summary": "Determinism is true, and it rules out both freedom and desert-based praise and blame. Baron d'Holbach's System of Nature is the classical statement: humans are as bound by nature's causes as everything else.",
+      "entails": ["metaphysics.determinism", "ethics.moral-responsibility-skepticism"],
+      "conflictsWith": ["metaphysics.libertarian-free-will", "metaphysics.compatibilism"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.libertarian-free-will",
+      "claim": "We have free will, and this freedom is incompatible with our choices being causally determined.",
+      "domain": "metaphysics",
+      "summary": "Some choices are genuinely up to us in a way determinism would exclude, so determinism is false. Thomas Reid's appeal to active power and William James's 'The Dilemma of Determinism' are classical defenses.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.determinism", "metaphysics.hard-determinism", "metaphysics.compatibilism"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.compatibilism",
+      "claim": "Free will and moral responsibility are compatible with all our choices being causally determined.",
+      "domain": "metaphysics",
+      "summary": "Freedom is acting from one's own desires without compulsion, and this can hold even in a determined world. Hobbes and Hume's Enquiry Section VIII ('Of Liberty and Necessity') are the classical statements.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.hard-determinism", "metaphysics.libertarian-free-will"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.responsibility-requires-alternatives",
+      "claim": "A person is morally responsible for an action only if they could have done otherwise.",
+      "domain": "metaphysics",
+      "summary": "The classical principle of alternative possibilities, implicit in Aristotle's account of the voluntary in Nicomachean Ethics III. Combined with determinism read as excluding alternatives, it generates the classical argument against responsibility; classical compatibilists respond by reinterpreting 'could have done otherwise.'",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.personal-identity-psychological",
+      "claim": "What makes a person the same person over time is psychological continuity, such as memory and character, not the persistence of a body.",
+      "domain": "metaphysics",
+      "summary": "Locke's Essay II.xxvii is the classical source: personal identity consists in sameness of consciousness, so a person could in principle survive a change of body. Reid's and Butler's objections are the classical replies.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.personal-identity-bodily"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.personal-identity-bodily",
+      "claim": "What makes a person the same person over time is the continuity of one and the same living body, not psychological connections.",
+      "domain": "metaphysics",
+      "summary": "Persons are living organisms, and they persist exactly as long as their bodies do, whatever happens to memory or character. It is the animalist alternative Locke's memory theory was framed against.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.personal-identity-psychological"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.universals-realism",
+      "claim": "General properties such as redness or justice are real entities existing over and above the particular things that share them.",
+      "domain": "metaphysics",
+      "summary": "When many things are red, there is one universal they all instantiate. Plato's theory of Forms is the classical extreme version; Aristotle keeps universals but places them in things.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.nominalism"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.nominalism",
+      "claim": "Only particular things exist; so-called universals are just names or concepts we apply to resembling particulars.",
+      "domain": "metaphysics",
+      "summary": "There is no entity 'redness' shared by red things, only red particulars and our general words for them. William of Ockham is the classical medieval champion; Locke and Hume carry the view into modern philosophy.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.universals-realism"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.god-exists",
+      "claim": "There exists a perfect God: all-powerful, all-knowing, and wholly good.",
+      "domain": "metaphysics",
+      "summary": "The God of classical theism, defended by Anselm's ontological argument, Aquinas's Five Ways, and Descartes' Third and Fifth Meditations.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.evil-incompatible-with-god"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.evil-incompatible-with-god",
+      "claim": "The evil and suffering the world actually contains cannot coexist with an all-powerful, wholly good God.",
+      "domain": "metaphysics",
+      "summary": "The logical problem of evil: such a God would prevent the evils we plainly observe. The dilemma attributed to Epicurus and pressed in Hume's Dialogues Concerning Natural Religion is the classical statement; theodicies such as Leibniz's answer it.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.god-exists"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.idealism",
+      "claim": "Nothing exists except minds and their ideas; matter has no existence independent of perception.",
+      "domain": "metaphysics",
+      "summary": "To be is to be perceived. Berkeley's Principles of Human Knowledge and Three Dialogues argue that so-called material objects are collections of ideas sustained by minds, ultimately God's.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.mind-independent-world", "mind.physicalism"],
+      "supports": []
+    },
+    {
+      "id": "metaphysics.mind-independent-world",
+      "claim": "Physical objects exist and have their natures independently of being perceived or thought about.",
+      "domain": "metaphysics",
+      "summary": "The realist common sense that tables, stars, and bodies would exist even if no one perceived them. Locke's distinction between things and our ideas of them assumes it; Berkeley's idealism is its classical denial.",
+      "entails": [],
+      "conflictsWith": ["metaphysics.idealism"],
+      "supports": []
+    },
+    {
+      "id": "mind.physicalism",
+      "claim": "The mind is not a separate non-physical substance; whatever thinks and feels is a physical thing.",
+      "domain": "mind",
+      "summary": "There is no immaterial soul: mental life belongs to physical beings such as brains and organisms. Hobbes and La Mettrie's Man a Machine are classical homes. As a substance thesis, it leaves open whether mental properties reduce to physical ones.",
+      "entails": [],
+      "conflictsWith": ["mind.dualism", "metaphysics.idealism"],
+      "supports": []
+    },
+    {
+      "id": "mind.dualism",
+      "claim": "The mind is a non-physical substance, really distinct from the body.",
+      "domain": "mind",
+      "summary": "I am essentially a thinking thing that could in principle exist without any body. Descartes' Sixth Meditation gives the classical argument from the distinct conceivability of mind and body.",
+      "entails": [],
+      "conflictsWith": ["mind.physicalism", "mind.reductive-physicalism"],
+      "supports": []
+    },
+    {
+      "id": "mind.property-dualism",
+      "claim": "Conscious mental properties are genuinely non-physical properties, even if the things that have them are physical.",
+      "domain": "mind",
+      "summary": "There is one kind of substance, but experience involves properties that no physical description captures. It conflicts with reductive identity theories, though not with the bare denial of a soul-substance.",
+      "entails": [],
+      "conflictsWith": ["mind.reductive-physicalism"],
+      "supports": []
+    },
+    {
+      "id": "mind.reductive-physicalism",
+      "claim": "Every mental state is identical to, and fully explainable as, a physical state of the brain.",
+      "domain": "mind",
+      "summary": "Sensations and thoughts just are brain processes, as heat just is molecular motion. It is the strong identity thesis in the tradition of Hobbes's materialism, sharpened by the mind-brain identity theory.",
+      "entails": ["mind.physicalism"],
+      "conflictsWith": ["mind.dualism", "mind.property-dualism", "mind.consciousness-fundamental"],
+      "supports": []
+    },
+    {
+      "id": "mind.machine-thought-possible",
+      "claim": "A machine of the right kind could genuinely think and understand.",
+      "domain": "mind",
+      "summary": "Thought does not require flesh or soul, only the right kind of organization. Turing's 'Computing Machinery and Intelligence' is the classical defense, against Descartes' insistence that no machine could use language with true generality.",
+      "entails": [],
+      "conflictsWith": ["mind.machine-thought-impossible"],
+      "supports": []
+    },
+    {
+      "id": "mind.machine-thought-impossible",
+      "claim": "No machine could ever genuinely think or understand, however intelligently it behaves.",
+      "domain": "mind",
+      "summary": "Descartes' Discourse Part V argues machines could never truly use language or reason generally; Leibniz's mill and Searle's Chinese Room argue that mechanism and symbol manipulation cannot amount to understanding.",
+      "entails": [],
+      "conflictsWith": ["mind.machine-thought-possible"],
+      "supports": []
+    },
+    {
+      "id": "mind.functionalism",
+      "claim": "What makes something a mental state is the functional role it plays in the system, not the material it is made of.",
+      "domain": "mind",
+      "summary": "Minds are defined by what they do — how states mediate inputs, outputs, and other states — so mentality is multiply realizable in different substrates. It is the natural philosophical partner of Turing's view of machine intelligence.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": ["mind.machine-thought-possible"]
+    },
+    {
+      "id": "mind.consciousness-fundamental",
+      "claim": "Consciousness is a fundamental feature of reality that cannot be fully explained in terms of anything non-conscious.",
+      "domain": "mind",
+      "summary": "Experience is a basic ingredient of the world, not a derivative product of insentient matter. Leibniz's monads and the panpsychist strand in James's later thought are classical homes.",
+      "entails": [],
+      "conflictsWith": ["mind.reductive-physicalism"],
+      "supports": []
+    },
+    {
+      "id": "mind.epiphenomenalism",
+      "claim": "Conscious experiences are produced by physical processes but have no causal effects on the physical world.",
+      "domain": "mind",
+      "summary": "Consciousness is like the whistle of the locomotive: caused by the machinery, powerless over it. T. H. Huxley's 'automaton' essay is the classical statement; James attacks it as making consciousness pointless.",
+      "entails": [],
+      "conflictsWith": ["mind.mental-causation"],
+      "supports": []
+    },
+    {
+      "id": "mind.mental-causation",
+      "claim": "Mental states such as beliefs, desires, and sensations genuinely cause physical behavior.",
+      "domain": "mind",
+      "summary": "My decision really moves my arm. This commonsense conviction drives the classical objection, pressed since Princess Elisabeth's letters to Descartes, that any theory of mind must explain how the mental makes a physical difference.",
+      "entails": [],
+      "conflictsWith": ["mind.epiphenomenalism"],
+      "supports": []
+    },
+    {
+      "id": "political.justice-advantage-of-stronger",
+      "claim": "Justice is nothing but whatever serves the interest of the stronger party.",
+      "domain": "political",
+      "summary": "Thrasymachus's challenge in Republic I: rulers define 'justice' to their own advantage, so the just life is the exploited life and injustice, done skillfully, pays. Socrates' entire defense of justice answers this.",
+      "entails": [],
+      "conflictsWith": ["political.justice-intrinsically-good"],
+      "supports": []
+    },
+    {
+      "id": "political.justice-intrinsically-good",
+      "claim": "Justice is worth choosing for its own sake, not only for its consequences.",
+      "domain": "political",
+      "summary": "Glaucon's challenge in Republic II demands that Socrates show justice belongs to the highest class of goods, desirable in itself and not merely for reputation and reward. The Republic's account of the just soul is the classical answer.",
+      "entails": [],
+      "conflictsWith": ["political.justice-advantage-of-stronger"],
+      "supports": []
+    },
+    {
+      "id": "political.social-contract",
+      "claim": "Legitimate political authority is founded on an agreement among the governed for their mutual benefit.",
+      "domain": "political",
+      "summary": "The state is the product of a contract that rational individuals would make to escape the state of nature. Hobbes's Leviathan, Locke's Second Treatise, and Rousseau's Social Contract are the classical versions; Hume's 'Of the Original Contract' is the classical critique.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": ["political.legitimacy-requires-consent"]
+    },
+    {
+      "id": "political.legitimacy-requires-consent",
+      "claim": "A government is legitimate only if those it governs consent to its authority.",
+      "domain": "political",
+      "summary": "Political power over free and equal persons must be authorized by them. Locke's Second Treatise makes consent, express or tacit, the sole source of rightful rule.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "political.natural-rights",
+      "claim": "Individuals possess rights to life, liberty, and property prior to and independently of any government.",
+      "domain": "political",
+      "summary": "Rights are not gifts of the state but constraints on it, grounded in a moral law that precedes politics. Locke's Second Treatise is the classical home; Bentham's 'nonsense upon stilts' is the classical dismissal.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": ["ethics.moral-realism"]
+    },
+    {
+      "id": "political.state-utilitarian-justification",
+      "claim": "The state and its laws are justified by the welfare and happiness they produce, and by nothing else.",
+      "domain": "political",
+      "summary": "Political institutions are instruments to be judged wholly by their effects on aggregate well-being. Bentham's legislative science and Mill's political writings are the classical homes; the view leaves no room for the anarchist claim that the state is inherently illegitimate.",
+      "entails": [],
+      "conflictsWith": ["political.anarchism"],
+      "supports": ["ethics.consequentialism"]
+    },
+    {
+      "id": "political.liberty-priority",
+      "claim": "Individual liberty may not be sacrificed for gains in overall welfare or social equality.",
+      "domain": "political",
+      "summary": "Liberty has a priority that forbids trading it away for other social goods. Kant's doctrine of right and the spirit of Mill's harm principle in On Liberty are classical homes, though Mill himself grounds liberty in utility.",
+      "entails": [],
+      "conflictsWith": ["political.equality-priority"],
+      "supports": []
+    },
+    {
+      "id": "political.equality-priority",
+      "claim": "A just society must secure substantive equality among citizens, even at some cost to individual liberty.",
+      "domain": "political",
+      "summary": "Great inequalities of condition corrupt both freedom and civic life, so justice licenses limiting liberty to prevent them. Rousseau's Discourse on Inequality and Social Contract are the classical homes.",
+      "entails": [],
+      "conflictsWith": ["political.liberty-priority"],
+      "supports": []
+    },
+    {
+      "id": "political.anarchism",
+      "claim": "The state's authority is illegitimate, and no one is obligated to obey a law merely because the state commands it.",
+      "domain": "political",
+      "summary": "Government is coercion without genuine moral title. Godwin's Political Justice and Proudhon are classical homes; the view stands opposed to every justification of state authority, contractarian or utilitarian.",
+      "entails": [],
+      "conflictsWith": ["political.state-utilitarian-justification"],
+      "supports": []
+    },
+    {
+      "id": "political.philosopher-rule",
+      "claim": "Political rule belongs by right to those with genuine knowledge of the good, not to the many.",
+      "domain": "political",
+      "summary": "Ruling is a craft requiring expertise, so cities will not flourish until philosophers rule. Plato's Republic Books V-VII, with the ship-of-state analogy, is the classical home.",
+      "entails": [],
+      "conflictsWith": ["political.democracy-equal-voice"],
+      "supports": []
+    },
+    {
+      "id": "political.democracy-equal-voice",
+      "claim": "Political authority should rest on the equal voice of all citizens, not on the special claims of experts.",
+      "domain": "political",
+      "summary": "Each citizen has an equal claim to share in rule. Athenian practice, Aristotle's arguments for the collective wisdom of the many in the Politics, and Rousseau's general will are classical homes.",
+      "entails": [],
+      "conflictsWith": ["political.philosopher-rule"],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.beauty-objective",
+      "claim": "Beauty is a real feature of things themselves, not merely something in the eye of the beholder.",
+      "domain": "aesthetics",
+      "summary": "Things are beautiful in virtue of their own order, proportion, or form, and judgments about beauty can be straightforwardly true or false. Plato's Symposium, with its ascent to Beauty itself, is the classical home.",
+      "entails": [],
+      "conflictsWith": ["aesthetics.beauty-subjective"],
+      "supports": ["aesthetics.taste-can-be-educated"]
+    },
+    {
+      "id": "aesthetics.beauty-subjective",
+      "claim": "Beauty exists only in the sentiment of the perceiver; nothing is beautiful independently of being felt as beautiful.",
+      "domain": "aesthetics",
+      "summary": "Beauty is no quality in things themselves but a sentiment in the mind that contemplates them, as Hume argues in 'Of the Standard of Taste.' Hume still holds that some sentiments are better grounded than others.",
+      "entails": [],
+      "conflictsWith": ["aesthetics.beauty-objective"],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.taste-can-be-educated",
+      "claim": "Judgments of taste can be better or worse, and good taste can be cultivated through practice, comparison, and freedom from prejudice.",
+      "domain": "aesthetics",
+      "summary": "Hume's 'Of the Standard of Taste' argues that the verdicts of experienced, unprejudiced critics set a standard even if beauty is sentiment. Compatible with subjectivism about beauty; incompatible with the view that no taste is better than any other.",
+      "entails": [],
+      "conflictsWith": ["aesthetics.no-disputing-taste"],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.no-disputing-taste",
+      "claim": "In matters of taste, no one's judgment is any better than anyone else's.",
+      "domain": "aesthetics",
+      "summary": "The proverb 'there is no disputing about taste,' taken strictly: preferences for art and beauty are like preferences for flavors, beyond criticism. Hume states it as the commonsense position his essay then undermines.",
+      "entails": [],
+      "conflictsWith": ["aesthetics.taste-can-be-educated"],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.art-has-moral-duties",
+      "claim": "The aesthetic merit of an artwork depends in part on its moral character and its moral effects.",
+      "domain": "aesthetics",
+      "summary": "Art shapes souls, so it is answerable to morality as art. Plato's Republic Books II-III and X censor poetry on these grounds, and Tolstoy's What Is Art? judges art by the moral quality of the feelings it transmits.",
+      "entails": [],
+      "conflictsWith": ["aesthetics.aesthetic-value-autonomous"],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.aesthetic-value-autonomous",
+      "claim": "The aesthetic merit of an artwork is entirely independent of its moral character.",
+      "domain": "aesthetics",
+      "summary": "Art for art's sake: there is no such thing as a moral or an immoral book, only well or badly made ones, as Wilde's preface to The Picture of Dorian Gray puts it. Gautier is the movement's classical French voice.",
+      "entails": [],
+      "conflictsWith": ["aesthetics.art-has-moral-duties"],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.form-over-content",
+      "claim": "The artistic value of a work lies in its form — structure, composition, design — rather than in what it depicts or says.",
+      "domain": "aesthetics",
+      "summary": "What matters aesthetically is how a work is made, not its subject matter. Kant's account of free beauty in the Critique of Judgment, where pure judgments of taste concern form alone, is the classical source of formalism.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": ["aesthetics.aesthetic-value-autonomous"]
+    },
+    {
+      "id": "aesthetics.art-imitation",
+      "claim": "Art is essentially imitation: a representation of nature, action, or reality.",
+      "domain": "aesthetics",
+      "summary": "The mimesis theory of Plato's Republic Book X and Aristotle's Poetics, for whom tragedy is the imitation of an action. Its great rival is the expression theory, though the two are rivals rather than strict contradictories.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.art-expression",
+      "claim": "Art is essentially the expression and communication of emotion.",
+      "domain": "aesthetics",
+      "summary": "A work is art insofar as it embodies and transmits felt emotion from artist to audience, as Tolstoy argues in What Is Art?. The Romantics made expression, not imitation, the heart of art.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": []
+    },
+    {
+      "id": "aesthetics.aesthetic-disinterest",
+      "claim": "Genuine aesthetic appreciation requires disinterested contemplation, free from personal desire and practical use.",
+      "domain": "aesthetics",
+      "summary": "To judge something beautiful is to take pleasure in it apart from any interest in possessing or using it. Kant's Critique of Judgment makes disinterestedness the first moment of the judgment of taste.",
+      "entails": [],
+      "conflictsWith": [],
+      "supports": ["aesthetics.aesthetic-value-autonomous"]
+    }
+  ]
+}

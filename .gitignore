@@ -1,0 +1,14 @@
+.DS_Store
+*.pyc
+__pycache__/
+.venv/
+node_modules/
+.env
+.env.*
+!.env.example
+ios/build/
+*.xcodeproj/xcuserdata/
+DerivedData/
+pipeline/output/
+supabase/.temp/
+pipeline/.cache/

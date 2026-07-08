@@ -1,0 +1,561 @@
+{
+  "id": "how-arguments-work",
+  "title": "How Arguments Work",
+  "personaId": "whitmore",
+  "description": "A four-week course in the anatomy, dissection, and construction of arguments. Prof. Whitmore's laboratory specimen is Book I of Plato's Republic — not because this is a Plato course (it isn't), but because Book I is the finest collection of arguments failing in public that the tradition possesses: definitions proposed, hidden premises exposed, counterexamples landed, repairs attempted under fire. You will learn to lay any argument out in numbered premises, find the premise nobody said aloud, tell a dead thesis from a dead formulation, attack the strongest version of a position rather than the most convenient, and — the final examination — rebuild your opponent's argument better than he built it himself. These skills transfer: by week four you should be unable to read an editorial, an advertisement, or your own beliefs the way you did in week one.",
+  "difficulty": "introductory",
+  "estWeeks": 4,
+  "texts": [
+    {
+      "bookID": "republic-jowett",
+      "title": "The Republic",
+      "author": "Plato (trans. Benjamin Jowett)",
+      "source": "gutenberg",
+      "sourceUrl": "https://www.gutenberg.org/cache/epub/1497/pg1497.txt",
+      "license": "public-domain-us",
+      "licenseNote": "Jowett translation (1871/1894); translator died 1893; public domain in the US."
+    }
+  ],
+  "units": [
+    {
+      "number": 1,
+      "title": "What an Argument Is: Premises, Conclusions, Validity, Soundness",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 0,
+          "chEnd": 0
+        }
+      ],
+      "lectureOutline": [
+        "Assertion versus argument: a claim is a destination; an argument is a road — and most speech, including most confident speech, is destinations only.",
+        "Anatomy: premises, conclusion, inference. The three places an argument can be attacked, and why you must always know which one you are attacking.",
+        "Validity: truth-preservation as plumbing. A valid argument with false premises delivers nothing — cleanly. Constructing valid nonsense as a finger exercise.",
+        "Soundness: validity plus true premises. Why 'valid' is a compliment to the pipework, never to the water — and why confusing the two is the most common error in public reasoning.",
+        "The specimen: Thrasymachus's speech in Republic Book I, laid on the table. Finding the argument inside the rhetoric — separating the claims that do work from the insults that do not.",
+        "First dissection: numbering Thrasymachus's premises and discovering that the argument does not go through as stated. Something is missing, and the gap has a shape.",
+        "The missing premise found: rulers must not err about their own advantage. Watching Socrates strike exactly there — the professional's pleasure of seeing the weak joint located by hand."
+      ],
+      "seminarQuestionBank": [
+        "What is the difference between an argument and an assertion? Find me one of each in Thrasymachus's first long speech — and defend your classification.",
+        "Construct a valid argument with an obviously false conclusion. Now say what that exercise proves about validity — and what 'valid' can never certify on its own.",
+        "Put Thrasymachus's argument into numbered premises and a conclusion. How many premises did you have to supply that he never stated? Read your supplied ones aloud — do they sound like things he'd accept?",
+        "Which premise does Socrates attack first, and why that one? What does his choice of target tell you about how he read the argument's structure?",
+        "If an argument is valid and you reject the conclusion, logic presents you with a bill: you must deny a premise. Which of Thrasymachus's premises are you prepared to deny, and what does denying it commit you to?",
+        "Thrasymachus is furious for most of Book I; Socrates is calm. Does anger make an argument worse? Does calm make one better? Separate the argument from the arguer and say what, if anything, tone is evidence of.",
+        "Deepest cut: is 'justice is the advantage of the stronger' a definition, an empirical claim about how the word gets used, or an unmasking? Each reading needs different premises — which reading makes Thrasymachus's argument strongest?"
+      ],
+      "argumentLabs": [
+        {
+          "id": "haw-lab-thrasymachus-hunt",
+          "title": "The Advantage of the Stronger: Find the Missing Premise",
+          "source": {
+            "bookID": "republic-jowett",
+            "passageIds": [
+              "republic-jowett:0:198",
+              "republic-jowett:0:211"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "Justice is nothing other than the advantage of the stronger."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "In every city, the ruling party is the stronger.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "Every ruling party makes its laws to its own advantage — a democracy democratic laws, a tyranny tyrannical laws.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "The rulers declare obedience to these laws to be 'justice' for their subjects, and punish whoever departs from them as unjust.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p4",
+              "text": "Rulers do not err about where their own advantage lies — the laws they make always in fact serve them.",
+              "stated": false,
+              "supports": "c"
+            }
+          ],
+          "mode": "hunt",
+          "hiddenPremiseId": "p4",
+          "removedPremiseId": null,
+          "pedagogicalPoint": "As Thrasymachus states it, the argument leaks: if rulers can be mistaken about their own advantage, then the laws — and so 'justice,' obedience to them — will sometimes serve the stronger and sometimes damage him, and the conclusion identifying justice with the stronger's advantage fails. The argument silently assumes rulers are infallible about their interests. This is precisely where Socrates strikes, and Thrasymachus's famous repair — the ruler 'in the strict sense' never errs — is his attempt to state p4 aloud and survive it. Lesson: the premise an arguer never says is usually the one he cannot afford to say.",
+          "elicitationQuestions": [
+            "Walk from p1, p2, and p3 to the conclusion. At what exact step do you need something more — what would have to be true for the walk to finish?",
+            "Suppose a ruling party passes a law that, unknown to it, ruins it. By p3, obeying that law is 'just.' Is obeying it the advantage of the stronger? What has just happened to the conclusion?",
+            "State the missing premise in your own words, as generously as you can. Would Thrasymachus accept it if you read it to him? What does his 'ruler in the strict sense' repair tell you?",
+            "Why do you think he never stated p4? Give the charitable answer (it seemed obvious) and the tactical answer (it is the argument's soft tissue) — and say which you believe.",
+            "General moral: when you reconstruct someone's argument and must supply a premise to make it valid, what have you learned about where to aim?"
+          ],
+          "relatedClaims": [
+            "political.justice-advantage-of-stronger"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "haw-u1-response",
+          "kind": "response",
+          "prompt": "Take Thrasymachus's central speech from Republic Book I and write his argument as numbered premises and a conclusion. Mark each premise [STATED] or [SUPPLIED]. For every supplied premise, add one sentence explaining why the argument needs it — that is, what fails to follow without it. Finish with two sentences: which single premise is the argument's weakest, and why is it that one?",
+          "lengthWords": 300,
+          "rubric": [
+            {
+              "name": "Validity of the reconstruction",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "The numbered argument is valid as written: granting every premise, the conclusion follows with no remaining gap.",
+                "B": "Nearly valid — one gap remains, or a premise is doing undeclared double duty.",
+                "C": "The premises do not connect to the conclusion; the numbering is decoration on a paraphrase."
+              }
+            },
+            {
+              "name": "Identification of unstated premises",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "Supplied premises are correctly flagged, genuinely load-bearing, and phrased so Thrasymachus would recognize them as his own commitments.",
+                "B": "Supplied premises are flagged but include padding, or one load-bearing assumption is missed.",
+                "C": "Stated and supplied premises are not distinguished, or the key hidden assumption is absent."
+              }
+            },
+            {
+              "name": "Notation and economy",
+              "weight": 0.2,
+              "descriptors": {
+                "A": "Clean numbered form; each premise a single claim; the weakest-premise verdict is specific and reasoned.",
+                "B": "Usable form with some compound premises or vagueness in the verdict.",
+                "C": "Prose paragraphs with numbers attached; no verdict, or an unreasoned one."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Vocabulary first, because the vocabulary is the toolkit: an argument is premises offered in support of a conclusion; validity means the conclusion cannot be false while the premises are true; soundness means valid plus true premises. Validity praises the pipework, soundness the delivery — keep the compliments separate. The week's working discovery: Thrasymachus's famous argument, laid out in numbered form, does not go through without a premise he never states — that rulers are infallible about their own advantage — and Socrates's first strike lands exactly on that silent joint. Two habits to carry out of the room: (1) when you reconstruct an argument, every premise you must supply is a confession the arguer didn't make; (2) if you reject a conclusion, logic hands you a bill — name the premise you deny, or admit the inference you doubt. Next week we make the hunt for hidden premises systematic: they are everywhere, and most of them are hiding for a reason."
+    },
+    {
+      "number": 2,
+      "title": "Hidden Premises: Enthymemes Everywhere",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 0,
+          "chEnd": 0
+        }
+      ],
+      "lectureOutline": [
+        "The enthymeme: almost every real argument travels light. Hidden premises are the norm of human reasoning, not the crime — the crime is refusing to produce them on demand.",
+        "Why we hide them: shared background, conversational efficiency — and the third reason, the interesting one: the premise that could not survive being said aloud.",
+        "Detection technique: complete the argument until it is valid, then read the invoice. Whatever you had to add, the arguer owed. The supplied premise is a hypothesis about their commitments — check it against everything else they say.",
+        "Case study one: Polemarchus. 'Justice is giving each what is owed — good to friends, harm to enemies.' The premise about knowing who your friends are that nobody at the party stated, and how Socrates's counterexamples are precision strikes on the unstated.",
+        "Case study two: Cephalus, who holds a definition he has never argued for at all — inherited premises, and what it means that he leaves for his sacrifices the moment the examination begins.",
+        "Field methods: enthymemes in advertisements, editorials, courtrooms, and the sentence 'she would never lie — she's my friend.' Practice on live ammunition.",
+        "The ethics of the unstated: when hiding a premise is efficiency, when it is rhetoric, and when it is self-deception — the premises we hide from ourselves."
+      ],
+      "seminarQuestionBank": [
+        "Define 'enthymeme' in your own words. Why do almost no real arguments state all their premises — and why is that usually fine?",
+        "'She would never lie to me — she's my friend.' Supply the hidden premise. Now say it aloud. What happened to the argument when you did?",
+        "Polemarchus says justice is helping friends and harming enemies. Which premise did he never state — and why did nobody at the party notice it was missing until Socrates asked about misjudged friends?",
+        "When you supply a hidden premise, you are making a hypothesis about what the arguer believes. What are your checks against supplying a strawman instead? Where would you look to confirm the attribution?",
+        "Is hiding a premise dishonest, or just efficient? Draw the line: give one example where suppression is innocent and one where it is doing rhetorical work, and say what distinguishes them.",
+        "Bring an advertisement or a political slogan to seminar. Extract its enthymeme in numbered form. Which premise was hidden — and could the ad survive stating it?",
+        "Cephalus never argues for his definition at all; he inherited it, and he exits when the questions start. Is holding an unexamined premise a fault? Is it one you could avoid — or are inherited premises where everyone begins?",
+        "The deep end: name one belief of your own that rests on a premise you have never stated aloud. State it now, in numbered form. Does it survive the daylight?"
+      ],
+      "argumentLabs": [
+        {
+          "id": "haw-lab-polemarchus-hunt",
+          "title": "Friends and Enemies: The Premise Nobody Said",
+          "source": {
+            "bookID": "republic-jowett",
+            "passageIds": [
+              "republic-jowett:0:35",
+              "republic-jowett:0:122"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "Justice is helping one's friends and harming one's enemies."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "Justice is giving to each what is owed to him (Simonides' saying, which Polemarchus inherits and defends).",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "What is owed to friends is benefit, and what is owed to enemies is harm.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "Our judgments about who is really a friend and who is really an enemy are reliable — the seeming friend is the true one.",
+              "stated": false,
+              "supports": "c"
+            }
+          ],
+          "mode": "hunt",
+          "hiddenPremiseId": "p3",
+          "removedPremiseId": null,
+          "pedagogicalPoint": "Polemarchus's definition sounds complete because p1 and p2 are both on the table. But the definition is only usable — only action-guiding — if we can tell friends from enemies, and Socrates's counterexample (men misjudge, so the definition licenses helping the wicked and harming the good) lands squarely on the premise nobody stated. Note the pattern for your field kit: hidden premises are often about our competence — 'we can tell,' 'we would know,' 'our judgment is reliable' — because competence assumptions feel like the furniture of the world rather than claims. Socrates's second attack (harming makes men worse, and justice cannot manufacture injustice) then strikes a stated premise, p2; distinguishing the two strikes is this week's skill in miniature.",
+          "elicitationQuestions": [
+            "Grant p1 and p2. Now try to apply the definition tomorrow morning: whom do you help? What additional thing must be true for the definition to guide a single action?",
+            "State the hidden premise as a claim about human competence. How often is it true, in your experience? What does its failure rate do to the conclusion?",
+            "Socrates makes two distinct attacks on Polemarchus. One hits the hidden premise, one hits a stated premise. Sort them — and say why the difference matters for what survives.",
+            "Why do competence assumptions ('we can tell who our friends are') hide so well? Name another argument — from politics, from your own life — where the hidden premise is 'we would know.'",
+            "Repair time: can you rewrite p3 into something weaker that is actually true, and does the conclusion survive on the weakened premise? What does it shrink to?"
+          ],
+          "relatedClaims": [
+            "ethics.virtue-ethics"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "haw-u2-response",
+          "kind": "response",
+          "prompt": "Find an enthymeme in the wild: an advertisement, an editorial, a campaign slogan, or something someone said to you this week. Reconstruct it as numbered premises and a conclusion, supplying the hidden premise and marking it [SUPPLIED]. Then judge it: state whether the argument survives having its hidden premise said aloud, and defend your verdict in a closing paragraph. Attach or quote your specimen (a sentence or two is fine — you are citing your own example, not the course text).",
+          "lengthWords": 300,
+          "rubric": [
+            {
+              "name": "The hidden premise is load-bearing",
+              "weight": 0.45,
+              "descriptors": {
+                "A": "The supplied premise is the one the argument actually cannot do without, phrased as the arguer would own it; without it the reconstruction visibly fails.",
+                "B": "A hidden premise is supplied but it is peripheral, or phrased tendentiously so the arguer would disown it.",
+                "C": "No genuinely hidden premise is identified; the 'supplied' premise merely restates the conclusion or a stated premise."
+              }
+            },
+            {
+              "name": "Validity of the reconstruction",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "With the supplied premise in place, the argument is valid as numbered.",
+                "B": "A small gap or a compound premise remains, but the structure is essentially right.",
+                "C": "The numbered form does not entail the conclusion."
+              }
+            },
+            {
+              "name": "The daylight verdict",
+              "weight": 0.2,
+              "descriptors": {
+                "A": "The survives-daylight judgment is definite and reasoned: it says who would balk at the stated premise and why the arguer left it dark.",
+                "B": "A verdict is present but thinly reasoned.",
+                "C": "No verdict, or a verdict with no connection to the reconstruction."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The enthymeme is the natural condition of argument: real reasoning travels light, and that is usually innocent. The skill is the completion-and-invoice method: extend the argument until it is valid, then read what you had to add — every supplied premise is a hypothesis about the arguer's commitments, checkable against the rest of what they say. Polemarchus gave us the week's signature pattern: hidden premises are disproportionately competence claims ('we can tell friends from enemies,' 'we would know if it were false'), because assumptions about our own reliability feel like the world's furniture rather than assertions. And keep the two Socratic strikes distinct in memory: one hit the premise nobody said (misjudged friends), one hit a premise Polemarchus did say (harming as justice's work). Next week that distinction becomes the whole subject: where to aim, what a counterexample kills, and why you owe your opponent the strongest version of his argument before you touch it."
+    },
+    {
+      "number": 3,
+      "title": "Attacking Properly: Counterexamples, Kill Assessment, and Charity",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 0,
+          "chEnd": 0
+        }
+      ],
+      "lectureOutline": [
+        "The two legitimate targets: deny a premise or deny the inference — and the amateur's move of denying the conclusion, which is not an attack but a restatement of disagreement.",
+        "The counterexample: a precision instrument. What it kills (universal claims: all, every, whenever, 'justice IS...') and what it cannot touch (tendencies, generalizations, 'usually').",
+        "Kill assessment: did the counterexample destroy the thesis or only its formulation? The madman's weapon reexamined — Cephalus's rule died, but did the idea behind it die with it?",
+        "The principle of charity: reconstruct your opponent's argument in its strongest form before attacking, or you have attacked no one. Steelmanning as intellectual hygiene, and why it is also tactically superior.",
+        "Charity in action: the strongest Thrasymachus. Rebuilt honestly, his claim stops being a bad definition and becomes an unmasking — 'what cities call justice is the interest of the powerful' — a far harder target, and the one worth fighting.",
+        "A modern specimen, in my words, no reading required: knowledge as justified true belief — a definition that stood for two millennia — and a stopped clock. The counterexample method running at full power.",
+        "After the kill: what you may and may not conclude when a definition dies. Refuting an analysis of knowledge is not refuting knowledge; the corpse on the table is a sentence, not the thing it pointed at."
+      ],
+      "seminarQuestionBank": [
+        "There are exactly two legitimate targets in a valid argument: a premise, or the inference. Take any argument from Book I and show me both attacks on it. Why is 'I just disagree with the conclusion' not a third option?",
+        "What is a counterexample, precisely? Why does one honest counterexample kill a universal claim stone dead, while ten cannot scratch a 'usually'?",
+        "The madman's weapon: which premise of Cephalus's did it strike? And now the kill assessment — did it kill the thesis that justice involves honoring obligations, or only the formulation 'always return what you owe'? What's the difference worth?",
+        "State the principle of charity. Now the uncomfortable question: why should you strengthen an argument you intend to attack? Give the moral reason and the tactical reason — and notice they converge.",
+        "Steelman Thrasymachus. What is the strongest version of 'justice is the advantage of the stronger' — the version that survives the erring-ruler objection? What kind of claim has it become, and is it still attackable?",
+        "A clock stopped at two; you glance at it at exactly two and believe, correctly and on good evidence, that it is two. Your belief is justified and true. Did you know? If not, what exactly is missing — and what died just now, knowledge or a definition of it?",
+        "When a cherished definition dies by counterexample, what is the rational next move: abandon the concept, repair the definition, or demote it to a rule of thumb? Who gets to decide, and by what standard?",
+        "The deepest one: is it ever rational to keep believing a conclusion after your argument for it has been killed? Distinguish the belief from its support — and say what you owe the world when you keep an unsupported belief."
+      ],
+      "thoughtExperiments": [
+        {
+          "id": "haw-te-stopped-clock",
+          "title": "The Stopped Clock",
+          "setup": "You are crossing the college courtyard on your way to an examination that begins at a quarter past two. You need the time; your phone is dead. On the tower above the library is the courtyard clock — a fine Victorian instrument, maintained for a century and famously reliable; students have set their watches by it for generations, and you have checked it against the radio yourself a dozen times. You glance up. It reads exactly two o'clock. 'Good,' you think, 'it is two — I have fifteen minutes,' and you walk on, unhurried, and arrive with time to spare. All of that is true. It was exactly two o'clock when you looked. Your belief was true, and you had excellent grounds for it — glancing at a famously reliable public clock is just what checking the time looks like. Here is what you never learn: the clock stopped last night at two o'clock precisely. It has been dead for twelve hours. Had you crossed the courtyard at half past one, or at ten past two, the same glance at the same trustworthy face would have deceived you completely. You happened to look at the single moment, twice a day, when a dead clock tells the truth. So: you believed it was two o'clock; it was two o'clock; and your belief was justified by evidence that would satisfy anyone. The question on the table is short, and it has been sitting under two thousand years of epistemology like a landmine: did you KNOW it was two o'clock?",
+          "philosophicalPayload": "Runs the counterexample method at full power against the oldest definition in epistemology: knowledge as justified true belief. The case manufactures epistemic luck — a belief that is true and justified, but only by accident — and forces a choice: bite the bullet and call it knowledge, or admit that the three classical conditions can all be satisfied while knowledge is absent, so that the analysis fails. Either way the student learns the general lesson of the week: a definition can pass every test on its own list and still miss the thing it was written to capture. (This is a paraphrase of a well-known style of contemporary counterexample, presented in my own words; no reading is assigned for it.)",
+          "sourceRefs": [],
+          "nodes": [
+            {
+              "id": "verdict",
+              "text": "You believed it was two o'clock; it was; your evidence was excellent. Did you know it was two o'clock?",
+              "options": [
+                {
+                  "label": "Yes — true belief on good evidence. That's knowledge.",
+                  "next": "press-luck"
+                },
+                {
+                  "label": "No — something is wrong here, even if all three boxes are ticked.",
+                  "next": "which-condition"
+                }
+              ]
+            },
+            {
+              "id": "press-luck",
+              "text": "Then notice what you are counting as knowledge: a belief that is true by sheer coincidence. Two minutes earlier or later, the identical glance at the identical clock delivers falsehood. Your method could not tell the lucky moment from any other. Still knowledge?",
+              "options": [
+                {
+                  "label": "Still knowledge. Justified true belief is the definition; the case satisfies it; done.",
+                  "next": "bullet"
+                },
+                {
+                  "label": "No — I withdraw it. The truth of the belief had nothing to do with my grounds for it.",
+                  "next": "which-condition"
+                }
+              ]
+            },
+            {
+              "id": "which-condition",
+              "text": "Then perform the autopsy. The classical analysis lists three conditions: you believed it, it was true, you were justified. Which condition failed?",
+              "options": [
+                {
+                  "label": "The justification wasn't real — evidence from a stopped clock justifies nothing.",
+                  "next": "justification"
+                },
+                {
+                  "label": "None failed. All three held — and that is exactly the problem. Three conditions are not enough.",
+                  "next": "fourth"
+                }
+              ]
+            },
+            {
+              "id": "justification",
+              "text": "Careful — this road is steeper than it looks. From the inside, this glance was indistinguishable from the thousand truth-delivering glances you have taken at that clock. If this one wasn't justified, then justification depends on facts you can never check from where you stand — and by that standard, was any glance ever justified?",
+              "options": [
+                {
+                  "label": "So be it: justification requires that the source actually be working, whether or not I can tell.",
+                  "next": "externalism"
+                },
+                {
+                  "label": "You're right — the justification was fine. The problem is the luck, and luck isn't on the list.",
+                  "next": "fourth"
+                }
+              ]
+            },
+            {
+              "id": "bullet",
+              "text": "You have bitten the bullet: knowledge by coincidence is still knowledge. Consistent — but now measure the cost. The person who consults a working clock and the person who consults a dead one at the lucky moment are, on your account, epistemic equals. If 'knowledge' no longer marks the difference between a reliable connection to the truth and a fluke, ask what work the word is doing for you at all. Some philosophers do pay this price; know that you are paying it.",
+              "terminal": true
+            },
+            {
+              "id": "fourth",
+              "text": "This is the classic verdict: belief, truth, and justification all present, knowledge absent — therefore the three-part analysis is refuted, and some fourth condition (an anti-luck clause: no accident, no false ground, an appropriate connection between the truth and the grounds) is needed. Note what you have and haven't shown: knowledge exists and you still lack a complete analysis of it. Your homework, forever: every fourth condition yet proposed has met its own stopped clock.",
+              "terminal": true
+            },
+            {
+              "id": "externalism",
+              "text": "You have relocated justification outside the believer: what matters is whether the source was in fact working, not how things seemed from inside. This saves the three-part definition — the clock case now fails the justification test — but hear the price: two believers in identical internal states, same evidence, same care, can differ in justification through facts neither could possibly check. Justification has come apart from responsibility. That trade has a name in the literature and a long bill of consequences; you have just chosen a side in a live war.",
+              "terminal": true
+            }
+          ],
+          "pumps": [
+            {
+              "id": "pump-working-clock",
+              "afterNode": "verdict",
+              "variation": "Same courtyard, same glance, same belief — but the clock is working perfectly. Compare the two cases from the inside: at the moment of glancing, was there any difference in you, your evidence, or your care?",
+              "testsPrinciple": "Whether knowledge can depend on external facts invisible to the believer — two internally identical subjects, one knowing and one not."
+            },
+            {
+              "id": "pump-two-minutes",
+              "afterNode": "press-luck",
+              "variation": "Move the hands: the clock stopped at 1:58, and you glance at 2:00. It reads 1:58; you believe it is 1:58, on exactly the same excellent grounds — and you are wrong. What, if anything, was different about your justification in this case?",
+              "testsPrinciple": "That justification does not entail truth: the same evidence and the same care can ground a false belief, so truth and justification are independent conditions."
+            },
+            {
+              "id": "pump-sheep",
+              "afterNode": "which-condition",
+              "variation": "New scene, same disease: a hillside field, and in it something that is unmistakably a sheep — white, woolly, sheep-shaped. You believe 'there is a sheep in that field.' The thing you see is a rock. Behind a rise, out of sight, a real sheep grazes. True belief, good grounds. Knowledge?",
+              "testsPrinciple": "That the flaw generalizes beyond one gadget: any case where a belief's grounds and its truth-maker come apart shows the pattern — the problem is the disconnection, not the clock."
+            }
+          ],
+          "interrogation": [
+            "Lay out the three conditions of the classical analysis — belief, truth, justification — and show where the clock case satisfies each. Be pedantic; pedantry is the method here.",
+            "Define 'epistemic luck' precisely enough that it catches the clock case but does not catch ordinary perception, which is also fallible. Harder than it looks — where did you draw the line?",
+            "Propose a fourth condition that blocks the clock case. Now attack your own repair: construct the case that defeats it. If you cannot, exchange repairs with a classmate and defeat theirs.",
+            "Say exactly what died on the table today: knowledge, or an analysis of knowledge? What does a definition owe the thing it defines, and what may we still do with a concept we cannot define?",
+            "Connect the weeks: Socrates never heard of stopped clocks, yet Book I runs the same maneuver repeatedly. Name one Socratic counterexample with this exact shape — every listed condition satisfied, the thing itself missing — and defend the parallel."
+          ],
+          "relatedClaims": [
+            "epistemology.skepticism-external-world"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "haw-u3-response",
+          "kind": "response",
+          "prompt": "Choose one Socratic counterexample from Republic Book I — the madman's weapon, the misjudged friend, or the erring ruler. Write a kill assessment: (1) state the target argument in numbered form; (2) identify exactly which premise the counterexample strikes; (3) rule on the kill — did it destroy the thesis, or only that formulation of it? (4) then, observing the principle of charity, write the best one-paragraph reply the defender could have given. You are graded on precision and on the quality of the defense you build for the side you just attacked.",
+          "lengthWords": 400,
+          "rubric": [
+            {
+              "name": "Target identification",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "The struck premise is correctly isolated in a valid numbered reconstruction; the mechanism of the strike is stated exactly.",
+                "B": "The right neighborhood, but the strike is attributed to the conclusion or to a compound premise.",
+                "C": "The reconstruction is missing or invalid; the counterexample floats unattached."
+              }
+            },
+            {
+              "name": "Kill assessment",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "Distinguishes thesis from formulation and rules with reasons; states precisely what survives the strike and what does not.",
+                "B": "Renders a verdict but blurs thesis and formulation; survival is asserted rather than shown.",
+                "C": "Treats the counterexample as ending the question; no assessment performed."
+              }
+            },
+            {
+              "name": "Charitable repair",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The defender's reply is genuinely the strongest available — it meets the counterexample rather than dodging it, and the original speaker would own it.",
+                "B": "A reply is offered but it is a patch the counterexample already covers, or it changes the subject.",
+                "C": "The repair is a strawman of the defense, or absent."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Three instruments were added to the kit this week. The counterexample: it kills universal claims and only universal claims — one honest exception ends an 'all,' and cannot dent a 'usually.' Kill assessment: after the strike, ask what actually died — Cephalus's rule was dead, but the idea that justice involves honoring obligations walked away, and the difference between a dead thesis and a dead formulation is the difference between refutation and progress. Charity: reconstruct the strongest version before you attack, for the moral reason (you owe the truth your best opposition) and the tactical one (a strawman's defeat proves nothing, and your opponent knows it). The stopped clock ran the whole method against the oldest definition in epistemology and left the classical analysis on the table — while knowledge itself walked away, which is the deepest kill-assessment lesson of all: refuting an analysis of a thing is not refuting the thing. Final week: you stop dissecting and start building — and the last assignment asks you to build for the other side."
+    },
+    {
+      "number": 4,
+      "title": "Building Arguments: Load-Bearing Premises, Repair, and the Steelman",
+      "reading": [
+        {
+          "bookID": "republic-jowett",
+          "chStart": 0,
+          "chEnd": 0
+        }
+      ],
+      "lectureOutline": [
+        "Construction principles: choose a conclusion you can actually reach, and premises you would be willing to defend one at a time, under fire, in order.",
+        "Load-bearing analysis: for each premise, ask what collapses if it is removed. If nothing collapses, it is decoration — cut it. An argument is not stronger for having more premises; it is weaker, because each premise is a door.",
+        "Repair versus retreat: when a premise is struck, you may weaken the conclusion (retreat) or strengthen the premise (repair). Thrasymachus chose repair — the ruler 'in the strict sense' — and the choice is instructive in both its courage and its cost.",
+        "The new invoice: every repair takes on new obligations. Watching the strict-sense ruler walk straight into the craft argument — Socrates accepts the repaired premise and turns it, because crafts in the strict sense serve their subjects, not their practitioners.",
+        "The numbered-premise form as a discipline of writing and of thought: if you cannot number it, you do not yet have it — you have a mood with a conclusion attached.",
+        "Order and rhetoric: logically, premise order is irrelevant; rhetorically, it is everything. Where to put the premise your reader will resist, and why honesty about it beats concealment even tactically.",
+        "The final exercise framed: rebuild Thrasymachus stronger than he built himself. Charity as the last and hardest lesson — the course ends when you can construct the best case for a conclusion you reject, and then name, precisely, where you would strike it."
+      ],
+      "seminarQuestionBank": [
+        "What makes a premise load-bearing? Take any four-premise argument from this course, remove premises one at a time, and report what collapses. Which removal killed it — and what does that tell you about where its defender should spend effort?",
+        "Why is an argument with fewer premises generally stronger? When is the reverse true — when does adding a premise strengthen your position rather than adding a door for attackers?",
+        "Repair versus retreat: define both. When Thrasymachus was caught by the erring ruler, he repaired ('the ruler in the strict sense never errs') rather than retreating ('rulers usually legislate in their own interest'). Which should he have chosen, and what would each have cost him?",
+        "Every repair takes on new obligations — the strict-sense ruler walked straight into the craft argument. Find the mechanism: how exactly did the repaired premise hand Socrates his next weapon? Could Thrasymachus have seen it coming?",
+        "Logically, the order of premises is irrelevant. Rhetorically, it is not. Where should you place the premise your audience will resist most — first, last, or buried? Defend your answer, and then say whether 'buried' is ever honest.",
+        "What is the strongest possible version of 'justice is the advantage of the stronger' — the one that survives the erring ruler, survives the craft argument, and would take Socrates all night? Sketch it in numbered form together.",
+        "The builder's oath: when you construct the strongest argument for a view you reject, you must also be able to say exactly where you would strike it. Why are these two abilities the same skill? What is wrong with someone who has only one of them?",
+        "Last question of the course: name one belief you held four weeks ago whose argument you have since numbered — and report honestly: did it survive, did you repair it, or did you retreat? What did the exercise cost, and what did it buy?"
+      ],
+      "argumentLabs": [
+        {
+          "id": "haw-lab-strict-sense-collapse",
+          "title": "The Strict-Sense Repair Under Load",
+          "source": {
+            "bookID": "republic-jowett",
+            "passageIds": [
+              "republic-jowett:0:265"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "What the ruler prescribes is always to his own advantage — so justice, obedience to the rulers, always serves the stronger."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "The ruler, considered strictly as a ruler, is a practitioner of the craft of ruling.",
+              "stated": true,
+              "supports": "p3"
+            },
+            {
+              "id": "p2",
+              "text": "A craftsman, considered strictly as a craftsman, makes no errors — a doctor who errs does not err qua doctor.",
+              "stated": true,
+              "supports": "p3"
+            },
+            {
+              "id": "p3",
+              "text": "Therefore the ruler in the strict sense makes no errors about where his advantage lies, and legislates accordingly.",
+              "stated": true,
+              "supports": "c"
+            }
+          ],
+          "mode": "collapse",
+          "removedPremiseId": "p2",
+          "pedagogicalPoint": "This is the anatomy of a repair. Caught by the erring ruler in Unit 1, Thrasymachus rebuilt his argument on the craftsman analogy: p2 is the new load-bearing premise that restores infallibility and rescues the conclusion. Remove p2 and the structure falls straight back into the Unit 1 wreckage — rulers err, and 'justice' comes apart from the stronger's advantage. But keeping p2 is no refuge: Socrates accepts the craftsman analogy and turns it, arguing that every craft in the strict sense serves its subject — medicine the patient, ruling the ruled — so the repaired premise now entails the opposite of the conclusion. The double lesson: a repair is a new premise, a new premise is a new target, and the best attackers say yes to your repair and then read you its fine print.",
+          "elicitationQuestions": [
+            "Remove p2 and try to reach the conclusion. Where does the argument now stand — and why is this exactly the position Thrasymachus was in before the repair?",
+            "The repair works by analogy: rulers are craftsmen. List two things the analogy imports that Thrasymachus wanted — and then look for the fine print: what else does 'craftsman in the strict sense' commit him to?",
+            "Socrates does not deny p2; he accepts it and turns it. Reconstruct the turn: if crafts in the strict sense serve their subjects, what does the ruling craft serve — and what has happened to the conclusion?",
+            "Could Thrasymachus have retreated instead — 'rulers usually legislate in their own interest'? What happens to his thesis under the retreat: is a statistical Thrasymachus still saying anything Socrates needs to fight?",
+            "Write the general rule in your own words: what should you check before repairing a premise with an analogy? What is the invoice question you must always ask?"
+          ],
+          "relatedClaims": [
+            "political.justice-advantage-of-stronger"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "haw-u4-final",
+          "kind": "imitation",
+          "prompt": "Final examination in construction. Reconstruct Thrasymachus's strongest possible argument that justice is the advantage of the stronger — not the argument he gave, but the argument he should have given: the version that survives the erring-ruler objection and does not walk into the craft argument. Present it as numbered premises and a conclusion, every premise a single claim, with a one-sentence defense under each premise anticipating its most likely attack. Then, in a closing paragraph, do the builder's duty: name the premise you would strike if you had to argue the other side, and say why it is the vulnerable one. You are graded on validity, on charity — this must be a Thrasymachus his own mother would recognize and Socrates would fear — and on the honesty of your closing strike.",
+          "lengthWords": 700,
+          "rubric": [
+            {
+              "name": "Validity",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The numbered argument is valid: granting every premise, the conclusion follows without gaps; each premise is a single claim doing identifiable work.",
+                "B": "One gap or one compound premise; the structure is otherwise sound.",
+                "C": "The premises do not entail the conclusion; the numbering decorates an essay."
+              }
+            },
+            {
+              "name": "Charity and strength",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "Genuinely the strongest Thrasymachus: the erring-ruler and craft objections are anticipated and survived by design; the position is one its author would own and an opponent would fear.",
+                "B": "Stronger than the original but with a known objection left unhandled, or strengthened by quietly changing the thesis.",
+                "C": "A strawman or a surrender: the argument is either the original with its known wounds, or so weakened it no longer says anything contested."
+              }
+            },
+            {
+              "name": "Naming the vulnerable premise",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "The closing strike targets the premise that is genuinely most exposed, with a specific attack — a counterexample or a turn — not a vague doubt; the choice is defended.",
+                "B": "A premise is named but the attack on it is generic or aimed at a stronger premise than necessary.",
+                "C": "No premise named, or the 'strike' is disagreement with the conclusion."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The course ends where good arguing begins: on the other side. Construction reversed everything you learned as an attacker — load-bearing analysis told you where to spend your defense; the repair-versus-retreat choice showed that patching a premise (Thrasymachus's strict-sense ruler) buys strength at the price of new obligations, and that the finest attackers accept your repair and read you its fine print. The final exercise — building the best Thrasymachus and then naming where you would strike him — is the whole course in one motion, because steelmanning and attacking are the same skill: you cannot know the strongest version of a position until you know exactly where it is weakest, and vice versa. What you leave with is not a doctrine but a discipline: number the premises, flag what you supplied, find what bears load, choose repairs with the invoice in view, and extend to every opponent — including your own past self — the charity of their best argument. Plato's Book I was our cadaver lab; the living patients are every editorial, meeting, and conviction you will meet from now on."
+    }
+  ]
+}

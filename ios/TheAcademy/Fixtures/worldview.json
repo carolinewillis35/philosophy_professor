@@ -1,0 +1,116 @@
+{
+  "commitments": [
+    {
+      "id": "cm-physicalism",
+      "claim": "Everything that exists, including minds, is ultimately physical.",
+      "domain": "mind",
+      "ontologyId": "mind.physicalism",
+      "strength": "asserted",
+      "affirmCount": 3,
+      "firstAsserted": "2026-06-02T18:12:00Z",
+      "lastAffirmed": "2026-06-28T20:05:00Z"
+    },
+    {
+      "id": "cm-libertarian-free-will",
+      "claim": "People sometimes genuinely could have done otherwise — free choices are not fixed by prior causes.",
+      "domain": "metaphysics",
+      "ontologyId": "metaphysics.libertarian-free-will",
+      "strength": "asserted",
+      "affirmCount": 2,
+      "firstAsserted": "2026-06-09T19:40:00Z",
+      "lastAffirmed": "2026-06-25T18:30:00Z"
+    },
+    {
+      "id": "cm-justice-intrinsic",
+      "claim": "Justice is worth choosing for its own sake, not only for its wages and reputation.",
+      "domain": "political",
+      "ontologyId": "political.justice-intrinsically-good",
+      "strength": "leaned",
+      "affirmCount": 1,
+      "firstAsserted": "2026-06-16T19:02:00Z",
+      "lastAffirmed": "2026-06-16T19:02:00Z"
+    },
+    {
+      "id": "cm-egoism",
+      "claim": "Underneath every apparently just act is self-interest — people behave justly only because they must.",
+      "domain": "ethics",
+      "ontologyId": "ethics.psychological-egoism",
+      "strength": "abandoned",
+      "affirmCount": 2,
+      "firstAsserted": "2026-06-04T18:50:00Z",
+      "lastAffirmed": "2026-06-11T19:15:00Z"
+    },
+    {
+      "id": "cm-moral-knowledge",
+      "claim": "Some moral claims can be known, not merely felt or preferred.",
+      "domain": "epistemology",
+      "ontologyId": "epistemology.moral-knowledge-possible",
+      "strength": "explored",
+      "affirmCount": 1,
+      "firstAsserted": "2026-06-23T20:22:00Z",
+      "lastAffirmed": "2026-06-23T20:22:00Z"
+    }
+  ],
+  "tensions": [
+    {
+      "id": "tn-physicalism-freewill",
+      "commitmentA": "cm-physicalism",
+      "commitmentB": "cm-libertarian-free-will",
+      "via": "mind.physicalism entails metaphysics.causal-closure-physical, which conflicts with metaphysics.libertarian-free-will",
+      "status": "open"
+    }
+  ],
+  "timeline": [
+    {
+      "id": "ev-egoism-assert",
+      "date": "2026-06-04T18:50:00Z",
+      "claim": "Underneath every apparently just act is self-interest.",
+      "fromStrength": null,
+      "toStrength": "asserted",
+      "note": "Asserted during the Ring of Gyges lab — 'anyone would use it.'"
+    },
+    {
+      "id": "ev-freewill-assert",
+      "date": "2026-06-09T19:40:00Z",
+      "claim": "People sometimes genuinely could have done otherwise.",
+      "fromStrength": "explored",
+      "toStrength": "asserted",
+      "note": "Defended against Prof. Whitmore's determinism reconstruction."
+    },
+    {
+      "id": "ev-egoism-abandon",
+      "date": "2026-06-11T19:15:00Z",
+      "claim": "Underneath every apparently just act is self-interest.",
+      "fromStrength": "asserted",
+      "toStrength": "abandoned",
+      "note": "Abandoned after the buried-ring pump: you kept it buried with detection impossible."
+    },
+    {
+      "id": "ev-justice-lean",
+      "date": "2026-06-16T19:02:00Z",
+      "claim": "Justice is worth choosing for its own sake.",
+      "fromStrength": null,
+      "toStrength": "leaned",
+      "note": "Leaned toward Socrates's side of Glaucon's wager, pending Books II–IV."
+    }
+  ],
+  "readerProfile": {
+    "attention": {
+      "character": 0.62,
+      "form": 0.35,
+      "image": 0.48,
+      "structure": 0.71,
+      "context": 0.44,
+      "sound": 0.22
+    },
+    "strengths": [
+      "Follows an argument across turns without losing the thread",
+      "Willing to state a position before it is safe"
+    ],
+    "growthEdges": [
+      "Quotes the text rarely; argues from memory of it",
+      "Accepts analogies before pricing their premises"
+    ],
+    "narrativeSummary": "You read for the skeleton of an argument first and the texture second. Pressed for evidence, you reach for the idea rather than the line — three sessions in a row the citation came from the professor, not from you. When a definition of yours collapsed you stayed in the room, which is the habit that matters most here."
+  }
+}

@@ -1,0 +1,152 @@
+// Seed personas + courses + claim ontology from content/ into the database
+// (service role).
+//
+// Usage (from the repo root):
+//   SUPABASE_URL=https://<ref>.supabase.co \
+//   SUPABASE_SERVICE_ROLE_KEY=... \
+//   deno run --allow-env --allow-read --allow-net supabase/scripts/seed_content.ts
+//
+// Reads:
+//   content/personas/personas.json   — registry [{id, name, title, blurb, ...}]
+//   content/personas/<id>.md         — full persona doc per registry entry
+//   content/courses/*.json           — course JSON (CONTRACTS §7 + §12.5)
+//   content/ontology/claims.json     — claim ontology (CONTRACTS §12.6)
+//
+// Book text (editions/chapters/passages) is seeded separately via the
+// pipeline's seed.sql — see supabase/README.md.
+
+import { createClient } from "npm:@supabase/supabase-js@2";
+
+const url = Deno.env.get("SUPABASE_URL");
+const key = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+if (!url || !key) {
+  console.error("Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY");
+  Deno.exit(1);
+}
+const db = createClient(url, key, { auth: { persistSession: false } });
+
+interface PersonaEntry {
+  id: string;
+  name: string;
+  title?: string;
+  blurb?: string;
+  version?: number;
+}
+
+// --- personas ---------------------------------------------------------------
+
+const registryPath = "content/personas/personas.json";
+let personas: PersonaEntry[] = [];
+try {
+  personas = JSON.parse(await Deno.readTextFile(registryPath));
+} catch {
+  console.warn(`no ${registryPath} — skipping personas`);
+}
+
+for (const p of personas) {
+  const doc = await Deno.readTextFile(`content/personas/${p.id}.md`);
+  const { error } = await db.from("personas").upsert({
+    id: p.id,
+    name: p.name,
+    title: p.title ?? null,
+    blurb: p.blurb ?? null,
+    doc,
+    version: p.version ?? 1,
+  });
+  if (error) {
+    console.error(`persona ${p.id}: ${error.message}`);
+    Deno.exit(1);
+  }
+  console.log(`persona ${p.id} ✓`);
+}
+
+// --- courses ------------------------------------------------------------------
+
+try {
+  for await (const entry of Deno.readDir("content/courses")) {
+    if (!entry.isFile || !entry.name.endsWith(".json")) continue;
+    const doc = JSON.parse(
+      await Deno.readTextFile(`content/courses/${entry.name}`),
+    );
+    const { error } = await db.from("courses").upsert({
+      id: doc.id,
+      title: doc.title,
+      persona_id: doc.personaId,
+      description: doc.description ?? null,
+      difficulty: doc.difficulty ?? null,
+      est_weeks: doc.estWeeks ?? null,
+      texts: (doc.texts ?? []).map((t: { bookID: string }) => t.bookID),
+      doc,
+      is_free: doc.isFree ?? false,
+    });
+    if (error) {
+      console.error(`course ${doc.id}: ${error.message}`);
+      Deno.exit(1);
+    }
+    console.log(`course ${doc.id} ✓`);
+  }
+} catch {
+  console.warn("no content/courses directory — skipping courses");
+}
+
+// --- claim ontology (CONTRACTS §12.6 -> claims + claim_edges) ----------------
+
+interface OntologyClaim {
+  id: string;
+  claim: string;
+  domain: string;
+  summary?: string;
+  entails?: string[];
+  conflictsWith?: string[];
+  supports?: string[];
+}
+
+const ontologyPath = "content/ontology/claims.json";
+let ontology: { version?: number; claims: OntologyClaim[] } | null = null;
+try {
+  ontology = JSON.parse(await Deno.readTextFile(ontologyPath));
+} catch {
+  console.warn(`no ${ontologyPath} — skipping ontology`);
+}
+
+if (ontology) {
+  const claims = ontology.claims ?? [];
+  const { error: cErr } = await db.from("claims").upsert(
+    claims.map((c) => ({
+      id: c.id,
+      claim: c.claim,
+      domain: c.domain,
+      summary: c.summary ?? "",
+      version: ontology.version ?? 1,
+    })),
+  );
+  if (cErr) {
+    console.error(`claims: ${cErr.message}`);
+    Deno.exit(1);
+  }
+  console.log(`claims: ${claims.length} ✓`);
+
+  // Edges: entails/supports are directed; conflictsWith is symmetric — the
+  // authored file lists it on both sides (validator enforces), so iterating
+  // every claim emits one row per direction; the PK (from_id, to_id, kind)
+  // upsert dedupes.
+  const edgeRows: { from_id: string; to_id: string; kind: string }[] = [];
+  const pushEdges = (from: string, targets: string[] | undefined, kind: string) => {
+    for (const to of targets ?? []) edgeRows.push({ from_id: from, to_id: to, kind });
+  };
+  for (const c of claims) {
+    pushEdges(c.id, c.entails, "entails");
+    pushEdges(c.id, c.supports, "supports");
+    pushEdges(c.id, c.conflictsWith, "conflicts");
+  }
+  const { error: eErr } = await db
+    .from("claim_edges")
+    .upsert(edgeRows, { onConflict: "from_id,to_id,kind" });
+  if (eErr) {
+    console.error(`claim_edges: ${eErr.message}`);
+    Deno.exit(1);
+  }
+  console.log(`claim_edges: ${edgeRows.length} ✓`);
+}
+
+console.log("done");
