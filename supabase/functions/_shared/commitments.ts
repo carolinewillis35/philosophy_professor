@@ -101,6 +101,21 @@ const STRENGTH_RANK: Record<Exclude<Strength, "abandoned">, number> = {
  * Returns the updated commitment fields for an existing row, or the fields
  * for a new row when `existing` is null. In-turn ops and the post-session
  * sweep both funnel through here; callers pass ops in emission order. */
+/** Commitment-event verbs (§14.1) — the strength name IS the event name. */
+export type CommitmentEvent = Strength | "affirmed";
+
+/** Derive the §14.1 ledger event for a fold: first insert and every strength
+ * CHANGE log the new strength's verb (with the prior strength when there was
+ * one); a fold that leaves strength unchanged is an 'affirmed'. */
+export function changeEvent(
+  prior: Strength | null,
+  next: Strength,
+): { event: CommitmentEvent; priorStrength: Strength | null } {
+  if (prior === null) return { event: next, priorStrength: null };
+  if (prior === next) return { event: "affirmed", priorStrength: null };
+  return { event: next, priorStrength: prior };
+}
+
 export function foldOp(
   existing: Pick<Commitment, "strength" | "affirmCount"> | null,
   op: CommitmentOp,

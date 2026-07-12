@@ -31,12 +31,17 @@ struct WorldviewView: View {
 
                 if store.commitments.isEmpty {
                     emptyState
+                    territorySection
                 } else {
+                    statsHeader
+                    territorySection
                     positionsByDomain
                     tensionsSection
-                    timelineSection
+                    resolvedTensionsSection
+                    changelogSection
                 }
 
+                ladderLink
                 readerProfileSection
                 transparencySection
                 settingsLink
@@ -101,6 +106,57 @@ struct WorldviewView: View {
         }
     }
 
+    // MARK: stats header (§14.5a) — the proudest stat on the page
+
+    /// "You've changed your mind N times this year — each under pressure of
+    /// argument." Changed minds are the point of the practice (§14.6): the
+    /// count is worn as a medal, never a warning.
+    @ViewBuilder
+    private var statsHeader: some View {
+        let n = store.changedMindCountThisYear
+        if n > 0 {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("The Record").overline(Theme.accent)
+                Text(n == 1
+                     ? "You've changed your mind once this year — under pressure of argument."
+                     : "You've changed your mind \(n) times this year — each under pressure of argument.")
+                    .font(.title3.weight(.semibold))
+                    .fontDesign(.serif)
+                    .lineSpacing(3)
+                    .foregroundStyle(Theme.ink)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text("That is the practice working, not failing.")
+                    .font(.caption)
+                    .fontDesign(.serif)
+                    .italic()
+                    .foregroundStyle(Theme.inkSecondary)
+            }
+            .bulletinCard(tint: Theme.accent)
+        }
+    }
+
+    // MARK: territory (§14.5b) — the six domains, examined vs. untouched
+
+    private var territorySection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            SectionHeading(text: "Territory")
+            Text("Six domains. Where your positions stand — and where nothing of yours yet does.")
+                .font(.caption)
+                .fontDesign(.serif)
+                .italic()
+                .foregroundStyle(Theme.inkSecondary)
+            LazyVGrid(columns: [GridItem(.flexible(), spacing: 10),
+                                GridItem(.flexible(), spacing: 10)],
+                      spacing: 10) {
+                ForEach(ClaimDomain.allCases) { domain in
+                    TerritoryTile(domain: domain,
+                                  liveCount: store.liveCommitments(in: domain).count)
+                }
+            }
+        }
+        .bulletinCard()
+    }
+
     // MARK: positions by domain
 
     private var positionsByDomain: some View {
@@ -119,6 +175,10 @@ struct WorldviewView: View {
                     ForEach(positions) { commitment in
                         PositionRow(commitment: commitment,
                                     officeHoursRoute: officeHoursRoute,
+                                    steelmanRoute: SessionRoute(
+                                        steelman: SteelmanTarget(
+                                            claim: commitment.claim,
+                                            ontologyId: commitment.ontologyId)),
                                     onAbandon: { store.abandon(commitment) },
                                     onDelete: { confirmingDelete = commitment })
                     }
@@ -153,11 +213,49 @@ struct WorldviewView: View {
         }
     }
 
-    // MARK: timeline
+    // MARK: resolved tensions (§14.2 / §14.5d) — celebrated, not archived
 
     @ViewBuilder
-    private var timelineSection: some View {
-        if !store.timeline.isEmpty {
+    private var resolvedTensionsSection: some View {
+        let resolved = store.resolvedTensions
+        if !resolved.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                SectionHeading(text: "Resolved Tensions")
+                Text("Two positions that pulled against each other — until you did the work of reconciling them. Earned, not granted.")
+                    .font(.caption)
+                    .fontDesign(.serif)
+                    .italic()
+                    .foregroundStyle(Theme.inkSecondary)
+                ForEach(resolved) { tension in
+                    if let a = store.commitment(tension.commitmentA),
+                       let b = store.commitment(tension.commitmentB) {
+                        ResolvedTensionRow(tension: tension, a: a, b: b)
+                    }
+                }
+            }
+            .bulletinCard(tint: Theme.accent)
+        }
+    }
+
+    // MARK: the changelog (§14.5c) — the changelog of your mind
+
+    @ViewBuilder
+    private var changelogSection: some View {
+        if !store.changelog.isEmpty {
+            VStack(alignment: .leading, spacing: 12) {
+                SectionHeading(text: "The Changelog")
+                Text("Every movement of your mind, with the argument that moved it. Changed minds are the point of the practice.")
+                    .font(.caption)
+                    .fontDesign(.serif)
+                    .italic()
+                    .foregroundStyle(Theme.inkSecondary)
+                ForEach(store.changelog) { entry in
+                    ChangelogRow(entry: entry)
+                }
+            }
+            .bulletinCard()
+        } else if !store.timeline.isEmpty {
+            // Pre-ledger snapshots (no events yet) keep the old timeline.
             VStack(alignment: .leading, spacing: 12) {
                 SectionHeading(text: "How It Has Moved")
                 ForEach(store.timeline) { event in
@@ -166,6 +264,35 @@ struct WorldviewView: View {
             }
             .bulletinCard()
         }
+    }
+
+    // MARK: ladder link (§14.5) — the steelman ladder lives off this page
+
+    private var ladderLink: some View {
+        NavigationLink {
+            SteelmanLadderView()
+        } label: {
+            HStack {
+                Label("The Steelman Ladder", systemImage: SessionKind.steelman.symbolName)
+                    .font(.subheadline.weight(.medium))
+                    .fontDesign(.serif)
+                    .foregroundStyle(Theme.ink)
+                Spacer()
+                if !store.ladder.isEmpty {
+                    Text(store.steelmanScores.count == 1
+                         ? "1 climb"
+                         : "\(store.steelmanScores.count) climbs")
+                        .font(.caption)
+                        .fontDesign(.default)
+                        .foregroundStyle(Theme.inkSecondary)
+                }
+                Image(systemName: "chevron.right")
+                    .font(.caption.weight(.semibold))
+                    .foregroundStyle(Theme.inkSecondary)
+            }
+            .bulletinCard()
+        }
+        .buttonStyle(.plain)
     }
 
     // MARK: reader profile (secondary, per A14)
@@ -271,6 +398,8 @@ struct WorldviewView: View {
 private struct PositionRow: View {
     let commitment: Commitment
     let officeHoursRoute: SessionRoute?
+    /// §14.4/§14.5: live positions invite the best case against themselves.
+    let steelmanRoute: SessionRoute?
     let onAbandon: () -> Void
     let onDelete: () -> Void
 
@@ -297,6 +426,20 @@ private struct PositionRow: View {
                     .font(.caption2)
                     .fontDesign(.default)
                     .foregroundStyle(Theme.inkSecondary)
+            }
+            if let steelmanRoute, !isAbandoned {
+                NavigationLink(value: steelmanRoute) {
+                    Label("Steelman the other side",
+                          systemImage: SessionKind.steelman.symbolName)
+                        .font(.caption.weight(.semibold))
+                        .fontDesign(.default)
+                }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
+                .controlSize(.small)
+                .tint(Theme.accent)
+                .padding(.top, 2)
+                .accessibilityLabel("Steelman the other side of this position")
             }
         }
         .padding(.vertical, 4)
@@ -415,6 +558,213 @@ private struct TensionPair: View {
                 .foregroundStyle(Theme.ink)
                 .fixedSize(horizontal: false, vertical: true)
             StrengthBadge(strength: commitment.strength)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+            .fill(Theme.accent.opacity(0.06)))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous)
+            .strokeBorder(Theme.accent.opacity(0.35), lineWidth: 1))
+    }
+}
+
+// MARK: - Territory tile (§14.5b)
+
+/// One domain of the six-domain grid: examined (live commitments stand
+/// there) or untouched — untouched tiles carry their authored provocation.
+private struct TerritoryTile: View {
+    let domain: ClaimDomain
+    let liveCount: Int
+
+    private var examined: Bool { liveCount > 0 }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 6) {
+                Image(systemName: domain.symbolName)
+                    .font(.footnote)
+                    .foregroundStyle(examined ? Theme.accent : Theme.inkSecondary.opacity(0.6))
+                Text(domain.displayName)
+                    .font(.caption.weight(.semibold))
+                    .fontDesign(.default)
+                    .textCase(.uppercase)
+                    .kerning(0.8)
+                    .foregroundStyle(examined ? Theme.accent : Theme.inkSecondary)
+                Spacer(minLength: 0)
+            }
+            if examined {
+                Text(liveCount == 1 ? "1 live position" : "\(liveCount) live positions")
+                    .font(.caption)
+                    .fontDesign(.serif)
+                    .foregroundStyle(Theme.ink)
+            } else {
+                Text(domain.provocation)
+                    .font(.caption2)
+                    .fontDesign(.serif)
+                    .italic()
+                    .lineSpacing(2)
+                    .foregroundStyle(Theme.inkSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
+        .frame(maxWidth: .infinity, minHeight: 92, alignment: .topLeading)
+        .padding(10)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+            .fill(examined ? Theme.accent.opacity(0.06) : Theme.paper))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous)
+            .strokeBorder(examined ? Theme.accent.opacity(0.35) : Theme.rule,
+                          style: StrokeStyle(lineWidth: 1,
+                                             dash: examined ? [] : [5, 3])))
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(examined
+                            ? "\(domain.displayName): \(liveCount) live positions"
+                            : "\(domain.displayName), untouched: \(domain.provocation)")
+    }
+}
+
+// MARK: - Changelog row (§14.5c)
+
+/// One ledger beat. Abandonments render as achievements — celebrated, with
+/// the evidence line ("the argument that moved you") underneath (§14.6).
+private struct ChangelogRow: View {
+    let entry: WorldviewStore.ChangelogEntry
+
+    private var event: CommitmentEvent { entry.event }
+
+    var body: some View {
+        if event.event == .abandoned {
+            abandonmentAchievement
+        } else {
+            movementRow
+        }
+    }
+
+    /// The celebrated beat: a changed mind, framed as the point of the
+    /// practice — never a loss.
+    private var abandonmentAchievement: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(spacing: 8) {
+                Image(systemName: "medal")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                Text("Changed your mind").overline(Theme.accent)
+                Spacer()
+                Text(event.createdAt.formatted(date: .abbreviated, time: .omitted))
+                    .font(.caption2)
+                    .fontDesign(.default)
+                    .foregroundStyle(Theme.inkSecondary.opacity(0.7))
+            }
+            Text(entry.claim)
+                .font(.footnote)
+                .fontDesign(.serif)
+                .lineSpacing(2)
+                .foregroundStyle(Theme.ink)
+                .fixedSize(horizontal: false, vertical: true)
+            if !event.evidence.isEmpty {
+                Text(event.evidence)
+                    .font(.caption)
+                    .fontDesign(.serif)
+                    .italic()
+                    .lineSpacing(2)
+                    .foregroundStyle(Theme.inkSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+            .fill(Theme.accent.opacity(0.07)))
+        .overlay(RoundedRectangle(cornerRadius: 10, style: .continuous)
+            .strokeBorder(Theme.accent.opacity(0.35), lineWidth: 1))
+    }
+
+    /// An ordinary movement: dot-and-rule timeline voice.
+    private var movementRow: some View {
+        HStack(alignment: .top, spacing: 10) {
+            VStack(spacing: 0) {
+                Circle()
+                    .fill(Theme.accent)
+                    .frame(width: 7, height: 7)
+                    .padding(.top, 5)
+                Rectangle().fill(Theme.rule).frame(width: 1)
+            }
+            VStack(alignment: .leading, spacing: 3) {
+                Text(movement)
+                    .font(.caption.weight(.semibold))
+                    .fontDesign(.default)
+                    .foregroundStyle(Theme.ink)
+                Text(entry.claim)
+                    .font(.footnote)
+                    .fontDesign(.serif)
+                    .italic()
+                    .foregroundStyle(Theme.inkSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+                if !event.evidence.isEmpty {
+                    Text(event.evidence)
+                        .font(.caption2)
+                        .fontDesign(.default)
+                        .foregroundStyle(Theme.inkSecondary)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                Text(event.createdAt.formatted(date: .abbreviated, time: .omitted))
+                    .font(.caption2)
+                    .fontDesign(.default)
+                    .foregroundStyle(Theme.inkSecondary.opacity(0.7))
+            }
+            .padding(.bottom, 10)
+            Spacer(minLength: 0)
+        }
+    }
+
+    private var movement: String {
+        if let prior = event.priorStrength {
+            return "You moved from \(prior.displayName.lowercased()) to \(event.event.displayName.lowercased())"
+        }
+        return "New position — \(event.event.displayName.lowercased())"
+    }
+}
+
+// MARK: - Resolved tension (§14.2 / §14.5d)
+
+/// A worked-through tension: the two positions, the reconciliation that
+/// dissolved the pull, and the date it was earned.
+private struct ResolvedTensionRow: View {
+    let tension: CommitmentTension
+    let a: Commitment
+    let b: Commitment
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 8) {
+                Image(systemName: "checkmark.seal")
+                    .font(.footnote.weight(.semibold))
+                    .foregroundStyle(Theme.accent)
+                Text("Reconciled").overline(Theme.accent)
+                Spacer()
+                if let resolvedAt = tension.resolvedAt {
+                    Text(resolvedAt.formatted(date: .abbreviated, time: .omitted))
+                        .font(.caption2)
+                        .fontDesign(.default)
+                        .foregroundStyle(Theme.inkSecondary.opacity(0.7))
+                }
+            }
+            Text("“\(a.claim)” held against “\(b.claim)”")
+                .font(.footnote)
+                .fontDesign(.serif)
+                .lineSpacing(2)
+                .foregroundStyle(Theme.ink)
+                .fixedSize(horizontal: false, vertical: true)
+            if let resolution = tension.resolution, !resolution.isEmpty {
+                Rectangle().fill(Theme.accent.opacity(0.25)).frame(height: 1)
+                Text(resolution)
+                    .font(.caption)
+                    .fontDesign(.serif)
+                    .italic()
+                    .lineSpacing(2)
+                    .foregroundStyle(Theme.inkSecondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)

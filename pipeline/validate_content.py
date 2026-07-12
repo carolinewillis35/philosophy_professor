@@ -22,6 +22,8 @@ Validates:
   - content/daily/questions.json (section 13.6): bank size, unique ids,
     2-4 options each, ontologyId/relatedClaims -> ontology cross-check,
     personaId -> registry cross-check
+  - content/drops/drops.json (section 14.7): >=4 drops, unique ids, teaser,
+    personaId -> registry, experiment validated as a thoughtExperiment spec
 
 Exit code 0 iff clean; nonzero with a readable report otherwise.
 """
@@ -293,7 +295,9 @@ def check_elenchus(el, ctx, books, claim_ids):
 
 
 def check_thought_experiment(te, ctx, books, claim_ids):
-    for f in ("id", "title", "setup", "philosophicalPayload", "sourceRefs", "nodes", "pumps", "interrogation", "relatedClaims"):
+    # sourceRefs is optional per the section 12.5 spec (drops usually omit it —
+    # their originals are not in the ingested corpus).
+    for f in ("id", "title", "setup", "philosophicalPayload", "nodes", "pumps", "interrogation", "relatedClaims"):
         if f not in te:
             err(f"{ctx}: missing field {f!r}")
     words = len(te.get("setup", "").split())
@@ -573,6 +577,50 @@ def validate_daily(claim_ids, persona_ids):
 
 
 # ---------------------------------------------------------------------------
+# Weekly drops (CONTRACTS section 14.7)
+# ---------------------------------------------------------------------------
+
+DROPS_PATH = ROOT / "content" / "drops" / "drops.json"
+DROPS_MIN_BANK = 4
+
+
+def validate_drops(claim_ids, persona_ids, books):
+    try:
+        bank = json.loads(DROPS_PATH.read_text())
+    except FileNotFoundError:
+        err(f"drops: {DROPS_PATH} not found")
+        return
+    except json.JSONDecodeError as e:
+        err(f"drops: invalid JSON: {e}")
+        return
+
+    drops = bank.get("drops", [])
+    if len(drops) < DROPS_MIN_BANK:
+        err(f"drops: bank has {len(drops)} drops; contract minimum is {DROPS_MIN_BANK}")
+
+    seen = Counter(d.get("id", "<missing>") for d in drops)
+    for did, n in seen.items():
+        if n > 1:
+            err(f"drops: duplicate drop id {did!r}")
+
+    for d in drops:
+        did = d.get("id", "<missing id>")
+        ctx = f"drop {did}"
+        if not str(d.get("teaser", "")).strip():
+            err(f"{ctx}: teaser is empty")
+        if d.get("personaId") not in persona_ids:
+            err(f"{ctx}: personaId {d.get('personaId')!r} not in the persona registry")
+        experiment = d.get("experiment")
+        if not isinstance(experiment, dict):
+            err(f"{ctx}: missing experiment object")
+            continue
+        check_thought_experiment(
+            experiment, f"{ctx} experiment {experiment.get('id')!r}", books, claim_ids
+        )
+    print(f"drops: {len(drops)} validated")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -581,6 +629,7 @@ def main():
     books = load_books()
     persona_ids = validate_personas()
     validate_daily(claim_ids, persona_ids)
+    validate_drops(claim_ids, persona_ids, books)
 
     course_files = sorted(glob.glob(str(COURSES_DIR / "*.json")))
     if not course_files:
@@ -599,7 +648,7 @@ def main():
         for e in errors:
             print(f"  - {e}")
         return 1
-    print("\nOK: ontology, courses, personas, and the daily bank all pass.")
+    print("\nOK: ontology, courses, personas, the daily bank, and the drops all pass.")
     return 0
 
 

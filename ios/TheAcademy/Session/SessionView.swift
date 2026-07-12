@@ -27,9 +27,10 @@ struct SessionView: View {
             }
         }
         .background(Theme.paper)
-        .navigationTitle(route.course == nil
-                         ? route.kind.displayName
-                         : "\(route.kind.displayName) · Unit \(route.unit + 1)")
+        .navigationTitle(route.drop?.experiment.title
+                         ?? (route.course == nil
+                             ? route.kind.displayName
+                             : "\(route.kind.displayName) · Unit \(route.unit + 1)"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -51,7 +52,10 @@ struct SessionView: View {
                                       personaId: route.resolvedPersonaId,
                                       enrollmentId: enrollmentId,
                                       client: app.makeSessionClient(
-                                        course: route.course, unit: route.unit),
+                                        course: route.course, unit: route.unit,
+                                        dropSpec: route.drop?.experiment),
+                                      drop: route.drop,
+                                      steelmanTarget: route.steelmanTarget,
                                       voice: app.professorVoice,
                                       voiceEnabled: { userStore.voiceReplies })
             viewModel = vm
@@ -125,6 +129,12 @@ private struct SessionContent: View {
                             ClinicPhaseStrip(phase: viewModel.clinicState.phase, tint: tint)
                         }
 
+                        // Steelman: brief → attempt → probe → verdict →
+                        // debrief (§14.4/§14.5).
+                        if viewModel.kind == .steelman {
+                            SteelmanPhaseStrip(phase: viewModel.steelmanState.phase, tint: tint)
+                        }
+
                         ForEach(viewModel.messages) { message in
                             MessageBubble(message: message, persona: persona, tint: tint,
                                           pump: pump(for: message))
@@ -139,6 +149,15 @@ private struct SessionContent: View {
                             } else if viewModel.elenchusState.outcome == .robust {
                                 RobustOutcomeCard(tint: tint)
                             }
+                        }
+
+                        // The steelman verdict beat (§14.5): the earned rung
+                        // on the four-rank ladder, once the score lands.
+                        if viewModel.kind == .steelman,
+                           let level = viewModel.steelmanState.level {
+                            SteelmanVerdictCard(level: level,
+                                                justification: viewModel.steelmanJustification,
+                                                tint: tint)
                         }
 
                         // Thought experiment: the current authored node as a
@@ -172,6 +191,13 @@ private struct SessionContent: View {
 
                         if viewModel.endOfSession {
                             endBanner
+                        }
+
+                        // The CROWD (§14.3): reachable ONLY from a completed
+                        // drop run — the aggregate exists after your answer,
+                        // never before.
+                        if viewModel.endOfSession, let drop = viewModel.drop {
+                            crowdLink(drop)
                         }
 
                         Color.clear.frame(height: 1).id("bottom")
@@ -213,6 +239,38 @@ private struct SessionContent: View {
                 viewModel.inputText = app.speechTranscriber.transcript
             }
         }
+        .onChange(of: viewModel.endOfSession) { _, ended in
+            // A completed drop run mirrors the server's drop_responses row
+            // locally (§14.3) — the record the CROWD gate hangs on.
+            if ended, let drop = viewModel.drop {
+                app.drops.recordCompletion(drop: drop,
+                                           path: viewModel.experimentState.path)
+            }
+        }
+    }
+
+    /// "See where the crowd landed" — the only door to the CROWD screen.
+    private func crowdLink(_ drop: Drop) -> some View {
+        NavigationLink {
+            DropCrowdView(drop: drop)
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "person.3")
+                    .font(.footnote)
+                Text("See where the crowd landed")
+                    .font(.footnote.weight(.medium))
+                    .fontDesign(.serif)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.semibold))
+            }
+            .foregroundStyle(tint)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
+            .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(tint.opacity(0.08)))
+        }
+        .buttonStyle(.plain)
     }
 
     /// Resolve an applied pump's authored variation for its turn (§12.7).
@@ -378,6 +436,7 @@ private struct SessionContent: View {
         case .thoughtExperiment: return "Say why…"
         case .argumentLab: return "Name the premise…"
         case .argumentClinic: return "Your argument, as you'd say it…"
+        case .steelman: return "Their best case, in your words…"
         default: return "Respond…"
         }
     }

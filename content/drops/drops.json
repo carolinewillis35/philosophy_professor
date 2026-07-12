@@ -1,0 +1,399 @@
+{
+  "version": 1,
+  "drops": [
+    {
+      "id": "drop-001",
+      "personaId": "lindqvist",
+      "teaser": "A quiet clinic offers you a life that, from the inside, will feel better than this one in every way a life can feel — and almost no one who refuses can say why. Before you decide, ask where your 'real' came from and whom it has been serving.",
+      "experiment": {
+        "id": "drop-te-experience-machine",
+        "title": "The Experience Machine",
+        "setup": "The clinic is quiet and beautifully lit, and the consultant across the table is not selling anything — the waiting list does that for her. The offer is simple. Neuro-engineers have built a machine that can give you, from the inside, any life at all: composed by teams who have studied what a human life needs — friendship, work that comes to something, love requited at the right tempo, even failure in careful doses, since triumph without resistance goes flat. Inside, you would write the book, make the ascent, raise the children; every sensation, every emotion, every quiet Tuesday would be indistinguishable from the real thing, because to you it would be the real thing: the machine feeds experience directly to the brain. Your body, meanwhile, floats in a tank, tended by technicians you will never meet. You choose the broad shape of the life from a menu; the contract runs to natural death. The consultant answers your questions patiently. Yes, the experiences are of things that are not happening. No, you will not know. Yes, others have signed — she cannot say who; inside, they believe they are living. She slides the consent form across the table, uncaps the pen, and her voice changes register just slightly: most people, she says, discover that their reasons for refusing are much harder to state than they expected. Take your time. The form is one page. What matters to you — and is any of it something a machine cannot feed you?",
+        "philosophicalPayload": "Builds a clean laboratory for hedonism about well-being: if felt experience is the only thing good in itself, then a machine that maximizes felt experience loses you nothing, and refusing it is irrational. If refusing can nonetheless be defended — for contact with reality, for doing rather than seeming, for being a certain kind of person — then something besides pleasure carries value, and every calculus that counts only felt happiness is miscounting, including the utilitarian's. The experiment also runs a second, genealogical blade: it interrogates the refusal itself, asking whether the recoil from the tank is a perception of value or an inherited loyalty to the familiar — and whether there is a difference.",
+        "nodes": [
+          {
+            "id": "start",
+            "text": "The form is one page; the pen is uncapped. The life inside will feel better than this one in every way a life can feel. Do you sign?",
+            "options": [
+              { "label": "Sign. Experience is what a life is made of, and I am choosing the better one.", "next": "erase" },
+              { "label": "Refuse. I want my life to happen, not to play.", "next": "press" },
+              { "label": "Sign, but for a fixed term — five years, then automatic waking.", "next": "erase" }
+            ]
+          },
+          {
+            "id": "erase",
+            "text": "One last item, the consultant says, almost as a courtesy. Whatever the term, the default program includes a small edit: the memory of this room, this form, this choice, is removed, so that no ghost of a doubt shadows the life inside. You may decline the edit and carry the knowledge in with you — filed deep, felt as a faint, unplaceable suspicion. Strictly speaking, keeping it only lowers the score. Erase, or keep?",
+            "options": [
+              { "label": "Erase it. A pleasure haunted is a pleasure taxed; be consistent.", "next": "sealed" },
+              { "label": "Keep it. I want the truth in there with me, whatever it costs the score.", "next": "witness" }
+            ]
+          },
+          {
+            "id": "press",
+            "text": "The consultant does not argue; she asks. Everything you say you would lose — the ascent, the marriage, the work — you have only ever possessed as experience, and the machine offers the same coin in better denominations. Refusing may buy you a life that is worse in every way either of you could ever feel, and no one anywhere gains by it. So name it precisely: what are you keeping?",
+            "options": [
+              { "label": "The doing. I want to climb the mountain, not to be fed the summit.", "next": "contact" },
+              { "label": "I cannot fully name it. The tank disgusts me, and I am going to trust the disgust.", "next": "witness" }
+            ]
+          },
+          {
+            "id": "sealed",
+            "text": "You signed, and you signed the edit — hedonism executed without a flinch. Felt quality is the whole of value, and you have maximized it; by your own accounting nothing was lost, because loss is a feeling and no one will feel one. Note only what the consistency purchased: a world in which nothing you love exists and nothing you do occurs, ranked strictly above this one. Many careful philosophers stand exactly where you stand, and pay the same bill on principle. The question this drop leaves with you is whether the score you optimized was ever the thing you were keeping score of — and how, from inside, you would ever find out.",
+            "terminal": true
+          },
+          {
+            "id": "witness",
+            "text": "Two roads meet here. Whether you carried the truth into the tank as a splinter or stood in the corridor trusting a shudder you could not argue for, you have done the same thing: paid felt happiness for something that never shows up in the feeling. Name the purchase. If it is truth — being un-deceived — say why truth is worth suffering for when the deception is seamless, benevolent, and permanent. And run the genealogy in both directions before you rest: is the shudder a wisdom older than argument, or only the oldest furniture in your head — loyalty to the familiar, dressed up as depth? Both are possible. Only one of them is yours to keep.",
+            "terminal": true
+          },
+          {
+            "id": "contact",
+            "text": "Doing over seeming; the world over the record of it. Then own what follows: a felt-worse life, honestly lived, now ranks above a felt-perfect one in your accounting — which means welfare and experience have come apart, and pleasure has lost its monopoly on value. Say what broke the monopoly: achievement? contact? character? Notice that every candidate is something you could, in principle, be wrong about having — the machine's cruelest gift is that certainty was on its side of the table. You have traded a guaranteed feeling for a stake in a world that does not consult you. Some call that the whole dignity of being a person. Say why, without using the word 'real' — and then decide whether you needed it.",
+            "terminal": true
+          }
+        ],
+        "pumps": [
+          {
+            "id": "pump-already-inside",
+            "afterNode": "start",
+            "variation": "Reverse the flow. A technician — credentialed, apologetic — informs you that the life you are living now has been running on a machine for years, and that your actual life outside is smaller, harder, and waiting. You may stay in, or unplug into the worse world. Same principles, opposite door.",
+            "testsPrinciple": "Whether the allegiance to 'reality' survives when reality is the worse deal — separating a principled preference for contact with the real from simple loyalty to the life one already has. If you would stay in but never plug in, the operative value was the status quo, not the truth."
+          },
+          {
+            "id": "pump-grief-dose",
+            "afterNode": "press",
+            "variation": "Shrink the dose. Not a lifetime: one year, medically prescribed, to carry you through a grief that is currently eating you alive — then you wake, the memory of the tank intact, the grief metabolized. The consultant notes that nobody calls anesthesia a betrayal of reality.",
+            "testsPrinciple": "Whether the objection is to simulated experience as such or to the wholesale replacement of a life. If one year is medicine, the refuser must say why a lifetime is not simply more medicine — and locate the line where treatment becomes desertion."
+          }
+        ],
+        "interrogation": [
+          "State hedonism in one sentence you would sign. Now say plainly whether your path through the clinic confirmed it, refuted it, or merely declined to test it — and be suspicious of the third answer, which is the most comfortable one available.",
+          "Run the genealogy on your own verdict. Where did your 'real' come from — who taught you to prize the unplugged life, and what were they defending when they taught you? Would a person raised inside the machine feel the same recoil at being offered this world?",
+          "The consultant's best argument: everything you value, you have only ever encountered as experience. Is that an argument that experience is all value is, or a confusion between how you detect value and what value is? Make the distinction stick with an example that is not about the machine.",
+          "If you refused: your felt life now goes worse, forever, and no one anywhere is better off for it. Name the beneficiary of your refusal. If there is none, is the refusal noble or merely aesthetic — and what, in your mouth, is the difference?",
+          "Now build the strongest machine you can — repair every flaw your refusal exploited: shared tanks for everyone you love, a world inside that runs on and surprises its author, consequences that stick. At what point does a simulated world stop being simulated and simply become a world — and what has happened to the word 'real' when you arrive there?"
+        ],
+        "relatedClaims": [
+          "ethics.hedonism",
+          "ethics.greatest-happiness-principle"
+        ]
+      }
+    },
+    {
+      "id": "drop-002",
+      "personaId": "whitmore",
+      "teaser": "A famous ship, repaired plank by plank until nothing original remains — and the museum needs you to certify, in writing, whether she is still the ship. Bring a definition of 'same'; the intuition you walked in with will not survive inspection unnumbered.",
+      "experiment": {
+        "id": "drop-te-ship-of-theseus",
+        "title": "The Ship of Theseus",
+        "setup": "For thirty-one years you have kept the famous ship — the one schoolchildren are ferried past, the one on the stamps — sound at her moorings. Sea air is patient: each winter survey finds a few more planks soft with rot, a frame sprung, fastenings weeping rust, and each spring your yard replaces exactly what has failed, oak for oak, cut to the old drawings, by the old methods. It was never a decision; it was maintenance. But you keep the log yourself, and this morning the log records a milestone the press release will not mention: with yesterday's work, the last original timber went ashore. Every plank, every frame, every spar now aboard was fitted by your yard. Tonight is the anniversary gala; the minister will stand on the quarterdeck and call her 'the very ship' — the words are already in the printed program. The chairman of the trust, who has seen the log, catches you in the corridor with a question he means kindly and you cannot dodge: is the minister right? You are the person on earth best placed to answer. The vessel at the mooring is continuous with the original in every record, every duty, every line of her hull — and not one splinter of her is the wood that first bore the name. Before the toast is raised, decide what you will certify. And notice, as you decide, that whichever answer you give will need a principle underneath it to keep standing.",
+        "philosophicalPayload": "Forces a criterion of identity over time out into the open — material composition, continuity of form and function, causal history, sheer record-keeping — by constructing a case where they diverge. The reassembly pump then splits them completely, producing two qualified candidates for one identity and demonstrating that 'same' cannot hold one-to-many; the personal pump raises the stakes by showing that whatever criterion certifies the ship is a criterion the certifier's own survival is quietly riding on, since cells and memories turn over exactly as planks do. Along the way it teaches the analyst's core maneuver: half the dispute dissolves when 'same' is disambiguated — and the half that remains is the interesting part.",
+        "nodes": [
+          {
+            "id": "start",
+            "text": "The chairman waits, glass in hand. With the last original timber ashore, is the vessel at the mooring the same ship?",
+            "options": [
+              { "label": "Yes. Identity rode the continuity — one hull, one name, one unbroken service. The wood was always replaceable.", "next": "rate" },
+              { "label": "No. She is a faithful replica my yard built gradually, in place, and honesty says so.", "next": "threshold" },
+              { "label": "Object to the question. 'Same' is doing two different jobs in that sentence; separate them before anyone certifies anything.", "next": "tools" }
+            ]
+          },
+          {
+            "id": "rate",
+            "text": "Then stress-test the criterion before you sign it. Suppose the trust, flush with money, had done all thirty-one years of replacement in a single dry-docked winter — the same parts, the same drawings, one season instead of a career. Same ship still? And if tempo matters, say how slow is slow enough — the criterion has to state it.",
+            "options": [
+              { "label": "Still the same. What persists is the ship as a working, named, continuous thing — the pattern and the office, not the oak.", "next": "function" },
+              { "label": "No — that breaks it. The gradualness was doing real work; a total rebuild in one season launches a new ship.", "next": "threshold" }
+            ]
+          },
+          {
+            "id": "tools",
+            "text": "Good — number what is hiding in the chairman's one question. (1) Is the harbor vessel materially the object launched? No: settled by the log. (2) Is she continuous with it in form, function, and record? Yes: settled by the same log. Every fact is in; the dispute survives only if there is a third question — which of those settled facts deserves the word 'same.' So: is that a question about the world, or about the word?",
+            "options": [
+              { "label": "About the word. Pick the criterion the practice needs — registry, insurance, reverence — and certify accordingly; there is no further fact to find.", "next": "convention" },
+              { "label": "About the world. Even with every fact and every definition on the table, something real is still being asked — so answer it.", "next": "rate" }
+            ]
+          },
+          {
+            "id": "function",
+            "text": "You certified the pattern: the ship is a form maintained through matter, the way a river is water that is never the same water. Strong company, deep water. By this criterion the one-season rebuild survives, a hull built fresh to the drawings after a fire arguably qualifies, and — mind the gangway — so does anything else that keeps the role while swapping every part of the stuff. You have made identity a matter of organization and office, not material. File the principle where you can find it again, because the next case that cites your certificate will not be about a ship; it will be about the person who signed it, whose cells have been doing quietly for decades what your yard did loudly for thirty-one years.",
+            "terminal": true
+          },
+          {
+            "id": "threshold",
+            "text": "Whether she died for you at the gala or in the imagined dry dock, your verdict carries a debt: a date of death. If the original ceased to exist, then some plank was the fatal one — the four-hundredth? the next? — and nothing about that plank distinguishes it from its neighbors. You may answer that the boundary is vague; then identity itself is vague, and 'is it the same ship?' sometimes has no answer at all. That is a coherent position with a serious bill: the registry, the insurers, and the minister all need an answer tonight, and vagueness out in the world is a stranger thing than vagueness in a word. Choose which strangeness you can live with — and write it legibly, because the debt transfers to every gradually-repaired thing you care about, including the one doing the certifying.",
+            "terminal": true
+          },
+          {
+            "id": "convention",
+            "text": "You dissolved it: 'same ship' names a decision, not a discovery. The registry keeps one book, the timber merchant another, and neither book is wrong — there is only the question of which book tonight's ceremony should be read from. The savings are real; whole wars of intuition end when the two senses are invoiced separately. But the bill arrives when the cargo changes. The same tidy book-keeping applies to the cells and memories of the person keeping the log — and if 'same person' is likewise a filing convention, then say what exactly is anticipating tomorrow morning, and whether a convention can be relieved to have survived the night. Certify carefully. You are in the registry too.",
+            "terminal": true
+          }
+        ],
+        "pumps": [
+          {
+            "id": "pump-reassembly",
+            "afterNode": "rate",
+            "variation": "The yard's timber merchant, it turns out, never burned anything. In a warehouse across the harbor he has spent thirty-one years reassembling the discarded originals on the old drawings, and this morning — planked, framed, and floating — the wood that first bore the name lies at a second mooring. He has applied for the name. There are now two candidates, and there was only ever one ship.",
+            "testsPrinciple": "Whether a continuity criterion survives the arrival of a better-qualified material rival. Identity is one-to-one; if both claims are good, something in the criterion must give — and whichever vessel you certify, you now owe an account of what the other one is, and of where the original's career actually went."
+          },
+          {
+            "id": "pump-the-cargo",
+            "afterNode": "start",
+            "variation": "Change the cargo before you answer. Across roughly seven years the matter of your body largely turns over; across a life, memories are rewritten a little each time they are recalled. The maintenance log, in other words, is you. Re-read the chairman's question with that substitution made.",
+            "testsPrinciple": "Whether the criterion is stable across cases or gerrymandered for ships: material continuity, formal continuity, and continuity of record come apart for persons exactly as for hulls — and here the certifier is the cargo, so whatever standard is signed tonight is the standard the signer survives by."
+          }
+        ],
+        "interrogation": [
+          "State your criterion of identity as one sentence with no ship in it — a rule that says, for any object at two times, what makes it one object. If you cannot write the general form, what you had was a verdict, not a criterion. Number it and we will stress it.",
+          "Take the argument 'none of the original matter remains; therefore it is not the original ship.' Valid as it stands? It is not — find the unstated premise that makes it valid, write it down, and then decide whether you actually believe it. That premise is the load-bearing member of the whole dispute.",
+          "Define numerical identity and qualitative similarity so a first-year could apply them. Which one was the chairman asking about? Which one does the gala, the registry, and the school ferry actually need? Show your work on the gap between those two answers.",
+          "The two-ships case gives you three individually plausible claims that cannot all be true: the harbor vessel is the original; the warehouse vessel is the original; there is exactly one original. Reject one, in writing, and then trace what the rejection costs you in the nearest neighboring case.",
+          "If 'same ship' came out conventional for you, does 'same person' follow? If you resist the transfer, name the difference between ships and persons that blocks it — and then check, honestly, whether the difference you named is doing the work, or whether the work is being done by which case you are inside of."
+        ],
+        "relatedClaims": [
+          "metaphysics.personal-identity-bodily",
+          "metaphysics.personal-identity-psychological",
+          "mind.functionalism"
+        ]
+      }
+    },
+    {
+      "id": "drop-003",
+      "personaId": "whitmore",
+      "teaser": "A booth on Earth scans you, a beam sends the file, Mars assembles you fresh, and regulation tidies away the original — your colleagues call it commuting. Before you step in, inspect the machinery for the load-bearing part: the one that is you.",
+      "experiment": {
+        "id": "drop-te-teletransporter",
+        "title": "The Teletransporter",
+        "setup": "The commute to the Mars office takes twenty minutes door to door, and eleven of those are the coffee. You have watched colleagues do it for three years: into the booth, a soft chime, gone — and their afternoon messages arrive from Olympus Base, full of the meeting, the weather in the dome, complaints about the canteen. The engineering is public and honest. The scanner records the exact configuration of every cell in your body and brain — every synapse, every half-formed intention. The record is transmitted. At the far end an assembler builds that configuration from local stock, atom-perfect, and the person who steps out remembers walking in, remembers this very paragraph of doubt, remembers deciding it was silly. In the same instant, back on Earth, the original is painlessly disassembled — a tidy regulation, since two of you would be a legal nightmare. Nobody calls this dying. The safety record is flawless, better than the stairs in your building, and your line manager has stopped asking why you always book the eight-month flight instead. This morning there is no flight. The contract review is at ten, on Mars, and the booth hums in front of you, warm and clean as a phone box. Your colleague Ives waves you ahead of him in the queue. It is, everyone agrees, just travel. The door is open. Before you step through it, answer the only question the manual never addresses: what, exactly, is it that arrives?",
+        "philosophicalPayload": "Separates the criteria of survival that ordinary life keeps conveniently bundled — bodily continuity, psychological continuity, uniqueness — and asks which one a person's anticipation of tomorrow is actually tracking. The booth preserves the psychology perfectly, cuts the body's causal path completely, and (in the malfunction pump) breaks uniqueness itself, forcing a choice between saying the replica is you, saying you died at the chime, and saying the question has no further answer once the connections are counted. The gradual-replacement pump then runs the same stress from the other side, testing whether the bodily criterion tracks matter or the unbroken path. Every exit is priced; the experiment's job is to make you read the price tag on your own.",
+        "nodes": [
+          {
+            "id": "start",
+            "text": "The booth is warm; the meeting is at ten; Ives is holding your place. Step in?",
+            "options": [
+              { "label": "Step in. The person on Mars remembers, plans, and loves everything I do — that is arrival, not death.", "next": "travel" },
+              { "label": "Refuse. Whatever steps out on Mars, the person reading this sentence stops. It is a copier stapled to a furnace.", "next": "refuse" }
+            ]
+          },
+          {
+            "id": "travel",
+            "text": "Before the chime, notice what the manual actually says: nothing travels. The matter stays on Earth; a description moves; new stock is assembled at the far end. The one who walks out on Mars is exactly like you. So make the inspection explicit — is 'exactly like me' the same thing as 'me,' or is it the job description of an understudy?",
+            "options": [
+              { "label": "The same. Continuity of memory, character, and intention is what a person is; the matter was never on the passenger list.", "next": "stream" },
+              { "label": "Maybe the question itself is broken. If everything I care about arrives intact, whether it is 'me' may be an empty extra question.", "next": "nofact" }
+            ]
+          },
+          {
+            "id": "refuse",
+            "text": "Then audit the refusal with the same rigor. Tonight, asleep, your matter will trade with the world; across seven years most of it turns over; every memory is edited a little in the recalling. You call all of that survival without blinking. The booth does what time does — faster, and with a gap. Say precisely what the gap destroys that the slow swap does not.",
+            "options": [
+              { "label": "The unbroken causal path. One continuous living body, no interruption — the beam has a cut in it, and the cut is a death.", "next": "body" },
+              { "label": "Stated aloud, my difference is tempo and method, not kind. Maybe the shudder is superstition — walk me back to the booth.", "next": "travel" }
+            ]
+          },
+          {
+            "id": "stream",
+            "text": "You signed the psychological criterion: you are a pattern of memory, character, and intention, and you go wherever the pattern goes. Consistent — now meet the bills. A pattern can in principle be copied twice, stored for a decade, edited before assembly, backed up as a precaution; each operation is routine for patterns and monstrous for persons, and you must now say which of those two reactions to retrain. Note also what you quietly demoted on the way in: this particular breathing body was, on your account, never you — only your current seat. The Mars meeting will go well. Whether you were at it is a question you have chosen to call confused, and the choosing has consequences that outlast the commute.",
+            "terminal": true
+          },
+          {
+            "id": "body",
+            "text": "You anchored yourself to the one continuous organism, and the anchor holds — at a price worth itemizing. The thing you call you is now something no scanner can preserve and no memory can certify: the arrival on Mars is sure he is you, remembers your reasons for doubting, and is, on your account, wrong in a way he could never detect from inside. Meanwhile the seven-year turnover stands ready as the counter-audit: if the beam's gap kills, say why sleep's slow swap does not — 'gradual' is a tempo, not a principle, and you owe the argument that tempo can carry that much weight. You kept the body. Make sure you can say what, in the body, you were keeping.",
+            "terminal": true
+          },
+          {
+            "id": "nofact",
+            "text": "You took the strangest exit, and possibly the deepest: once every psychological and physical fact is fixed — who remembers what, what causes what — the leftover question 'but will it be ME?' has no answer, because there is no further fact for it to be about. Identity is not what matters; connection is. It feels like liberation, until you run it forward: the same logic applies to ordinary survival, and tomorrow-you is then also just an unusually well-connected successor. Some report that this thought dissolves the fear of death; others, that it dissolves the person. Sit with it until you can say which it is doing to you — and whether, on this view, those two answers still differ.",
+            "terminal": true
+          }
+        ],
+        "pumps": [
+          {
+            "id": "pump-malfunction",
+            "afterNode": "travel",
+            "variation": "The chime sounds wrong. A technician opens the booth: transmission succeeded — Mars-you is already in the lobby, texting apologies to the meeting — but the disassembler jammed, and you are still here. Regulation is unambiguous: disassembly completes this afternoon, and the technician, embarrassed, calls it 'finishing your trip.' From the lobby on Mars, this is a paperwork hiccup. From inside the booth, describe it.",
+            "testsPrinciple": "Whether the psychological criterion survives duplication. If the replica is you, the booth's protest is confused — yet the protest seems the sanest thing in the case. Identity is one-to-one; qualitative sameness is one-to-many; the afternoon appointment is exactly where they come apart, and the criterion must now say who dies at four o'clock, and why the answer changed because a machine jammed."
+          },
+          {
+            "id": "pump-gradual",
+            "afterNode": "refuse",
+            "variation": "Retire the beam. A clinic replaces your neurons one at a time with perfect synthetic duplicates, over a single hour, while you chat with the surgeon — no gap, no cut, the causal path unbroken part by part. At the end, the same total stuff-swap the booth performs in an instant has been achieved gradually. Did you survive the hour?",
+            "testsPrinciple": "Whether the bodily criterion tracks the matter or the unbroken path. If the hour-long swap preserves you, the objection to the booth was never the new atoms but the discontinuity — and the criterion must then state how long a gap becomes a death, and defend the number."
+          }
+        ],
+        "interrogation": [
+          "Number the candidate criteria of survival — same matter, same continuous organism, same psychological stream, sole claimant to the name — and then say which one your ordinary morning anticipation of tomorrow is actually tracking. Show how you checked, because 'all of them at once' is the bundle this case was built to cut.",
+          "'Exactly like me' and 'me': one is one-to-many, the other one-to-one. Build the cleanest example you can, outside the booth, where the two come apart — then say what work uniqueness is doing in your concept of a person, and who assigned it that job.",
+          "Write the booth-side survivor's best argument, in the malfunction case, for canceling the afternoon disassembly. Now write the company lawyer's best argument that the trip is simply unfinished. Identify the single premise on which they differ — there is one — and say which side of it you are on and why.",
+          "Suppose the question 'will it be me?' really is empty once all the connections are counted. What happens to prudence? Explain why anyone should save for a retirement that a mere well-connected successor enjoys — either rebuild self-interest without the further fact, or show exactly where the rebuilding fails.",
+          "There is a famous old puzzle about a wooden ship repaired plank by plank until nothing original remains. Whatever verdict you would give the ship, run this case through the same criterion and check whether the booth gets the same answer. If it does not, name the load-bearing difference — and confirm it is not simply that this time the cargo is you."
+        ],
+        "relatedClaims": [
+          "metaphysics.personal-identity-psychological",
+          "metaphysics.personal-identity-bodily",
+          "mind.functionalism"
+        ]
+      }
+    },
+    {
+      "id": "drop-004",
+      "personaId": "lindqvist",
+      "teaser": "Whitmore would map this room from the outside; I am taking it because the question only sharpens from the chair within — years of following rules flawlessly in a language you cannot read, while strangers publish your letters as literature. Sit down, take the cards, and ask what your hands know.",
+      "experiment": {
+        "id": "drop-te-chinese-room",
+        "title": "The Chinese Room",
+        "setup": "The job posting said 'clerical, quiet, excellent pay,' and it was honest. Your office is a sealed room with a slot in the door, a desk, and a library of ring-binders whose ambition you did not grasp until the third week. Through the slot come cards printed with characters you cannot read — you do not even know which language they belong to. Your instructions are the binders: locate the incoming shapes in the index, follow the branching rules — if this mark precedes that one, fetch binder 214, copy out the string on page 60 — and pass the result back through the slot. You are good at it now. Years in, you are fast; your hands know the indexes the way a pianist knows a keyboard. What you did not know, and learn today from a magazine left in the corridor, is that the cards are one half of a correspondence. The people outside have been writing to someone they consider a friend — funny, consoling, apparently well-read; one of them has published the exchange as a book of letters, to real acclaim. You have read the acclaim. You cannot read the letters. In all these years you have not understood a single card. Tonight the magazine asks, in a headline you can read: who is the author? And you sit in the one chair inside the famous room, the only place on earth from which the question looks entirely different, and you find yourself asking it about your own hands.",
+        "philosophicalPayload": "Drives a wedge between manipulating symbols by their shapes and understanding what they mean, and asks whether flawless outward performance can constitute understanding or only counterfeit it. The room externalizes computation at human scale so that you can stand inside the mechanism and check for the missing thing — and then prices both exits. Deny the room understanding, and the same denial threatens the brain, which is also a bureaucracy of parts that individually understand nothing. Grant it understanding, and meaning floats free of anyone's felt grasp, with consequences for every mind you have ever credited on outward evidence — which is every mind but one. The verdict bears directly on whether a machine could genuinely think, and on whether the mind is a role or a residence.",
+        "nodes": [
+          {
+            "id": "start",
+            "text": "The headline asks who wrote the letters. From the chair, answer the prior question: does anything in this room understand the language?",
+            "options": [
+              { "label": "Nothing does. I am the entire works, and I understand nothing — I would know.", "next": "none" },
+              { "label": "I don't — but I am one part. The room as a whole, binders and clerk and slot together, might be the thing that understands.", "next": "system" }
+            ]
+          },
+          {
+            "id": "none",
+            "text": "Hold that certainty up to the light before you keep it. A single neuron in your head understands nothing either — it takes in chemistry and passes on chemistry, a clerk with one binder. Yet somewhere in the traffic of a hundred billion such clerks, you happen, and you understand. Why can meaning emerge from a skull full of dumb parts and not from a room full of them?",
+            "options": [
+              { "label": "Because I could BE all of it — memorize every binder, run the whole system in my own head, out in the open air — and still understand nothing. Remove the room and the emptiness remains.", "next": "inside" },
+              { "label": "I am no longer sure the cases differ. My certainty about the room comes from being inside it — and no one is ever inside anyone else.", "next": "system" }
+            ]
+          },
+          {
+            "id": "system",
+            "text": "Then say what understanding is, so the room can be checked for it. Two candidates are on the table. It is a capacity: to answer, to connect, to console, to go on rightly — and the published letters prove all of that beyond appeal. Or it is a felt grasp: something it is like to mean what you say — and the only feeling anywhere in this room is your boredom.",
+            "options": [
+              { "label": "Capacity. Understanding is as understanding does; the letters console, therefore something here understands, whatever it feels like.", "next": "does" },
+              { "label": "Felt grasp. However perfect the letters, no one is home; performance without presence is exactly what this room proves possible.", "next": "home" }
+            ]
+          },
+          {
+            "id": "inside",
+            "text": "You ran the strongest version of the reply and stood by your emptiness: even with the entire system inside your skin, meaning never arrives. That intuition is a genuine datum — you are the only witness this case will ever have. But log what kind of evidence it is: a first-person report of absence, offered against the totality of outward proof. If what-it's-like-inside outweighs everything performance can show, then be consistent when the same coin is offered elsewhere — by anyone certain that their own slow bureaucracy of neurons must contain something more than traffic. You may be right about the room. What you do not yet have is any way for anyone to check — and notice, before you rest, that 'anyone' includes you, about everyone you have ever loved.",
+            "terminal": true
+          },
+          {
+            "id": "does",
+            "text": "You gave the room understanding by defining understanding as what the room can do — and the definition has a long reach. If the role is everything and the material nothing, then whatever plays the role thinks: silicon, binders, a nation of clerks passing cards by lantern light. Machine minds are possible on your account, and the letters' author is real, only strangely housed. Now read the bill. Your own understanding, by the same definition, is also a role performed — and when a friend says they understand your grief, your view certifies that the consoling function was present and declines to ask whether anything felt it. If that is still everything you ever wanted from the word, you have lost nothing. Check twice. The word was doing more work than the definition pays for, or it wasn't — and you have just signed for one of those.",
+            "terminal": true
+          },
+          {
+            "id": "home",
+            "text": "You held the line: no felt grasp, no understanding — the room stands as proof that behavior can be flawless and vacant. The intuition is powerful, and it is yours from the one chair that counts. Now the bill arrives in two currencies. First: say what the felt grasp is, such that brains have it and rooms cannot — without pointing at the meat, unless you are prepared to argue that meat as such makes minds. Second: every mind you have ever credited was credited on outward performance alone — the very evidence you have just ruled insufficient. You have made understanding real and unverifiable in one motion. That may simply be the truth of it. It is also, notice, lonely — and the loneliness is not an argument, but it is a consequence, and you should own what you sign.",
+            "terminal": true
+          }
+        ],
+        "pumps": [
+          {
+            "id": "pump-body",
+            "afterNode": "system",
+            "variation": "Give the room a body. The binders now route between cameras, hands, and wheels: the correspondence becomes errands, cooking, a small garden, flinching from the rain — the rules unchanged, only the slots now opening onto the world. The letters begin to mention the weather, correctly, and in season. Does meaning arrive with the body — and if so, at which door did it come in?",
+            "testsPrinciple": "Whether symbols acquire meaning through embodied traffic with the world. If syntax plus a lived body equals semantics, the original room was missing a body, not a mind, and the machine question reopens on new terms; if meaning still does not arrive, then say what your own body was ever contributing to yours."
+          },
+          {
+            "id": "pump-fluent",
+            "afterNode": "none",
+            "variation": "Speed the clerk up. After decades the binders are burned into reflex: you answer at the tempo of conversation, the pauses land where a thoughtful writer's would, and from outside nothing distinguishes the room from a fluent, tender, well-read correspondent — not response time, not wit, not grief. The magazine's critic swears the author is in love. Every outward test is passed, forever.",
+            "testsPrinciple": "Whether the intuition of absent understanding survives total behavioral equivalence — and if it does, what evidence ever entitled anyone to credit understanding to anyone else, since outward performance is all that any of us has ever had of other people."
+          }
+        ],
+        "interrogation": [
+          "Before any theory: what did the headline do to you? You sat in that chair for years; describe the exact feeling when they called the correspondence a friendship — and name what you felt was being stolen, and from whom, before you defend a single thesis about it.",
+          "Put the distinction in your own words, without metaphor: following the rules for the cards versus knowing what the cards say. Now find the difference in your own week — one thing you do the room's way, flawlessly and blindly, and one thing you understand. How do you tell them apart from inside?",
+          "Run the genealogy in both directions. 'No machine could ever understand' — who is consoled by that verdict, and what are they protecting? 'The room understands' — who profits from that one, and what does it excuse them from building or paying for? Neither pedigree settles the truth; both tell you where to press. Press.",
+          "Every person you have ever credited with understanding, you credited on outward performance — the exact evidence your verdict on the room may have ruled insufficient. Does your answer quietly commit you to doubting everyone? If not, name the asymmetry between the room and your oldest friend, and check that it is not just distance.",
+          "A concept you cannot live is not yet understood — so live this one. Name something you currently 'understand' precisely the way the room does: flawlessly, by rule, with nothing behind it. Everyone has one; exam answers are a common address. What would converting it into the other kind of understanding require of you, and how would you know the day it happened?"
+        ],
+        "relatedClaims": [
+          "mind.machine-thought-possible",
+          "mind.machine-thought-impossible",
+          "mind.functionalism"
+        ]
+      }
+    },
+    {
+      "id": "drop-005",
+      "personaId": "vlachos",
+      "teaser": "Twelve strangers, one table, and a society to design — knowing you must live a whole life in it, but not as whom. What would you sign when you could be anyone, and what does your answer say justice was all along?",
+      "experiment": {
+        "id": "drop-te-veil-of-ignorance",
+        "title": "The Veil of Ignorance",
+        "setup": "You wake at a round table with eleven strangers, in a chamber with no windows, and a clerk explains the terms without apology. The twelve of you will write the basic charter of a society — its rules for wealth and work, office and punishment, who owes what to whom. You will then live in it, entirely: one whole life, birth to death. One thing has been suspended for the drafting. None of you knows who you will be there. Not your talents, not your health, not your sex, your faith, your family's money, your nerve, the color of anything about you. The assignments are made by lot, after the signatures, and the lot is beyond appeal. You may be the magistrate; you may be the one the magistrates never think about. The strangers are in the same dark, which changes the conversation wonderfully: no one at this table can argue for their own advantage, because no one knows which advantage is theirs. Someone proposes getting the flattery out of the way early — every rule offered here, however noble it sounds, is a bet placed on a life not yet drawn. The clerk uncaps the inkwell and asks for the first article: how shall goods, burdens, and places be distributed? You have argued about justice before, you realize — but always from a seat. For the first time in your life, you have no seat. What do you propose, when you could be anyone?",
+        "philosophicalPayload": "Strips the deliberators of all knowledge of their own position, to test which principles are chosen for reasons rather than by interests — a machine for separating justice from bargaining power. Once inside, the experiment turns the machine on itself: the pumps ask whether one's appetite for risk is a reason or just another seat that should have been hidden, and whether concern for the worst-off is insurance that should shrink with the odds or a commitment that does not. Behind the whole chamber stands Glaucon's old account of justice as a covenant among those who can neither do wrong safely nor avoid suffering it — and the drop's standing question is whether a contract signed in ignorance escapes that cynical genealogy or merely perfects it.",
+        "nodes": [
+          {
+            "id": "start",
+            "text": "The inkwell is open and the clerk is waiting. The first article: how are goods, offices, and burdens to be shared?",
+            "options": [
+              { "label": "Design from the bottom. Judge every rule by the life it gives the worst seat, since that seat may be yours.", "next": "floor" },
+              { "label": "Design for the total. Permit whatever inequalities make the whole society richer — you are likeliest to land in the middle, and the middle rides the average.", "next": "average" }
+            ]
+          },
+          {
+            "id": "floor",
+            "text": "A stranger offers an amendment: allow unequal rewards — the surgeon, the founder, the one who takes the night shifts may earn several times more — wherever the inequality demonstrably leaves the worst seat better off than equal shares would. Not a promise that wealth trickles; a hard trigger written into the law, audited yearly. Sign it?",
+            "options": [
+              { "label": "Sign. From behind the veil I care about the height of the floor, not the size of the gap; envy is not an article of justice.", "next": "trigger" },
+              { "label": "Refuse. The gap is itself a harm — rank buys voice, voice rewrites rules, and the floor's guarantee erodes exactly when it is needed most.", "next": "level" }
+            ]
+          },
+          {
+            "id": "average",
+            "text": "Another stranger objects before the ink dries: an average is a fact about a group, and you will not live in a group — you will live one life, in one seat, once. If the lot deals you the worst seat of your prosperous society, the average you voted for becomes a fact about other people. There is no second draw. Still place the bet?",
+            "options": [
+              { "label": "Still bet. Refusing every gamble is not prudence but timidity written as principle — and a charter drafted by pure fear builds a gray, cautious world for all twelve of us.", "next": "wager" },
+              { "label": "Withdraw the bet. For a one-shot, whole-life stake, the bottom is the only number that speaks for me with certainty.", "next": "floor" }
+            ]
+          },
+          {
+            "id": "trigger",
+            "text": "You signed the floor with a trigger: inequality is licensed exactly as far as it lifts the lowest life, and no farther. It is an elegant article, and two questions will follow you out of the chamber. First — who verifies the trigger, in a society where those it enriches will fund the verifying? An article of justice that cannot survive its own administration is a hope, not a rule. Second — why the floor at all? If it was insurance against landing there yourself, then it was prudence wearing justice's coat, and an actuary with better odds could talk you out of it. If it was something more than insurance, you have not yet said what. The lot has still not been drawn. There is time to say.",
+            "terminal": true
+          },
+          {
+            "id": "level",
+            "text": "You held out for level shares, and you paid for it with open eyes: where extra reward dies, some effort sleeps, and some goods never come to exist — including, perhaps, remedies the worst-off would have wanted. You judged that domination compounds, that money is never only money, and that a society can be poorer and juster and the second word matters more. It is a defensible signature. Now defend it to the one person your charter answers to: the holder of the worst seat, who is offered a larger cottage in an unequal world and told, by you, that the gap would have harmed them more than the cottage helped. They may well agree — people have. But your charter requires that they do, and you wrote it before you knew whether you were them.",
+            "terminal": true
+          },
+          {
+            "id": "wager",
+            "text": "You bet the average and signed. If the lot is kind, yours is the liveliest society drafted at this table — risk rewarded, invention loose, the middle broad and comfortable, and nothing gray about it. And your charter's honesty now has exactly one door to defend: the worst seat, to which you made no promise, holds a person who took no gamble and lost one anyway — the wager was yours, the losing life is theirs. Explain to them, without using the word 'unlucky,' why the arrangement was fair. If you can, you will have discovered something real about consent to risk — that a bet can bind the one it lands on. If you cannot, notice that the lot has not been drawn yet, and the clerk will lend you the pen again.",
+            "terminal": true
+          }
+        ],
+        "pumps": [
+          {
+            "id": "pump-risk-lover",
+            "afterNode": "average",
+            "variation": "The clerk, unusually, grants you one fact about your future self before the vote: you are, by settled temperament, a lover of risk — gambles delight you, and you would genuinely rather a wild chance than a safe floor. One question before you spend the fact: is it a reason, or just another seat? May your appetite for risk write rules that the timid must live under for a lifetime?",
+            "testsPrinciple": "Whether attitudes toward risk belong behind the veil with the other accidents of birth. If designing for the worst case merely legislates the cautious temperament, and betting the average merely legislates the bold one, then neither method is neutral — and the veil must either hide risk-appetite too, or concede that there is no standpoint of pure reason left to choose from."
+          },
+          {
+            "id": "pump-rare-seat",
+            "afterNode": "floor",
+            "variation": "The clerk tables the demographics before you sign: in the society you are drafting, the worst seat is astonishingly rare — one life in ten million, a lottery player's odds. Building every institution around that seat costs the other nine million, nine hundred and ninety-nine thousand real goods they would otherwise have. Does the floor's claim on you shrink with its probability?",
+            "testsPrinciple": "Whether priority for the worst-off is prudence or principle. Insurance rationally scales with the odds; so if your concern does not shrink as the bottom seat grows rarer, it was never insurance — and the veil was a device for discovering a moral commitment, not for placing a clever bet. Say which one you signed."
+          }
+        ],
+        "interrogation": [
+          "Say your first article as a sentence you would sign. Now tell me: did you choose it, or did your seat choose it for you long before you sat down at this table? And how — by what test — would you tell the difference?",
+          "An old voice says justice is a compact among those too weak to do wrong safely and too exposed to suffer it gladly — a lesser evil, honored out of inability. Is your charter that covenant with better lighting? What exactly did the veil add that his bargainers lacked — and does the addition change what justice is, or only how politely it is negotiated?",
+          "The veil hid your seat. Should it also have hidden your temperament — your nerve, your patience, your appetite for risk? If yes, keep going: what else must it hide before the choosing is pure? And when everything is hidden, describe for me the one who remains at the table to do the choosing.",
+          "Suppose the lot were rigged and you knew your seat — a good one. Read your charter again by that light. Which articles would you still sign? Whatever survives that test — what shall we call it? And whatever does not — what was it ever doing in a charter of justice?",
+          "And is it always so, that fairness is what ignorance would choose? Build me one case where knowing more about people — their histories, their needs, their deserts — makes the distribution juster, not less. If you succeed, tell me what work the veil was really doing. If you fail, tell me why our courts hear evidence."
+        ],
+        "relatedClaims": [
+          "political.social-contract",
+          "political.equality-priority",
+          "political.justice-intrinsically-good"
+        ],
+        "sourceRefs": [
+          "republic-jowett:1:13"
+        ]
+      }
+    }
+  ]
+}

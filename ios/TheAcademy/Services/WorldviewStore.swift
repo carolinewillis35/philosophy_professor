@@ -15,6 +15,10 @@ final class WorldviewStore {
     private(set) var tensions: [CommitmentTension] = []
     private(set) var timeline: [WorldviewEvent] = []
     private(set) var readerProfile: ReaderProfileDigest?
+    /// The commitment-events ledger (§14.1), newest first.
+    private(set) var events: [CommitmentEvent] = []
+    /// Graded steelman attempts (§14.4), newest first.
+    private(set) var steelmanScores: [SteelmanScore] = []
     private(set) var isLoaded = false
 
     func loadIfNeeded() {
@@ -32,6 +36,8 @@ final class WorldviewStore {
         tensions = fixture.tensions
         timeline = fixture.timeline.sorted { $0.date > $1.date }
         readerProfile = fixture.readerProfile
+        events = (fixture.events ?? []).sorted { $0.createdAt > $1.createdAt }
+        steelmanScores = (fixture.steelmanScores ?? []).sorted { $0.createdAt > $1.createdAt }
     }
 
     // MARK: derived
@@ -50,8 +56,65 @@ final class WorldviewStore {
         tensions.filter { $0.status == .open || $0.status == .raised }
     }
 
+    /// §14.2/§14.5d: tensions the student actually worked through — a
+    /// celebrated state, rendered with resolution text and date.
+    var resolvedTensions: [CommitmentTension] {
+        tensions.filter { $0.status == .reconciled }
+    }
+
     func commitment(_ id: String) -> Commitment? {
         commitments.first { $0.id == id }
+    }
+
+    /// TERRITORY (§14.5b): a domain is examined when live commitments stand
+    /// in it; abandoned positions leave the ground untouched again.
+    func liveCommitments(in domain: ClaimDomain) -> [Commitment] {
+        commitments(in: domain).filter { $0.strength != .abandoned }
+    }
+
+    // MARK: the changelog (§14.1 / §14.5c)
+
+    /// The proudest stat: abandoned events in the trailing 365 days —
+    /// "you've changed your mind N times this year."
+    var changedMindCountThisYear: Int {
+        let cutoff = Calendar.current.date(byAdding: .day, value: -365, to: Date())
+            ?? .distantPast
+        return events.filter { $0.event == .abandoned && $0.createdAt >= cutoff }.count
+    }
+
+    /// One changelog beat: the ledger row joined to its claim text.
+    struct ChangelogEntry: Identifiable, Hashable {
+        let event: CommitmentEvent
+        let claim: String
+        var id: String { event.id }
+    }
+
+    /// The changelog display: affirm noise filtered out (§14.5c); newest
+    /// first. Abandonments render as achievements — the changelog celebrates
+    /// abandonment (§14.6).
+    var changelog: [ChangelogEntry] {
+        events
+            .filter { $0.event != .affirmed }
+            .map { ChangelogEntry(event: $0, claim: commitment($0.commitmentId)?.claim ?? "") }
+    }
+
+    // MARK: the steelman ladder (§14.4 / §14.5)
+
+    /// Per-claim max level + attempt counts, computed client-side from the
+    /// scores exactly as the contract prescribes.
+    var ladder: [SteelmanLadderEntry] {
+        Dictionary(grouping: steelmanScores) { $0.targetOntologyId ?? $0.targetClaim }
+            .values
+            .compactMap { scores -> SteelmanLadderEntry? in
+                guard let latest = scores.max(by: { $0.createdAt < $1.createdAt })
+                else { return nil }
+                return SteelmanLadderEntry(
+                    targetClaim: latest.targetClaim,
+                    maxLevel: scores.map(\.level).max() ?? 1,
+                    attempts: scores.count,
+                    lastAttempt: latest.createdAt)
+            }
+            .sorted { $0.lastAttempt > $1.lastAttempt }
     }
 
     // MARK: contest (the owner-permitted writes, §12.3 RLS)
@@ -71,6 +134,13 @@ final class WorldviewStore {
             id: UUID().uuidString, date: Date(), claim: commitment.claim,
             fromStrength: from, toStrength: .abandoned,
             note: "Abandoned from the Worldview page."), at: 0)
+        // The ledger records the same fold (§14.1), so the changelog and the
+        // changed-minds stat move with the contest write.
+        events.insert(CommitmentEvent(
+            id: UUID().uuidString, commitmentId: commitment.id,
+            event: .abandoned, priorStrength: from,
+            evidence: "Abandoned from the Worldview page.",
+            createdAt: Date()), at: 0)
     }
 
     /// "I never held that" — owner delete; the row and its tensions go.

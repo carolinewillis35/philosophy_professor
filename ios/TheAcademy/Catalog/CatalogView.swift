@@ -20,6 +20,10 @@ struct CatalogView: View {
                     // Daily Question card sits at the top of the bulletin.
                     DailyQuestionCard()
 
+                    // The weekly drop sits right under it (§14.5): one
+                    // authored case per week, crowd after answering.
+                    DropCard()
+
                     // "Bring me an argument" — the clinic door (§13.5).
                     ClinicEntryCard()
 

@@ -17,6 +17,8 @@
 //     recordChoice / applyPump / recordHuntResult
 // Engagement additions (§13.3, argumentClinic map construction):
 //   * stateOps setConclusion / addPremise / revisePremise / markCrux
+// Ladder additions (§14.2/§14.4):
+//   * stateOps markTensionReconciled / recordSteelmanScore
 // Persisted envelopes carry a server-stamped "v": 2 marker (NOT part of the
 // model-facing schema — the session function adds it before writing to turns).
 //
@@ -334,6 +336,36 @@ const STATE_OP_SCHEMA = {
       required: ["op", "id", "kind"],
       additionalProperties: false,
     },
+    // --- Ladder ops (§14.2 all kinds / §14.4 steelman only) ---
+    {
+      type: "object",
+      properties: {
+        op: { const: "markTensionReconciled" },
+        resolution: {
+          type: "string",
+          description:
+            "One sentence: how the student actually reconciled the raised tension.",
+        },
+      },
+      required: ["op", "resolution"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: {
+        op: { const: "recordSteelmanScore" },
+        level: {
+          type: "integer",
+          description: "1 strawman / 2 sketch / 3 competent / 4 signable.",
+        },
+        justification: {
+          type: "string",
+          description: "One sentence naming what earned or capped the level.",
+        },
+      },
+      required: ["op", "level", "justification"],
+      additionalProperties: false,
+    },
   ],
 } as const;
 
@@ -514,7 +546,9 @@ export type StateOp =
   | { op: "setConclusion"; text: string }
   | { op: "addPremise"; id: string; text: string; stated: boolean; supports: string }
   | { op: "revisePremise"; id: string; text: string }
-  | { op: "markCrux"; id: string; kind: "fact" | "value" | "definition" };
+  | { op: "markCrux"; id: string; kind: "fact" | "value" | "definition" }
+  | { op: "markTensionReconciled"; resolution: string }
+  | { op: "recordSteelmanScore"; level: number; justification: string };
 
 export interface UiHints {
   showPassagePicker: boolean;
@@ -560,6 +594,8 @@ export const KNOWN_OPS = new Set([
   "addPremise",
   "revisePremise",
   "markCrux",
+  "markTensionReconciled",
+  "recordSteelmanScore",
 ]);
 
 function isRecord(v: unknown): v is Record<string, unknown> {

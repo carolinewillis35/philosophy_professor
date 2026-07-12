@@ -46,11 +46,15 @@ struct RootTabView: View {
     /// elenchus, `-demo-seminar` into a mock seminar, `-demo-worldview`
     /// opens the Worldview tab, `-demo-daily` fronts a fresh Daily Question
     /// card and answers it with the mock professor, `-demo-clinic` opens a
-    /// mock Argument Clinic (screenshots/UI checks from the command line).
+    /// mock Argument Clinic, `-demo-drop` opens this week's drop fresh,
+    /// `-demo-steelman` opens a mock steelman session against a fixture
+    /// commitment, and `-demo-changelog` opens the Worldview tab with the
+    /// extended fixture (screenshots/UI checks from the command line).
     private func handleDemoLaunchArguments() async {
         #if DEBUG
         if CommandLine.arguments.contains("-demo-worldview")
-            || CommandLine.arguments.contains("-demo-profile") {
+            || CommandLine.arguments.contains("-demo-profile")
+            || CommandLine.arguments.contains("-demo-changelog") {
             selectedTab = .worldview
             return
         }
@@ -70,6 +74,27 @@ struct RootTabView: View {
             await app.loadIfNeeded()
             catalogPath.append(SessionRoute(standalone: .argumentClinic,
                                             personaId: "whitmore"))
+            return
+        }
+        if CommandLine.arguments.contains("-demo-drop") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            app.drops.resetForDemo()
+            if let drop = app.drops.thisWeekDrop {
+                catalogPath.append(SessionRoute(drop: drop))
+            }
+            return
+        }
+        if CommandLine.arguments.contains("-demo-steelman") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            app.worldview.loadIfNeeded()
+            let target = app.worldview.liveCommitments.first.map {
+                SteelmanTarget(claim: $0.claim, ontologyId: $0.ontologyId)
+            } ?? SteelmanTarget(
+                claim: "Everything that exists, including minds, is ultimately physical.",
+                ontologyId: "mind.physicalism")
+            catalogPath.append(SessionRoute(steelman: target))
             return
         }
         let kind: SessionKind? =
@@ -94,12 +119,19 @@ struct SessionRoute: Hashable {
     let kind: SessionKind
     /// Standalone sessions carry the student-picked professor directly.
     let personaId: String?
+    /// §14.3: the weekly drop this session runs (standalone
+    /// thoughtExperiment against the drop's own spec).
+    let drop: Drop?
+    /// §14.4: the student's own commitment a steelman session takes aim at.
+    let steelmanTarget: SteelmanTarget?
 
     init(course: Course, unit: Int, kind: SessionKind) {
         self.course = course
         self.unit = unit
         self.kind = kind
         self.personaId = nil
+        self.drop = nil
+        self.steelmanTarget = nil
     }
 
     /// §13.1 standalone route (dailyQuestion, argumentClinic).
@@ -108,6 +140,28 @@ struct SessionRoute: Hashable {
         self.unit = 0
         self.kind = kind
         self.personaId = personaId
+        self.drop = nil
+        self.steelmanTarget = nil
+    }
+
+    /// §14.3 weekly-drop route: the drop's persona teaches the case.
+    init(drop: Drop) {
+        self.course = nil
+        self.unit = 0
+        self.kind = .thoughtExperiment
+        self.personaId = drop.personaId
+        self.drop = drop
+        self.steelmanTarget = nil
+    }
+
+    /// §14.4 steelman route: default persona whitmore, silently.
+    init(steelman target: SteelmanTarget, personaId: String = "whitmore") {
+        self.course = nil
+        self.unit = 0
+        self.kind = .steelman
+        self.personaId = personaId
+        self.drop = nil
+        self.steelmanTarget = target
     }
 
     /// The professor in the room, however the route was built.

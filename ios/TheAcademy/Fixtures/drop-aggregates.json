@@ -1,0 +1,36 @@
+{
+  "drop-001": {
+    "total": 214,
+    "byFirstChoice": {
+      "Sign. Experience is what a life is made of, and I am choosing the better one.": 96,
+      "Refuse. I want my life to happen, not to play.": 69,
+      "Sign, but for a fixed term — five years, then automatic waking.": 49
+    }
+  },
+  "drop-002": {
+    "total": 156,
+    "byFirstChoice": {
+      "Yes. Identity rode the continuity — one hull, one name, one unbroken service. The wood was always replaceable.": 88,
+      "No. She is a faithful replica my yard built gradually, in place, and honesty says so.": 31,
+      "Object to the question. 'Same' is doing two different jobs in that sentence; separate them before anyone certifies anything.": 37
+    }
+  },
+  "drop-003": {
+    "total": 7,
+    "byFirstChoice": null
+  },
+  "drop-004": {
+    "total": 121,
+    "byFirstChoice": {
+      "Nothing does. I am the entire works, and I understand nothing — I would know.": 64,
+      "I don't — but I am one part. The room as a whole, binders and clerk and slot together, might be the thing that understands.": 57
+    }
+  },
+  "drop-005": {
+    "total": 183,
+    "byFirstChoice": {
+      "Design from the bottom. Judge every rule by the life it gives the worst seat, since that seat may be yours.": 122,
+      "Design for the total. Permit whatever inequalities make the whole society richer — you are likeliest to land in the middle, and the middle rides the average.": 61
+    }
+  }
+}

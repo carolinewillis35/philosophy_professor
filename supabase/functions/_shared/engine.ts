@@ -47,7 +47,8 @@ export type SessionKind =
   | "thoughtExperiment"
   | "argumentLab"
   | "dailyQuestion"
-  | "argumentClinic";
+  | "argumentClinic"
+  | "steelman";
 
 export interface ReadingSpan {
   bookID: string;
@@ -708,9 +709,10 @@ export const KIND_REGISTRY: Record<SessionKind, KindDef> = {
   elenchus: academyKinds.elenchus,
   thoughtExperiment: academyKinds.thoughtExperiment,
   argumentLab: academyKinds.argumentLab,
-  // Engagement kinds (§13, standalone) — defined in kinds_engagement.ts.
+  // Engagement kinds (§13 + §14.4, standalone) — defined in kinds_engagement.ts.
   dailyQuestion: engagementKinds.dailyQuestion,
   argumentClinic: engagementKinds.argumentClinic,
+  steelman: engagementKinds.steelman,
 };
 
 // ---------------------------------------------------------------------------
@@ -755,6 +757,11 @@ export interface ApplyResult {
   memoryNotes: string[];
   /** recordGrade payload to persist into the essays table, if any. */
   gradeRecord: GradeRecord | null;
+  /** markTensionReconciled payload (§14.2) — bound server-side to the
+   * session's raised tension. */
+  tensionResolution: string | null;
+  /** recordSteelmanScore payload (§14.4) to persist into steelman_scores. */
+  steelmanScore: { level: number; justification: string } | null;
   /** completeSession was emitted. */
   completeSession: boolean;
   /** completeSession was emitted but dropped by the kind's canComplete guard
@@ -774,6 +781,8 @@ export function applyStateOps(
     state: next,
     memoryNotes: [],
     gradeRecord: null,
+    tensionResolution: null,
+    steelmanScore: null,
     completeSession: false,
     completionRefused: false,
     rejectedOps: [],
@@ -801,6 +810,22 @@ export function applyStateOps(
           marginComments: op.marginComments,
           directives: op.directives,
         };
+        break;
+      case "markTensionReconciled":
+        if (typeof op.resolution === "string" && op.resolution.trim()) {
+          result.tensionResolution = op.resolution.trim();
+        }
+        break;
+      case "recordSteelmanScore":
+        if (
+          Number.isInteger(op.level) && op.level >= 1 && op.level <= 4 &&
+          typeof op.justification === "string"
+        ) {
+          result.steelmanScore = {
+            level: op.level,
+            justification: op.justification.trim(),
+          };
+        }
         break;
     }
   }

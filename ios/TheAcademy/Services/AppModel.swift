@@ -29,6 +29,8 @@ final class AppModel {
     let worldview: WorldviewStore
     /// The Daily Question ritual (§13.2): bank, rotation, answered state.
     let daily: DailyQuestionStore
+    /// The weekly drop (§14.3): bank, rotation, completion, crowd aggregate.
+    let drops: DropStore
 
     // Voice mode (DECISIONS #11): one mic, one synthesizer, app-wide.
     let speechTranscriber: SpeechTranscriber
@@ -47,6 +49,7 @@ final class AppModel {
         self.auth = AuthClient(config: config)
         self.worldview = WorldviewStore()
         self.daily = DailyQuestionStore()
+        self.drops = DropStore()
 
         // Recording and speaking never overlap: the mic silences the
         // professor, and the professor won't start while the mic is open.
@@ -70,6 +73,8 @@ final class AppModel {
             // The home surface survives a missing daily bank — the card
             // simply doesn't render.
             daily.load(bank: (try? await content.loadDailyQuestions()) ?? [])
+            // Same posture for the weekly drop bank (§14.3).
+            drops.load(bank: (try? await content.loadDrops()) ?? [])
             isLoaded = true
         } catch {
             loadError = error.localizedDescription
@@ -107,9 +112,11 @@ final class AppModel {
 
     /// Mock when Secrets.plist is absent; live SSE client otherwise. The
     /// mock takes the course unit so its scripted professor can lean on the
-    /// authored §12.5 specs the way the engine's kind registry does.
+    /// authored §12.5 specs the way the engine's kind registry does; a drop
+    /// session passes its spec the same way (§14.3).
     func makeSessionClient(course: Course? = nil, unit: Int? = nil,
-                           assignmentId: String? = nil) -> SessionClient {
+                           assignmentId: String? = nil,
+                           dropSpec: ThoughtExperimentSpec? = nil) -> SessionClient {
         if let endpoint = config.sessionEndpoint, let key = config.supabaseAnonKey {
             let auth = self.auth
             return LiveSessionClient(
@@ -120,7 +127,7 @@ final class AppModel {
             unit.flatMap { u in course.units.first { $0.number == u + 1 } }
         }
         return MockSessionClient(assignmentId: assignmentId ?? "wij-u1-response",
-                                 unit: courseUnit)
+                                 unit: courseUnit, dropSpec: dropSpec)
     }
 
     // MARK: account

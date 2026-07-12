@@ -871,3 +871,173 @@ options each; every non-null `ontologyId` and every `relatedClaims` entry
 exists in `claims.json`; `personaId` exists in `personas.json`; bank ≥ 14;
 question text nonempty.
 
+---
+
+# ENGAGEMENT addendum (§14) — E-M2: the Ladder
+
+Additive to §1–13. Scope source: `docs/SCOPE-ADDENDUM.md` §2–§3. Three
+systems: the Worldview page as the progress object (the changelog of your
+mind), weekly thought-experiment drops with crowd comparison, and the
+steelman ladder.
+
+## 14.1 Commitment events ledger (migration 0006)
+
+The changelog needs history; folds currently overwrite in place. New table
+`commitment_events` (service-role writes only; owner select):
+
+| column | notes |
+|---|---|
+| `id uuid PK`, `user_id uuid`, `commitment_id uuid FK->commitments on delete cascade` | |
+| `event text check in ('explored','leaned','asserted','affirmed','abandoned')` | the strength verb after the fold |
+| `prior_strength text null` | null on first insert; set on every strength CHANGE |
+| `evidence text default ''` | the op's evidence line — "the argument that moved you" |
+| `session_id uuid null`, `created_at timestamptz` | |
+
+`persistCommitmentOps` writes one event per fold: on row insert, `event` =
+the initial strength verb with `prior_strength` null; on strength change,
+the new verb with the old strength; on affirm-only folds, `'affirmed'`
+(UI filters affirm noise; the table keeps it). The §12.4 sweep writes events
+through the same path.
+
+**Derived, not stored:** the changelog = events with `prior_strength` set or
+`event='abandoned'`, joined to `commitments` for claim text. The proudest
+stat — "you've changed your mind N times this year, each under pressure of
+argument" — is the count of `abandoned` events in the trailing 365 days.
+Owner contest (§12.3 delete) cascades the events away with the row: the
+changelog records the examined life, not the bookkeeping.
+
+## 14.2 Tension resolution
+
+New stateOp (all kinds, valid at most once per session):
+
+```json
+{ "op": "markTensionReconciled", "resolution": "one sentence: how the student reconciled it" }
+```
+
+Server-side: applies ONLY to the tension this session's digest raised (the
+server stamps `state._raisedTensionId` when the digest carries one; the op is
+dropped otherwise). Sets that tension `status='reconciled'`,
+`resolution` (new text column), `resolved_at` (new column). Emitted when the
+student has ACTUALLY reconciled the two positions in conversation — restated
+one, subordinated one, or drawn a distinction that dissolves the conflict —
+never as a reward for mere acknowledgment. Resolving a tension is a
+celebrated event on the Worldview page.
+
+## 14.3 Weekly thought-experiment drops
+
+- **Content asset** `content/drops/drops.json`: `{ version, drops: [{ id:
+  "drop-001", personaId, teaser, experiment: <ThoughtExperimentSpec, §12.5
+  shape> }] }`. Validator: same node-graph well-formedness as course
+  thoughtExperiments; `personaId` in registry; `relatedClaims` in ontology;
+  ≥ 4 drops. Seeded to catalog table `drops` (id, doc, version; read
+  authenticated, writes service role).
+- **Selection deterministic, no cron (A16 pattern):** drops sorted by id;
+  this week's = `drops[weeksSinceEpoch(localDate) % drops.length]` where
+  `weeksSinceEpoch = floor(daysSinceEpoch / 7)`.
+- **Session:** the drop RUNS the existing `thoughtExperiment` kind as a
+  STANDALONE session (§13.1): start request `{kind: "thoughtExperiment",
+  dropId, localDate}`; the server loads the spec from `drops`, persona from
+  the drop, stamps `state.dropId`. Client node rendering per §12.7 unchanged.
+- **Table `drop_responses`:** `id`, `user_id`, `drop_id FK->drops`,
+  `week int` (weeksSinceEpoch), `path jsonb`, `first_choice text`,
+  `session_id`, `created_at`, unique `(user_id, drop_id, week)` (re-runs in a
+  later cycle are re-encounters, E-M3). Written by the server on the drop
+  session's completeSession, from the kind state's `path`. RLS: owner select;
+  writes service role.
+- **Crowd aggregate:** RPC `drop_aggregate(p_drop_id text)` (SECURITY
+  DEFINER): returns `{ total, byFirstChoice: {label: count} }` over ALL
+  users' responses. Hard gates: the caller must have a `drop_responses` row
+  for that drop (aggregates exist only AFTER you answer — §13.4), and the
+  RPC returns `{total, byFirstChoice: null}` when `total < 10` (small-crowd
+  suppression). Shown as description, never pressure: "68% plugged in; you
+  didn't; here's the divide."
+
+## 14.4 The steelman ladder
+
+New session kind `steelman` (migration 0006 adds it to the kind check),
+STANDALONE (§13.1). The user picks one of their own live commitments; the
+exercise is to state the best case AGAINST it — so well its holders would
+sign it.
+
+Start request extras: `{ kind: "steelman", targetClaim: "...",
+targetOntologyId?: "...", personaId? }` (default persona `whitmore`;
+`targetOntologyId` must exist in `claims` when present).
+
+**State:**
+```json
+{ "phase": "brief|attempt|probe|verdict|debrief",
+  "targetClaim": "…", "targetOntologyId": null,
+  "probeRounds": 0, "level": null }
+```
+
+**Phases:** `brief` (frame the target and the bar; the opposing view is not a
+caricature of it) → `attempt` (the student states the steelman; the professor
+listens whole) → `probe` (≤2 rounds: where the steelman is still a strawman —
+missing strongest premise, uncharitable framing, weak version of the
+opponent's best move; the student revises) → `verdict` (grade via the new
+stateOp, below) → `debrief` (what the strongest opposing case teaches about
+the student's own position; commitmentOps allowed — a steelman that converts
+is a live `abandon`/`assert` moment; then completeSession). `canComplete`:
+`phase == "debrief"` only. `MAX_PROBE_ROUNDS = 2`, then the professor MUST
+move to verdict.
+
+**New stateOp (steelman only):**
+```json
+{ "op": "recordSteelmanScore", "level": 3,
+  "justification": "one sentence naming what earned or capped the level" }
+```
+Levels (the rubric, enforced in the kind instruction): **1 strawman** (the
+opponent wouldn't recognize it), **2 sketch** (recognizable but missing its
+best premise), **3 competent** (a holder would nod), **4 signable** (a holder
+would sign it as their own statement). Graded against the ARGUMENT the
+student produced, never the student; level 4 is rare and said so.
+
+**Table `steelman_scores`:** `id`, `user_id`, `target_ontology_id text null
+FK->claims`, `target_claim text`, `level int check between 1 and 4`,
+`justification text`, `session_id`, `created_at`. Written by the server when
+the op lands. RLS: owner select; writes service role. The ladder = max level
+per target + attempt counts, computed client-side.
+
+## 14.5 iOS additions (E-M2)
+
+- **Worldview page becomes the progress object:** (a) stats header — "You've
+  changed your mind N times this year — each under pressure of argument";
+  (b) TERRITORY: the six domains as a grid, examined (has live commitments)
+  vs. untouched, untouched ones carrying an authored provocation line ("you
+  have no epistemology yet; everything you believe rests on a theory of
+  knowledge you haven't met"); (c) THE CHANGELOG: timeline of
+  `commitment_events` (affirm noise filtered), abandonments rendered as
+  achievements with the evidence line; (d) tensions split OPEN (glowing,
+  §12.7) and RESOLVED (celebrated, with resolution + date).
+- **Drop card** on the home surface ("This week: The Experience Machine" +
+  teaser + share affordance, text-only share sheet); runs the standalone
+  thought-experiment session; on completion the CROWD screen (first-choice
+  distribution vs. yours), only ever reachable after answering; suppressed
+  small crowds show "too few thinkers yet — check back".
+- **Steelman entry:** on each live commitment row in Worldview ("Steelman
+  the other side") → steelman session; a LADDER screen showing per-claim max
+  level (the four named ranks) and attempts.
+- Fixtures: drops bank + a mock crowd aggregate + mock commitment events;
+  mock clinic pattern (§13.5) extended to a scripted steelman and drop run.
+- Demo launch args: `-demo-drop`, `-demo-steelman`, `-demo-changelog`.
+
+## 14.6 Guardrails (E-M2)
+
+- **Aggregates are description, never pressure:** shown only after the
+  user's own answer is recorded; phrased as where people landed, never as
+  what one should think; never attached to live public/moral questions
+  (that's §15/E-M3's problem, recorded here); suppressed below 10 responses.
+- **The changelog celebrates abandonment.** Copy frames changed minds as the
+  point of the practice; no loss-aversion framing, no "streak" of stability.
+- **Steelman grades the argument, not the person.** Level 1 is named
+  "strawman", not "failure"; the justification names what would raise the
+  level.
+- **Reconciliation is earned.** `markTensionReconciled` only for tensions
+  actually worked through in-session, bound server-side to the one raised
+  tension; abandoning a side still dissolves (never "reconciles") a tension.
+
+## 14.7 Validation
+
+`validate_content.py` gains a drops pass (§14.3). The daily-bank pass (§13.6)
+and all §12 passes unchanged.
+

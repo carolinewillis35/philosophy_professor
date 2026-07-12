@@ -6,9 +6,10 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
     case lecture, seminar, closeReading, officeHours, essay, quiz
     // Academy kinds (CONTRACTS §12.1, migration 0004).
     case elenchus, thoughtExperiment, argumentLab
-    // Engagement kinds (CONTRACTS §13, migration 0005) — standalone: no
-    // enrollment, no course unit; bound to user + persona instead.
-    case dailyQuestion, argumentClinic
+    // Engagement kinds (CONTRACTS §13/§14, migrations 0005/0006) —
+    // standalone: no enrollment, no course unit; bound to user + persona
+    // instead.
+    case dailyQuestion, argumentClinic, steelman
 
     var displayName: String {
         switch self {
@@ -23,6 +24,7 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .argumentLab: return "Argument Lab"
         case .dailyQuestion: return "Daily Question"
         case .argumentClinic: return "Argument Clinic"
+        case .steelman: return "Steelman"
         }
     }
 
@@ -39,13 +41,14 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .argumentLab: return "square.stack.3d.up"
         case .dailyQuestion: return "sun.max"
         case .argumentClinic: return "stethoscope"
+        case .steelman: return "shield.lefthalf.filled"
         }
     }
 
     /// §13.1: not course-bound — sessions carry user + persona instead of an
     /// enrollment.
     var isStandalone: Bool {
-        self == .dailyQuestion || self == .argumentClinic
+        self == .dailyQuestion || self == .argumentClinic || self == .steelman
     }
 }
 
@@ -192,6 +195,83 @@ struct ClinicMapState: Hashable {
     var mapVersion: Int = 0
 }
 
+/// steelman phases (§14.4): brief → attempt → probe → verdict → debrief.
+/// Debrief is reached ONLY through recordSteelmanScore, never advancePhase.
+enum SteelmanPhase: String, Decodable, Hashable, CaseIterable {
+    case brief, attempt, probe, verdict, debrief
+
+    var displayName: String {
+        switch self {
+        case .brief: return "Brief"
+        case .attempt: return "Attempt"
+        case .probe: return "Probe"
+        case .verdict: return "Verdict"
+        case .debrief: return "Debrief"
+        }
+    }
+}
+
+/// steelman state: client mirror of the server's SteelmanState
+/// (kinds_engagement.ts, §14.4). The target is the student's OWN commitment;
+/// the exercise is the best case AGAINST it.
+struct SteelmanState: Decodable, Hashable {
+    var phase: SteelmanPhase = .brief
+    var targetClaim: String?
+    var targetOntologyId: String?
+    var probeRounds: Int = 0
+    /// nil until the verdict's recordSteelmanScore lands (1–4).
+    var level: Int?
+
+    init() {}
+
+    private enum CodingKeys: String, CodingKey {
+        case phase, targetClaim, targetOntologyId, probeRounds, level
+    }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        phase = try c.decodeIfPresent(SteelmanPhase.self, forKey: .phase) ?? .brief
+        targetClaim = try c.decodeIfPresent(String.self, forKey: .targetClaim)
+        targetOntologyId = try c.decodeIfPresent(String.self, forKey: .targetOntologyId)
+        probeRounds = try c.decodeIfPresent(Int.self, forKey: .probeRounds) ?? 0
+        level = try c.decodeIfPresent(Int.self, forKey: .level)
+    }
+}
+
+/// The four named ranks of the steelman ladder (§14.4). Level 1 is
+/// "Strawman", never "failure" (§14.6) — the grade is on the argument
+/// produced, not the person.
+enum SteelmanLevel: Int, CaseIterable, Identifiable {
+    case strawman = 1, sketch = 2, competent = 3, signable = 4
+
+    var id: Int { rawValue }
+
+    var displayName: String {
+        switch self {
+        case .strawman: return "Strawman"
+        case .sketch: return "Sketch"
+        case .competent: return "Competent"
+        case .signable: return "Signable"
+        }
+    }
+
+    /// The rubric line, verbatim from the kind's STEELMAN_LEVELS.
+    var descriptor: String {
+        switch self {
+        case .strawman: return "the opponent wouldn't recognize it"
+        case .sketch: return "recognizable but missing its best premise"
+        case .competent: return "a holder would nod"
+        case .signable: return "a holder would sign it as their own statement"
+        }
+    }
+}
+
+/// The student's own commitment a steelman session takes aim at (§14.4).
+struct SteelmanTarget: Hashable {
+    let claim: String
+    let ontologyId: String?
+}
+
 // MARK: - Session Edge Function request body (CONTRACTS §4, §12.1)
 
 struct SessionRequest: Encodable {
@@ -216,6 +296,13 @@ struct SessionRequest: Encodable {
     var questionId: String?
     var optionId: String?
     var localDate: String?
+    /// Weekly drop start (§14.3): the server loads the spec from `drops` and
+    /// runs the standalone thoughtExperiment kind against it.
+    var dropId: String?
+    /// steelman start (§14.4): the student's own commitment under
+    /// examination; `targetOntologyId` only when the claim is canonical.
+    var targetClaim: String?
+    var targetOntologyId: String?
 
     static func start(enrollmentId: String, kind: SessionKind, unit: Int,
                       essayBody: String? = nil) -> SessionRequest {
@@ -246,6 +333,30 @@ struct SessionRequest: Encodable {
                        nodeId: nil, choice: nil,
                        questionId: questionId, optionId: optionId,
                        localDate: localDate)
+    }
+
+    /// §14.3 weekly-drop start: the drop RUNS the existing thoughtExperiment
+    /// kind as a standalone session; the server loads the spec from `drops`
+    /// and stamps `state.dropId`.
+    static func startDrop(dropId: String, localDate: String,
+                          personaId: String) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: .thoughtExperiment, unit: nil, userText: nil,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil, personaId: personaId,
+                       localDate: localDate, dropId: dropId)
+    }
+
+    /// §14.4 steelman start: standalone, aimed at one of the student's own
+    /// live commitments. Default persona whitmore.
+    static func startSteelman(targetClaim: String, targetOntologyId: String?,
+                              personaId: String) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: .steelman, unit: nil, userText: nil,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil, personaId: personaId,
+                       targetClaim: targetClaim,
+                       targetOntologyId: targetOntologyId)
     }
 
     static func turn(sessionId: String, kind: SessionKind, userText: String?,

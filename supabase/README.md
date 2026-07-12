@@ -12,6 +12,8 @@ supabase/
                                          # highlights.enrollment_id (§10 Addendum v2)
   migrations/0004_academy.sql            # Academy kinds + Commitment Map tables (§12)
   migrations/0005_engagement.sql         # standalone sessions + daily_questions/daily_answers (§13)
+  migrations/0006_ladder.sql             # commitment_events, tension resolution, drops + crowd
+                                         # aggregate RPC, steelman kind + scores (§14)
   functions/
     _shared/                   # anthropic client, envelope schema (v2), say streamer,
                                # retrieval, prompt assembly, per-kind registry (engine.ts),
@@ -36,7 +38,7 @@ supabase/
 supabase init          # safe to skip if you deploy straight to a linked project
 supabase link --project-ref <PROJECT_REF>
 
-# apply migrations/ (0001_init … 0005_engagement)
+# apply migrations/ (0001_init … 0006_ladder)
 supabase db push
 ```
 

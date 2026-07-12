@@ -16,16 +16,23 @@ final class MockSessionClient: SessionClient {
     private var interrogationTurn = 0
     private var labTurn = 0
     private var clinicTurn = 0
+    private var steelmanTurn = 0
+    private var steelmanTarget: String?
     private var pumpFired = false
 
     private let assignmentId: String
     /// The current course unit, so the scripted professor can lean on the
     /// authored specs (§12.5) exactly as the engine's kind registry does.
     private let unit: Unit?
+    /// A weekly drop's spec (§14.3): the same thoughtExperiment flow run
+    /// standalone, the way the server loads the spec from `drops`.
+    private let dropSpec: ThoughtExperimentSpec?
 
-    init(assignmentId: String = "wij-u1-response", unit: Unit? = nil) {
+    init(assignmentId: String = "wij-u1-response", unit: Unit? = nil,
+         dropSpec: ThoughtExperimentSpec? = nil) {
         self.assignmentId = assignmentId
         self.unit = unit
+        self.dropSpec = dropSpec
     }
 
     func send(_ request: SessionRequest) -> AsyncStream<SessionEvent> {
@@ -152,6 +159,12 @@ final class MockSessionClient: SessionClient {
         case .argumentClinic:
             defer { clinicTurn += 1 }
             return clinicStep(clinicTurn)
+        case .steelman:
+            if request.action == "start" {
+                steelmanTarget = request.targetClaim
+            }
+            defer { steelmanTurn += 1 }
+            return steelmanStep(steelmanTurn)
         }
     }
 
@@ -279,9 +292,49 @@ final class MockSessionClient: SessionClient {
         }
     }
 
-    // MARK: - Thought experiment (authored nodes client-side, §12.1 / A10)
+    // MARK: - Steelman (§14.4: brief → attempt → probe → verdict → debrief,
+    // Prof. Whitmore's bench; citations stay empty — no retrieval runs)
 
-    private var experimentSpec: ThoughtExperimentSpec? { unit?.thoughtExperiments?.first }
+    private func steelmanStep(_ turn: Int) -> Step {
+        let target = steelmanTarget ?? "the position you hold"
+        switch turn {
+        case 0: // brief: frame the target and the bar.
+            return Step(envelope: Envelope(
+                say: "On the table, in your own words: *\(target)* You hold it; today you argue against it. Not against the lazy version — anyone can beat up the pamphlet. The people on the other side of this have their reasons, and the best of them have thought about it longer than either of us. Your job is to state their case so well they would sign it. That is the bar, and it is the rarest skill on the internet. I will listen to the whole attempt before I touch it. When you are ready: their best case, start to finish.",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "State the other side's best case — whole.")))
+        case 1: // attempt heard whole -> probe: name the gap, don't fill it.
+            return Step(envelope: Envelope(
+                say: "I let you finish, as promised, and there is a real argument in there — the shape is right. But it is still part strawman, and here is where: you gave the other side its conclusion without its strongest premise. As you tell it, they hold their view out of stubbornness or sentiment; the actual holders hold it because of an argument — the one move their best thinkers reach for first, the one that makes careful people nod along before they catch themselves. That move is missing from your version entirely. I won't supply it; finding it is the exercise. Revise the attempt with their best premise doing the work it actually does.",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "Where is their strongest premise — and what work does it do?")))
+        case 2: // revision -> verdict: the grade lands on the argument.
+            return Step(envelope: Envelope(
+                say: "Better — genuinely. The strongest premise showed up this time, and you let it be strong instead of introducing it with an apology, which is where most attempts go quiet. Verdict, and remember the grade is on the argument you produced, never on you. Level 3 — competent: a holder would nod. What separates it from level 4, signable, is the last mile of charity: their answer to your own best objection, stated as confidently as they would state it. You told me what they believe and why; you did not yet show me how they win the argument you usually win. That is the rung above you, and it is reachable.",
+                stateOps: [
+                    .advancePhase,
+                    .recordSteelmanScore(
+                        level: 3,
+                        justification: "A holder would nod: the strongest premise arrived and did real work — signable needs their answer to your own best objection.")
+                ],
+                uiHints: UIHints(checkInQuestion: "Now the debrief: which of your own premises does their best case press hardest?")))
+        default: // debrief: what the opposing case teaches about their own view.
+            return Step(envelope: Envelope(
+                say: "That is the honest answer, and notice what just happened: you now know which of your own premises carries the load, because you spent an hour leaning on it from the other side. That knowledge is the whole point of the ladder. Your position survived today — held under fire is worth more than held in peace — and if a future steelman converts you instead, that will be progress too, and this page will say so. Climb again when the position feels too comfortable.",
+                stateOps: [
+                    .writeMemory(note: "Steelman reached competent on the second pass; finds the opposing conclusion easily, still hunts for the opposing premise."),
+                    .completeSession
+                ],
+                uiHints: UIHints(endOfSession: true)))
+        }
+    }
+
+    // MARK: - Thought experiment (authored nodes client-side, §12.1 / A10;
+    // a weekly drop supplies its own spec and runs the same flow, §14.3)
+
+    private var experimentSpec: ThoughtExperimentSpec? {
+        dropSpec ?? unit?.thoughtExperiments?.first
+    }
 
     private func thoughtExperimentStep(_ request: SessionRequest) -> Step {
         // Run phase: the client rendered the node and sent {nodeId, choice}.
@@ -327,12 +380,18 @@ final class MockSessionClient: SessionClient {
                     say: "Say more than that — you were the one wearing it. \(questions[interrogationTurn + 1])",
                     uiHints: UIHints(checkInQuestion: questions[interrogationTurn + 1])))
             }
+            // The drop debrief carries no citation — drops run outside the
+            // course texts, the way the steelman kind keeps citations empty.
             return Step(envelope: Envelope(
-                say: "Enough. Here is what the case was for: Glaucon deleted detection to see what your justice is made of, and your path through it is now evidence — your own, on the table. Whether it confirmed his wager or beat it, you can no longer claim the question is academic. \(spec?.philosophicalPayload.components(separatedBy: ". ").first.map { $0 + "." } ?? "")",
-                citations: [Quote.gyges],
+                say: dropSpec == nil
+                    ? "Enough. Here is what the case was for: Glaucon deleted detection to see what your justice is made of, and your path through it is now evidence — your own, on the table. Whether it confirmed his wager or beat it, you can no longer claim the question is academic. \(spec?.philosophicalPayload.components(separatedBy: ". ").first.map { $0 + "." } ?? "")"
+                    : "Enough. Here is what the case was for: your path through it is now evidence — your own, on the table — and you can no longer claim the question is academic. \(spec?.philosophicalPayload.components(separatedBy: ". ").first.map { $0 + "." } ?? "") When you are curious where other thinkers walked, the crowd is waiting — after your answer, never before.",
+                citations: dropSpec == nil ? [Quote.gyges] : [],
                 stateOps: [
                     .advancePhase,
-                    .writeMemory(note: "Ring of Gyges: chose deliberately and defended the choice under the pump; does not hide behind 'it depends.'"),
+                    .writeMemory(note: dropSpec == nil
+                        ? "Ring of Gyges: chose deliberately and defended the choice under the pump; does not hide behind 'it depends.'"
+                        : "Weekly drop (\(spec?.title ?? "case")): chose deliberately and defended the choice under interrogation."),
                     .completeSession
                 ],
                 uiHints: UIHints(endOfSession: true)))

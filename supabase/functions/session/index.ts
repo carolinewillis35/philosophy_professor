@@ -108,10 +108,13 @@ const KINDS: SessionKind[] = [
   "argumentLab",
   "dailyQuestion",
   "argumentClinic",
+  "steelman",
 ];
 
-/** Standalone kinds (§13.1): no enrollment, no course, no retrieval. */
-const STANDALONE_KINDS: SessionKind[] = ["dailyQuestion", "argumentClinic"];
+/** Standalone kinds (§13.1): no enrollment, no course, no retrieval.
+ * thoughtExperiment ALSO runs standalone when started as a weekly drop
+ * (§14.3, request carries dropId). */
+const STANDALONE_KINDS: SessionKind[] = ["dailyQuestion", "argumentClinic", "steelman"];
 
 /** Session kinds driven by an authored spec from the course unit JSON. */
 const SPEC_KINDS: SessionKind[] = [
@@ -144,6 +147,11 @@ interface RequestBody {
   questionId?: string;
   optionId?: string;
   localDate?: string;
+  /** Weekly-drop start extra (§14.3): runs thoughtExperiment standalone. */
+  dropId?: string;
+  /** steelman start extras (§14.4). */
+  targetClaim?: string;
+  targetOntologyId?: string;
 }
 
 function jsonResponse(status: number, payload: unknown): Response {
@@ -215,6 +223,11 @@ async function loadStandaloneContext(
       .from("daily_questions").select("doc")
       .eq("id", session.state.questionId).maybeSingle();
     if (q) standaloneSpec = q.doc as DailyQuestionSpec;
+  } else if (session.kind === "thoughtExperiment" && session.state?.dropId) {
+    // Weekly drop (§14.3): the spec lives in the drops catalog.
+    const { data: d } = await db
+      .from("drops").select("doc").eq("id", session.state.dropId).maybeSingle();
+    if (d) standaloneSpec = (d.doc as { experiment: KindSpec }).experiment;
   }
   return {
     enrollment: syntheticEnrollment(userId),
@@ -505,6 +518,11 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
   // --- commitment digest (§12.2 — gated on ≥3 non-abandoned commitments) ----
   let commitmentDigest: string | null = null;
   let commitmentDigestCarriedTension = false;
+  // The one tension markTensionReconciled may resolve this session (§14.2):
+  // raised by an earlier turn's digest (persisted on state) or by this one.
+  let raisedTensionId: string | null = typeof state._raisedTensionId === "string"
+    ? state._raisedTensionId
+    : null;
   try {
     const cd = await buildUserCommitmentDigest(
       db,
@@ -515,6 +533,7 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
     if (cd) {
       commitmentDigest = cd.digest;
       commitmentDigestCarriedTension = cd.carriedTension;
+      if (cd.raisedTensionId) raisedTensionId = cd.raisedTensionId;
     }
   } catch (e) {
     console.error("commitment digest failed (continuing without):", e);
@@ -763,6 +782,50 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
     newState._commitmentMoveUsed = true;
   }
 
+  // --- markTensionReconciled (§14.2): bound to the session's raised tension.
+  if (applied.tensionResolution) {
+    if (raisedTensionId) {
+      const { error: trErr } = await db
+        .from("commitment_tensions")
+        .update({
+          status: "reconciled",
+          resolution: applied.tensionResolution,
+          resolved_at: new Date().toISOString(),
+        })
+        .eq("id", raisedTensionId)
+        .eq("user_id", enrollment.user_id)
+        .in("status", ["open", "raised"]);
+      if (trErr) {
+        console.error("tension reconcile failed:", trErr.message);
+      } else {
+        raisedTensionId = null; // consumed — single use per session
+      }
+    } else {
+      newCorrections.push(
+        "Your markTensionReconciled was dropped: no tension was raised this session. Reconcile only the tension the digest surfaced.",
+      );
+      newState._corrections = newCorrections;
+    }
+  }
+  if (raisedTensionId) newState._raisedTensionId = raisedTensionId;
+  else delete newState._raisedTensionId;
+
+  // --- recordSteelmanScore (§14.4): persist once, when the kind accepted it.
+  if (
+    kind === "steelman" && applied.steelmanScore &&
+    state.level == null && newState.level != null
+  ) {
+    const { error: ssErr } = await db.from("steelman_scores").insert({
+      user_id: enrollment.user_id,
+      target_ontology_id: newState.targetOntologyId ?? null,
+      target_claim: newState.targetClaim ?? "",
+      level: applied.steelmanScore.level,
+      justification: applied.steelmanScore.justification,
+      session_id: session.id,
+    });
+    if (ssErr) console.error("steelman score insert failed:", ssErr.message);
+  }
+
   // --- persist commitmentOps (§12.2): foldOp semantics, upsert by
   //     (user_id, ontology_id) else normalized claim; source_refs appended.
   //     Bookkeeping on state feeds the §12.4 sweep (in-turn ops win).
@@ -835,6 +898,23 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
       .eq("id", session.id);
     envelope.uiHints.endOfSession = true;
     delete newState._memoryBuffer;
+
+    // Weekly drop (§14.3): record the response for the crowd aggregate.
+    // Never fails the turn; the unique constraint absorbs duplicates.
+    if (ctx.standalone && kind === "thoughtExperiment" && newState.dropId) {
+      const path = Array.isArray(newState.path) ? newState.path : [];
+      const { error: drErr } = await db.from("drop_responses").insert({
+        user_id: enrollment.user_id,
+        drop_id: newState.dropId,
+        week: typeof newState.week === "number" ? newState.week : 0,
+        path,
+        first_choice: path[0]?.choice ?? "",
+        session_id: session.id,
+      });
+      if (drErr && drErr.code !== "23505") {
+        console.error("drop response insert failed:", drErr.message);
+      }
+    }
 
     // Reader-profile pipeline (§11.3): decay, fold this session's evidence,
     // regenerate the narrative on drift. Never fails the turn.
@@ -912,8 +992,14 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
 // Actions
 // ---------------------------------------------------------------------------
 
+/** Days since 1970-01-01 for a YYYY-MM-DD local date (§13.2/§14.3). */
+function daysSinceEpoch(localDate: string): number {
+  return Math.floor(Date.parse(`${localDate}T00:00:00Z`) / 86_400_000);
+}
+
 /** §13.1 standalone starts: dailyQuestion (one round trip: tap + sentence in,
- * single reply out) and argumentClinic (normal opening turn). */
+ * single reply out), argumentClinic + steelman (normal opening turn), and
+ * weekly drops (§14.3 — thoughtExperiment with a dropId). */
 async function handleStandaloneStart(
   db: Db,
   userId: string,
@@ -924,9 +1010,11 @@ async function handleStandaloneStart(
 ): Promise<void> {
   const kind = body.kind as SessionKind;
 
-  let spec: DailyQuestionSpec | undefined;
+  let spec: KindSpec | undefined;
+  let dailySpec: DailyQuestionSpec | undefined;
   let option: DailyQuestionSpec["options"][number] | undefined;
   let personaId: string;
+  let dropWeek: number | null = null;
 
   if (kind === "dailyQuestion") {
     if (!body.questionId || !body.optionId) {
@@ -939,10 +1027,34 @@ async function handleStandaloneStart(
       .from("daily_questions").select("doc").eq("id", body.questionId).maybeSingle();
     if (qErr) throw new Error(`daily question load failed: ${qErr.message}`);
     if (!qRow) throw new Error("daily question not found");
-    spec = qRow.doc as DailyQuestionSpec;
-    option = spec.options.find((o) => o.id === body.optionId);
+    dailySpec = qRow.doc as DailyQuestionSpec;
+    spec = dailySpec;
+    option = dailySpec.options.find((o) => o.id === body.optionId);
     if (!option) throw new Error("unknown option for that question");
-    personaId = spec.personaId;
+    personaId = dailySpec.personaId;
+  } else if (kind === "thoughtExperiment") {
+    // §14.3 weekly drop.
+    if (!body.dropId) throw new Error("standalone thoughtExperiment requires dropId");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(body.localDate ?? "")) {
+      throw new Error("drop start requires localDate (YYYY-MM-DD)");
+    }
+    const { data: dRow, error: dErr } = await db
+      .from("drops").select("doc").eq("id", body.dropId).maybeSingle();
+    if (dErr) throw new Error(`drop load failed: ${dErr.message}`);
+    if (!dRow) throw new Error("drop not found");
+    const doc = dRow.doc as { personaId: string; experiment: KindSpec };
+    spec = doc.experiment;
+    personaId = doc.personaId;
+    dropWeek = Math.floor(daysSinceEpoch(body.localDate!) / 7);
+  } else if (kind === "steelman") {
+    // §14.4: the target is one of the student's own positions.
+    if (!body.targetClaim?.trim()) throw new Error("steelman start requires targetClaim");
+    if (body.targetOntologyId) {
+      const { data: claimRow } = await db
+        .from("claims").select("id").eq("id", body.targetOntologyId).maybeSingle();
+      if (!claimRow) throw new Error(`unknown targetOntologyId: ${body.targetOntologyId}`);
+    }
+    personaId = body.personaId ?? "whitmore";
   } else {
     personaId = body.personaId ?? "whitmore";
   }
@@ -955,6 +1067,14 @@ async function handleStandaloneStart(
 
   const state = initialState(kind, STANDALONE_UNIT, { spec });
   if (kind === "dailyQuestion") state.optionId = body.optionId;
+  if (kind === "thoughtExperiment" && body.dropId) {
+    state.dropId = body.dropId;
+    state.week = dropWeek;
+  }
+  if (kind === "steelman") {
+    state.targetClaim = body.targetClaim!.trim();
+    state.targetOntologyId = body.targetOntologyId ?? null;
+  }
 
   const { data: session, error: sErr } = await db
     .from("sessions")
@@ -963,12 +1083,12 @@ async function handleStandaloneStart(
     .single();
   if (sErr) throw new Error(`session create failed: ${sErr.message}`);
 
-  if (kind === "dailyQuestion" && spec && option) {
+  if (kind === "dailyQuestion" && dailySpec && option) {
     // One answer per user per local date (§13.2) — the unique constraint is
     // the gate; on conflict the just-created session is removed again.
     const { error: aErr } = await db.from("daily_answers").insert({
       user_id: userId,
-      question_id: spec.id,
+      question_id: dailySpec.id,
       question_date: body.localDate,
       option_id: option.id,
       sentence: (body.userText ?? "").trim(),
@@ -995,7 +1115,7 @@ async function handleStandaloneStart(
             claim: claim.claim,
             domain: claim.domain as CommitmentOp["domain"],
             ontologyId: claim.id,
-            evidence: `Daily Question ${spec.id}: tapped "${option.label}"`,
+            evidence: `Daily Question ${dailySpec.id}: tapped "${option.label}"`,
           }], { sessionId: session.id, turnSeq: 1 });
           state._commitmentTouched = {
             ids: persisted.touchedOntologyIds,
@@ -1052,7 +1172,11 @@ async function handleStart(
   softBudget: boolean,
   usage: UsageAccumulator,
 ): Promise<void> {
-  if (body.kind && STANDALONE_KINDS.includes(body.kind)) {
+  if (
+    body.kind &&
+    (STANDALONE_KINDS.includes(body.kind) ||
+      (body.kind === "thoughtExperiment" && body.dropId))
+  ) {
     return handleStandaloneStart(db, userId, body, send, softBudget, usage);
   }
   if (!body.enrollmentId) throw new Error("start requires enrollmentId");

@@ -58,6 +58,15 @@
       "commitmentB": "cm-libertarian-free-will",
       "via": "mind.physicalism entails metaphysics.causal-closure-physical, which conflicts with metaphysics.libertarian-free-will",
       "status": "open"
+    },
+    {
+      "id": "tn-physicalism-moral-knowledge",
+      "commitmentA": "cm-physicalism",
+      "commitmentB": "cm-moral-knowledge",
+      "via": "mind.physicalism pressures epistemology.moral-knowledge-possible: if everything is physical, what are known moral facts about?",
+      "status": "reconciled",
+      "resolution": "Drew the distinction in office hours: physicalism fixes what the world is made of, not what can be known about its arrangements — moral knowledge survives as knowledge of relations, not of extra substances.",
+      "resolvedAt": "2026-06-30T19:25:00Z"
     }
   ],
   "timeline": [
@@ -92,6 +101,82 @@
       "fromStrength": null,
       "toStrength": "leaned",
       "note": "Leaned toward Socrates's side of Glaucon's wager, pending Books II–IV."
+    }
+  ],
+  "events": [
+    {
+      "id": "cev-egoism-assert",
+      "commitmentId": "cm-egoism",
+      "event": "asserted",
+      "priorStrength": null,
+      "evidence": "Asserted during the Ring of Gyges lab — 'anyone would use it.'",
+      "createdAt": "2026-06-04T18:50:00Z"
+    },
+    {
+      "id": "cev-freewill-assert",
+      "commitmentId": "cm-libertarian-free-will",
+      "event": "asserted",
+      "priorStrength": "explored",
+      "evidence": "Defended against Prof. Whitmore's determinism reconstruction without retreating to 'it feels free.'",
+      "createdAt": "2026-06-09T19:40:00Z"
+    },
+    {
+      "id": "cev-egoism-abandon",
+      "commitmentId": "cm-egoism",
+      "event": "abandoned",
+      "priorStrength": "asserted",
+      "evidence": "The buried-ring pump: you kept the ring buried with detection impossible, and could not square that with 'everyone is Gyges.'",
+      "createdAt": "2026-06-11T19:15:00Z"
+    },
+    {
+      "id": "cev-justice-lean",
+      "commitmentId": "cm-justice-intrinsic",
+      "event": "leaned",
+      "priorStrength": null,
+      "evidence": "Leaned toward Socrates's side of Glaucon's wager, pending Books II–IV.",
+      "createdAt": "2026-06-16T19:02:00Z"
+    },
+    {
+      "id": "cev-moral-knowledge-explore",
+      "commitmentId": "cm-moral-knowledge",
+      "event": "explored",
+      "priorStrength": null,
+      "evidence": "Opened in office hours: if the madman counterexample is *known* to be unjust, something moral is known.",
+      "createdAt": "2026-06-23T20:22:00Z"
+    },
+    {
+      "id": "cev-physicalism-affirm",
+      "commitmentId": "cm-physicalism",
+      "event": "affirmed",
+      "priorStrength": null,
+      "evidence": "Held under the Chinese Room's pressure.",
+      "createdAt": "2026-06-28T20:05:00Z"
+    }
+  ],
+  "steelmanScores": [
+    {
+      "id": "ss-justice-1",
+      "targetOntologyId": "political.justice-intrinsically-good",
+      "targetClaim": "Justice is worth choosing for its own sake, not only for its wages and reputation.",
+      "level": 1,
+      "justification": "Glaucon's contractarian would not recognize the convenience-morality sketched here — his covenant has structure this version lacks.",
+      "createdAt": "2026-06-18T19:05:00Z"
+    },
+    {
+      "id": "ss-physicalism-1",
+      "targetOntologyId": "mind.physicalism",
+      "targetClaim": "Everything that exists, including minds, is ultimately physical.",
+      "level": 2,
+      "justification": "Recognizable dualism, but missing its best premise — the conceivability argument never appeared.",
+      "createdAt": "2026-06-20T19:10:00Z"
+    },
+    {
+      "id": "ss-physicalism-2",
+      "targetOntologyId": "mind.physicalism",
+      "targetClaim": "Everything that exists, including minds, is ultimately physical.",
+      "level": 3,
+      "justification": "A holder would nod: the knowledge argument arrived in its strongest reading — signable needs the dualist's answer to the interaction problem.",
+      "createdAt": "2026-06-27T19:30:00Z"
     }
   ],
   "readerProfile": {

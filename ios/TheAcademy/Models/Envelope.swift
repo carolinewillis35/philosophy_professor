@@ -141,11 +141,17 @@ enum StateOp: Decodable {
     case addPremise(ArgumentSpec.Premise)
     case revisePremise(id: String, text: String)
     case markCrux(id: String, kind: ClinicCruxKind)
+    // E-M2 (§14.2): the digest-raised tension was actually reconciled in
+    // conversation. Server-side write; the Worldview page reads the row.
+    case markTensionReconciled(resolution: String)
+    // steelman (§14.4): the verdict — level 1–4 against the four named ranks.
+    case recordSteelmanScore(level: Int, justification: String)
 
     private enum CodingKeys: String, CodingKey {
         case op, question, depth, value, note, thesis, definition, outcome,
              nodeId, choice, pumpId, found, attempts,
-             text, id, stated, supports, kind
+             text, id, stated, supports, kind,
+             resolution, level, justification
     }
 
     init(from decoder: Decoder) throws {
@@ -198,6 +204,13 @@ enum StateOp: Decodable {
         case "markCrux":
             self = .markCrux(id: try c.decode(String.self, forKey: .id),
                              kind: try c.decode(ClinicCruxKind.self, forKey: .kind))
+        case "markTensionReconciled":
+            self = .markTensionReconciled(
+                resolution: try c.decode(String.self, forKey: .resolution))
+        case "recordSteelmanScore":
+            self = .recordSteelmanScore(
+                level: try c.decode(Int.self, forKey: .level),
+                justification: try c.decodeIfPresent(String.self, forKey: .justification) ?? "")
         default:
             throw DecodingError.dataCorruptedError(
                 forKey: .op, in: c,

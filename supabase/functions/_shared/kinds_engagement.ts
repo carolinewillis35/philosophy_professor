@@ -1,7 +1,7 @@
-// kinds_engagement.ts — the E-M1 engagement session kinds (CONTRACTS §13):
-// dailyQuestion, argumentClinic.
+// kinds_engagement.ts — the engagement session kinds (CONTRACTS §13 + §14.4):
+// dailyQuestion, argumentClinic, steelman.
 //
-// Both are STANDALONE kinds (§13.1): no enrollment, no course unit, no
+// All are STANDALONE kinds (§13.1): no enrollment, no course unit, no
 // retrieval — citations stay empty by contract. They conform to the engine's
 // declarative kind registry (KindDef) and are registered in engine.ts
 // KIND_REGISTRY.
@@ -242,4 +242,125 @@ export const argumentClinic: KindDef = {
   canComplete: (s) => (s as ClinicState).phase === "handback",
 };
 
-export const engagementKinds = { dailyQuestion, argumentClinic };
+// ---------------------------------------------------------------------------
+// steelman — state the opposing view so well its holders would sign it
+// (§14.4)
+// ---------------------------------------------------------------------------
+
+export type SteelmanPhase = "brief" | "attempt" | "probe" | "verdict" | "debrief";
+
+export interface SteelmanState {
+  phase: SteelmanPhase;
+  /** The student's OWN commitment under examination (stamped at start). */
+  targetClaim: string | null;
+  targetOntologyId: string | null;
+  probeRounds: number;
+  level: number | null;
+}
+
+export const MAX_PROBE_ROUNDS = 2;
+
+export const STEELMAN_LEVELS: Record<number, string> = {
+  1: "strawman — the opponent wouldn't recognize it",
+  2: "sketch — recognizable but missing its best premise",
+  3: "competent — a holder would nod",
+  4: "signable — a holder would sign it as their own statement",
+};
+
+const STEELMAN_PHASES: SteelmanPhase[] = [
+  "brief",
+  "attempt",
+  "probe",
+  "verdict",
+  "debrief",
+];
+
+export const steelman: KindDef = {
+  initialState(_unit, _opts) {
+    const state: SteelmanState = {
+      phase: "brief",
+      targetClaim: null, // stamped by the session function from the start request
+      targetOntologyId: null,
+      probeRounds: 0,
+      level: null,
+    };
+    return state;
+  },
+
+  instructionBlock(state, _ctx: KindContext) {
+    const s = state as SteelmanState;
+    const lines: string[] = [
+      `SESSION TYPE: Steelman. Phase: ${s.phase}. Probe rounds used: ${s.probeRounds} of ${MAX_PROBE_ROUNDS}.`,
+      `The student's own position under examination: "${s.targetClaim ?? "(see transcript)"}".`,
+      "The exercise: the student states the best case AGAINST their own position — so well that people who actually hold the opposing view would sign it. The rarest skill on the internet. You grade the ARGUMENT they produce, never the person.",
+    ];
+    switch (s.phase) {
+      case "brief":
+        lines.push(
+          "BRIEF: Frame the exercise. Name the position they hold, name what the opposing camp actually believes (its best self, not its caricature), and state the bar: would its holders sign what you're about to say? Then advancePhase and invite the attempt.",
+        );
+        break;
+      case "attempt":
+        lines.push(
+          "ATTEMPT: The student states their steelman. LISTEN WHOLE — do not interrupt the first attempt with corrections. When they've finished a complete statement, advancePhase to probe.",
+        );
+        break;
+      case "probe":
+        lines.push(
+          "PROBE: Find where the steelman is still a strawman — the missing strongest premise, the uncharitable framing, the opponent's best move rendered weak. ONE probe at a time; let the student revise. A probe names the gap; it does not fill it for them.",
+          s.probeRounds >= MAX_PROBE_ROUNDS - 1
+            ? `This is the final probe round (cap ${MAX_PROBE_ROUNDS}). After their revision you MUST advancePhase to verdict.`
+            : "When the steelman stops improving (or the rounds cap out), advancePhase to verdict.",
+        );
+        break;
+      case "verdict":
+        lines.push(
+          "VERDICT: Grade the final steelman via {op:\"recordSteelmanScore\", level, justification}. The rubric:",
+          ...Object.entries(STEELMAN_LEVELS).map(([n, d]) => `  ${n}: ${d}`),
+          "Level 4 is rare and you say so when you give it. The justification is one sentence naming what earned the level — or exactly what would raise it. Grade the argument, not the person; level 1 is named 'strawman', never 'failure'.",
+        );
+        break;
+      case "debrief":
+        lines.push(
+          `Verdict delivered${s.level ? ` (level ${s.level})` : ""}. DEBRIEF: what does the strongest opposing case teach about the student's OWN position — which of their premises it presses hardest, what they'd have to give up to defect. If the exercise genuinely moved them, that is a live commitmentOps moment (an affirm under fire, or an honest abandon — both are progress and you say so). Then completeSession.`,
+        );
+        break;
+    }
+    lines.push(
+      "No retrieval ran; the citations array stays EMPTY. Name the opposing tradition's thinkers freely; excerpt nobody.",
+    );
+    return lines.filter(Boolean).join("\n");
+  },
+
+  onOps(state, ops) {
+    const s = state as SteelmanState;
+    for (const op of ops) {
+      switch (op.op) {
+        case "recordSteelmanScore":
+          if (
+            s.level === null &&
+            Number.isInteger(op.level) && op.level >= 1 && op.level <= 4 &&
+            (s.phase === "probe" || s.phase === "verdict")
+          ) {
+            s.level = op.level;
+            s.phase = "debrief";
+          }
+          break;
+        case "advancePhase": {
+          const i = STEELMAN_PHASES.indexOf(s.phase);
+          // debrief is reached ONLY through recordSteelmanScore.
+          const next = STEELMAN_PHASES[Math.min(i + 1, STEELMAN_PHASES.length - 1)];
+          if (next !== "debrief") s.phase = next;
+          break;
+        }
+      }
+    }
+    // A professor turn spent probing counts a round (the instruction block
+    // caps the loop at MAX_PROBE_ROUNDS).
+    if (s.phase === "probe") s.probeRounds += 1;
+  },
+
+  canComplete: (s) => (s as SteelmanState).phase === "debrief",
+};
+
+export const engagementKinds = { dailyQuestion, argumentClinic, steelman };

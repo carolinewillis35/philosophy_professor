@@ -13,6 +13,9 @@ protocol ContentStore {
     /// The daily bank (§13.2); fixture-bundled, later the `daily_questions`
     /// table.
     func loadDailyQuestions() async throws -> [DailyQuestion]
+    /// The weekly drop bank (§14.3); fixture-bundled, later the `drops`
+    /// table.
+    func loadDrops() async throws -> [Drop]
 }
 
 enum ContentStoreError: LocalizedError {
@@ -87,6 +90,13 @@ final class FixtureContentStore: ContentStore {
         let url = root.appendingPathComponent("daily-questions.json")
         let data = try Data(contentsOf: url)
         return try decoder.decode(DailyQuestionBank.self, from: data).questions
+    }
+
+    func loadDrops() async throws -> [Drop] {
+        guard let root = fixturesRoot else { throw ContentStoreError.fixturesMissing }
+        let url = root.appendingPathComponent("drops.json")
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(DropBank.self, from: data).drops
     }
 
     func availableChapters(bookID: String) async -> [Int] {

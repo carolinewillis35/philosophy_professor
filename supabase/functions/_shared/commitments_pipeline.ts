@@ -20,6 +20,7 @@ import type { UsageSink } from "./budget.ts";
 import { COMMITMENT_OP_SCHEMA } from "./envelope.ts";
 import {
   buildCommitmentDigest,
+  changeEvent,
   type ClaimEdge,
   type Commitment,
   type CommitmentOp,
@@ -161,7 +162,10 @@ export async function persistCommitmentOps(
       now,
     );
 
+    let eventCommitmentId: string;
+    let ledger: ReturnType<typeof changeEvent>;
     if (existing) {
+      const priorStrength = existing.strength as Commitment["strength"];
       const sourceRefs = [
         ...(Array.isArray(existing.source_refs) ? existing.source_refs : []),
         ref,
@@ -181,6 +185,8 @@ export async function persistCommitmentOps(
       existing.affirm_count = folded.affirmCount;
       existing.source_refs = sourceRefs;
       if (op.ontologyId && !existing.ontology_id) existing.ontology_id = op.ontologyId;
+      eventCommitmentId = existing.id;
+      ledger = changeEvent(priorStrength, folded.strength);
     } else {
       const insert = {
         user_id: userId,
@@ -196,6 +202,21 @@ export async function persistCommitmentOps(
       if (error) throw new Error(`commitment insert failed: ${error.message}`);
       rows.push(data as CommitmentRow);
       result.strengthChanged = true;
+      eventCommitmentId = (data as CommitmentRow).id;
+      ledger = changeEvent(null, folded.strength);
+    }
+
+    // §14.1 events ledger — the changelog of your mind. Never fails the fold.
+    {
+      const { error: evErr } = await db.from("commitment_events").insert({
+        user_id: userId,
+        commitment_id: eventCommitmentId,
+        event: ledger.event,
+        prior_strength: ledger.priorStrength,
+        evidence: op.evidence ?? "",
+        session_id: ref.sessionId,
+      });
+      if (evErr) console.error("commitment event insert failed:", evErr.message);
     }
 
     if (op.ontologyId) result.touchedOntologyIds.push(op.ontologyId);
@@ -221,6 +242,9 @@ export interface CommitmentDigestResult {
   digest: string;
   /** The digest carried an open tension (the session's one commitment move). */
   carriedTension: boolean;
+  /** Id of the tension the digest raised — the ONLY tension
+   * markTensionReconciled may resolve this session (§14.2). */
+  raisedTensionId: string | null;
 }
 
 /**
@@ -276,6 +300,7 @@ export async function buildUserCommitmentDigest(
   return {
     digest: buildCommitmentDigest(commitments, tension, commitmentMoveUsed),
     carriedTension: tension !== null,
+    raisedTensionId: tension !== null && picked ? picked.id : null,
   };
 }
 

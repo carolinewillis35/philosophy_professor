@@ -12,6 +12,7 @@
 //   content/courses/*.json           — course JSON (CONTRACTS §7 + §12.5)
 //   content/ontology/claims.json     — claim ontology (CONTRACTS §12.6)
 //   content/daily/questions.json     — daily-question bank (CONTRACTS §13.2)
+//   content/drops/drops.json         — weekly thought-experiment drops (§14.3)
 //
 // Book text (editions/chapters/passages) is seeded separately via the
 // pipeline's seed.sql — see supabase/README.md.
@@ -174,6 +175,32 @@ if (daily) {
     Deno.exit(1);
   }
   console.log(`daily_questions: ${questions.length} ✓`);
+}
+
+// --- weekly drops (CONTRACTS §14.3 -> drops) ---------------------------------
+
+const dropsPath = "content/drops/drops.json";
+let dropsBank: { version?: number; drops: { id: string }[] } | null = null;
+try {
+  dropsBank = JSON.parse(await Deno.readTextFile(dropsPath));
+} catch {
+  console.warn(`no ${dropsPath} — skipping drops`);
+}
+
+if (dropsBank) {
+  const drops = dropsBank.drops ?? [];
+  const { error: dropErr } = await db.from("drops").upsert(
+    drops.map((d) => ({
+      id: d.id,
+      doc: d,
+      version: dropsBank.version ?? 1,
+    })),
+  );
+  if (dropErr) {
+    console.error(`drops: ${dropErr.message}`);
+    Deno.exit(1);
+  }
+  console.log(`drops: ${drops.length} ✓`);
 }
 
 console.log("done");

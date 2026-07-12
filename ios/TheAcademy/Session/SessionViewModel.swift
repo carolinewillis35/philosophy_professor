@@ -19,6 +19,12 @@ final class SessionViewModel {
     /// The professor in the room: the course's persona, or the one the
     /// student picked for a standalone session (§13.1).
     let personaId: String?
+    /// Non-nil when this session runs a weekly drop (§14.3): the standalone
+    /// thoughtExperiment kind against the drop's own spec.
+    let drop: Drop?
+    /// Non-nil for steelman sessions (§14.4): the student's own live
+    /// commitment the exercise takes aim at.
+    let steelmanTarget: SteelmanTarget?
 
     private let client: SessionClient
 
@@ -47,12 +53,20 @@ final class SessionViewModel {
     private(set) var labState = ArgumentLabState()
     /// argumentClinic (§13.3): the user's map, folded from stateOps.
     private(set) var clinicState = ClinicMapState()
+    /// steelman (§14.4): phase + level, folded from advancePhase and
+    /// recordSteelmanScore.
+    private(set) var steelmanState = SteelmanState()
+    /// The verdict's one-sentence justification — display only; the state
+    /// shape itself mirrors the server's.
+    private(set) var steelmanJustification: String?
 
     var inputText = ""
 
     init(course: Course?, unit: Int, kind: SessionKind,
          personaId: String? = nil,
          enrollmentId: String, client: SessionClient,
+         drop: Drop? = nil,
+         steelmanTarget: SteelmanTarget? = nil,
          voice: ProfessorVoice? = nil,
          voiceEnabled: @escaping () -> Bool = { false }) {
         self.course = course
@@ -61,6 +75,8 @@ final class SessionViewModel {
         self.personaId = personaId ?? course?.personaId
         self.enrollmentId = enrollmentId
         self.client = client
+        self.drop = drop
+        self.steelmanTarget = steelmanTarget
         self.voice = voice
         self.voiceEnabled = voiceEnabled
 
@@ -68,15 +84,20 @@ final class SessionViewModel {
         experimentState.specId = experimentSpec?.id
         experimentState.nodeId = experimentSpec?.startNode?.id ?? "start"
         labState.specId = argumentSpec?.id
+        steelmanState.targetClaim = steelmanTarget?.claim
+        steelmanState.targetOntologyId = steelmanTarget?.ontologyId
     }
 
     var currentUnit: Unit? {
         course?.units.first { $0.number == unit + 1 }
     }
 
-    // Authored specs for this unit (§12.5) — the deterministic render sources.
+    // Authored specs for this unit (§12.5) — the deterministic render
+    // sources. A weekly drop carries its own spec (§14.3) and wins.
     var elenchusSpec: ElenchusSpec? { currentUnit?.elenchusSpecs?.first }
-    var experimentSpec: ThoughtExperimentSpec? { currentUnit?.thoughtExperiments?.first }
+    var experimentSpec: ThoughtExperimentSpec? {
+        drop?.experiment ?? currentUnit?.thoughtExperiments?.first
+    }
     var argumentSpec: ArgumentSpec? { currentUnit?.argumentLabs?.first }
 
     /// The authored node currently on the table (thoughtExperiment run phase).
@@ -125,11 +146,27 @@ final class SessionViewModel {
     func start(essayBody: String? = nil) async {
         guard !hasStarted else { return }
         hasStarted = true
-        // Standalone kinds (§13.1) start with user + persona, no enrollment.
-        let request: SessionRequest = kind.isStandalone
-            ? .startStandalone(kind: kind, personaId: personaId ?? "whitmore")
-            : .start(enrollmentId: enrollmentId, kind: kind, unit: unit,
-                     essayBody: essayBody)
+        let request: SessionRequest
+        if let drop {
+            // §14.3: the drop runs the thoughtExperiment kind standalone —
+            // the start carries dropId + localDate; the server loads the
+            // spec from `drops` and the drop's persona.
+            request = .startDrop(dropId: drop.id,
+                                 localDate: DailyQuestion.localDateString(),
+                                 personaId: personaId ?? drop.personaId)
+        } else if kind == .steelman {
+            // §14.4: aimed at one of the student's own live commitments.
+            request = .startSteelman(targetClaim: steelmanTarget?.claim ?? "",
+                                     targetOntologyId: steelmanTarget?.ontologyId,
+                                     personaId: personaId ?? "whitmore")
+        } else if kind.isStandalone {
+            // Standalone kinds (§13.1) start with user + persona, no
+            // enrollment.
+            request = .startStandalone(kind: kind, personaId: personaId ?? "whitmore")
+        } else {
+            request = .start(enrollmentId: enrollmentId, kind: kind, unit: unit,
+                             essayBody: essayBody)
+        }
         await consume(client.send(request))
     }
 
@@ -312,9 +349,19 @@ final class SessionViewModel {
                     clinicState.cruxes[id] = kind
                     clinicState.mapVersion += 1
                 }
+            // steelman (§14.4): the verdict — debrief is reached ONLY here.
+            case .recordSteelmanScore(let level, let justification):
+                if steelmanState.level == nil, (1...4).contains(level) {
+                    steelmanState.level = level
+                    steelmanState.phase = .debrief
+                    steelmanJustification = justification.isEmpty ? nil : justification
+                }
             case .advanceSegment, .pushQuestion, .popQuestion,
-                 .setDepth, .requireEvidence, .writeMemory:
-                // Server-side session state; nothing to mirror locally.
+                 .setDepth, .requireEvidence, .writeMemory,
+                 .markTensionReconciled:
+                // Server-side session state (markTensionReconciled persists
+                // to `commitment_tensions`, §14.2 — the Worldview page reads
+                // the resulting row); nothing to mirror locally.
                 break
             }
         }
@@ -354,6 +401,15 @@ final class SessionViewModel {
             if let i = phases.firstIndex(of: clinicState.phase),
                i + 1 < phases.count {
                 clinicState.phase = phases[i + 1]
+            }
+        case .steelman:
+            // brief → attempt → probe → verdict (§14.4); debrief is reached
+            // ONLY through recordSteelmanScore, mirroring the kind's onOps.
+            switch steelmanState.phase {
+            case .brief: steelmanState.phase = .attempt
+            case .attempt: steelmanState.phase = .probe
+            case .probe: steelmanState.phase = .verdict
+            case .verdict, .debrief: break
             }
         default:
             break

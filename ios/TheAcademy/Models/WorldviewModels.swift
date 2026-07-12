@@ -29,6 +29,26 @@ enum ClaimDomain: String, Codable, Hashable, CaseIterable, Identifiable {
         case .aesthetics: return "paintpalette"
         }
     }
+
+    /// Authored provocation for an untouched TERRITORY tile (§14.5b) — shown
+    /// when the domain has no live commitments. The epistemology line is the
+    /// CONTRACTS-authored one; the rest are written at its bar.
+    var provocation: String {
+        switch self {
+        case .ethics:
+            return "You have no ethics on record — yet you made a hundred moral calls this week with tools you have never once inspected."
+        case .epistemology:
+            return "You have no epistemology yet; everything you believe rests on a theory of knowledge you haven't met."
+        case .metaphysics:
+            return "No metaphysics yet — you have never said what is real, and every other answer you hold is waiting on that one."
+        case .mind:
+            return "Nothing on mind yet — you are thinking with the one instrument you have never turned around to examine."
+        case .political:
+            return "No politics examined — you live inside answers to questions you haven't asked, and someone else wrote the answers."
+        case .aesthetics:
+            return "Aesthetics untouched — you already know what you find beautiful; you have never asked what that knowing is."
+        }
+    }
 }
 
 /// Strength ladder (§12.2): explore → lean → assert, upward only; abandon is
@@ -78,6 +98,9 @@ struct CommitmentTension: Codable, Identifiable, Hashable {
     /// Human-readable rendering of the claim_edges path that produced it.
     let via: String
     var status: TensionStatus
+    /// §14.2: how the student reconciled it (set with status 'reconciled').
+    var resolution: String?
+    var resolvedAt: Date?
 }
 
 enum TensionStatus: String, Codable, Hashable {
@@ -92,6 +115,60 @@ struct WorldviewEvent: Codable, Identifiable, Hashable {
     let fromStrength: CommitmentStrength?
     let toStrength: CommitmentStrength
     let note: String?
+}
+
+// MARK: - Commitment events ledger (§14.1) — the changelog of your mind
+
+/// The strength verb a fold recorded.
+enum CommitmentEventKind: String, Codable, Hashable {
+    case explored, leaned, asserted, affirmed, abandoned
+
+    var displayName: String {
+        switch self {
+        case .explored: return "Explored"
+        case .leaned: return "Leaned"
+        case .asserted: return "Asserted"
+        case .affirmed: return "Affirmed"
+        case .abandoned: return "Abandoned"
+        }
+    }
+}
+
+/// One row of `commitment_events` (§14.1). `priorStrength` is nil on first
+/// insert and set on every strength change; `evidence` is the op's evidence
+/// line — the argument that moved you. The claim text is joined from
+/// `commitments` client-side.
+struct CommitmentEvent: Codable, Identifiable, Hashable {
+    let id: String
+    let commitmentId: String
+    let event: CommitmentEventKind
+    let priorStrength: CommitmentStrength?
+    let evidence: String
+    let createdAt: Date
+}
+
+// MARK: - Steelman scores (§14.4) — the ladder is derived client-side
+
+/// One row of `steelman_scores`: one graded attempt at the best case against
+/// one of the student's own commitments.
+struct SteelmanScore: Codable, Identifiable, Hashable {
+    let id: String
+    let targetOntologyId: String?
+    let targetClaim: String
+    let level: Int
+    let justification: String
+    let createdAt: Date
+}
+
+/// One rung group of the LADDER screen (§14.5): per-claim max level plus
+/// attempt count, computed from `steelman_scores`.
+struct SteelmanLadderEntry: Identifiable, Hashable {
+    let targetClaim: String
+    let maxLevel: Int
+    let attempts: Int
+    let lastAttempt: Date
+
+    var id: String { targetClaim }
 }
 
 // MARK: - Reader profile digest (§11.3, folded into Worldview per DECISIONS A14)
@@ -111,9 +188,12 @@ struct ReaderProfileDigest: Codable, Hashable {
 // MARK: - Fixture container (mock mode)
 
 /// Shape of `Fixtures/worldview.json` — a plausible mid-course snapshot.
+/// E-M2 (§14.5) adds the commitment-events ledger and steelman scores.
 struct WorldviewFixture: Codable {
     let commitments: [Commitment]
     let tensions: [CommitmentTension]
     let timeline: [WorldviewEvent]
     let readerProfile: ReaderProfileDigest
+    let events: [CommitmentEvent]?
+    let steelmanScores: [SteelmanScore]?
 }
