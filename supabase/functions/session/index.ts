@@ -44,12 +44,13 @@ import {
   summarizeRelationshipMemory,
 } from "../_shared/engine.ts";
 import type { ElenchusSpec } from "../_shared/kinds_academy.ts";
+import type { DailyQuestionSpec } from "../_shared/kinds_engagement.ts";
 import {
   loadReaderProfile,
   profileDigest,
   updateReaderProfile,
 } from "../_shared/profile.ts";
-import { validateCommitmentOps } from "../_shared/commitments.ts";
+import { type CommitmentOp, validateCommitmentOps } from "../_shared/commitments.ts";
 import {
   buildUserCommitmentDigest,
   type ClaimRow,
@@ -105,7 +106,12 @@ const KINDS: SessionKind[] = [
   "elenchus",
   "thoughtExperiment",
   "argumentLab",
+  "dailyQuestion",
+  "argumentClinic",
 ];
+
+/** Standalone kinds (§13.1): no enrollment, no course, no retrieval. */
+const STANDALONE_KINDS: SessionKind[] = ["dailyQuestion", "argumentClinic"];
 
 /** Session kinds driven by an authored spec from the course unit JSON. */
 const SPEC_KINDS: SessionKind[] = [
@@ -132,6 +138,12 @@ interface RequestBody {
   waypointId?: string;
   position?: { ch: number; para: number };
   trigger?: string;
+  /** Standalone kinds (§13.1): argumentClinic professor (default whitmore). */
+  personaId?: string;
+  /** dailyQuestion start extras (§13.2). */
+  questionId?: string;
+  optionId?: string;
+  localDate?: string;
 }
 
 function jsonResponse(status: number, payload: unknown): Response {
@@ -152,13 +164,67 @@ type Db = any;
 
 interface LoadedContext {
   // deno-lint-ignore no-explicit-any
-  enrollment: any;
+  enrollment: any; // standalone sessions carry a synthetic enrollment (§13.1)
   // deno-lint-ignore no-explicit-any
   course: any;
   courseDoc: CourseDoc;
   // deno-lint-ignore no-explicit-any
   persona: any;
   unitDef: CourseUnit;
+  /** §13.1 standalone session: no course, no retrieval, no profile digest,
+   * no relationship memory. */
+  standalone?: boolean;
+  /** dailyQuestion authored spec, loaded from the daily_questions catalog. */
+  standaloneSpec?: KindSpec;
+}
+
+/** Synthetic unit/course for standalone sessions — keeps the turn pipeline's
+ * shape without a real enrollment (§13.1). */
+const STANDALONE_UNIT: CourseUnit = { number: 0, title: "", reading: [] };
+
+function standaloneCourseDoc(personaId: string): CourseDoc {
+  return { id: "standalone", title: "", personaId, units: [STANDALONE_UNIT] };
+}
+
+// deno-lint-ignore no-explicit-any
+function syntheticEnrollment(userId: string): any {
+  return {
+    id: null,
+    user_id: userId,
+    pace: "standard",
+    relationship_memory: "",
+    started_at: null,
+  };
+}
+
+async function loadStandaloneContext(
+  db: Db,
+  userId: string,
+  // deno-lint-ignore no-explicit-any
+  session: any,
+): Promise<LoadedContext> {
+  if (session.user_id !== userId) throw new Error("forbidden: not your session");
+  const { data: persona, error: pErr } = await db
+    .from("personas").select("*").eq("id", session.persona_id).maybeSingle();
+  if (pErr || !persona) {
+    throw new Error(`persona load failed: ${pErr?.message ?? "not found"}`);
+  }
+  let standaloneSpec: KindSpec | undefined;
+  if (session.kind === "dailyQuestion" && session.state?.questionId) {
+    const { data: q } = await db
+      .from("daily_questions").select("doc")
+      .eq("id", session.state.questionId).maybeSingle();
+    if (q) standaloneSpec = q.doc as DailyQuestionSpec;
+  }
+  return {
+    enrollment: syntheticEnrollment(userId),
+    course: null,
+    courseDoc: standaloneCourseDoc(session.persona_id),
+    persona,
+    unitDef: STANDALONE_UNIT,
+    standalone: true,
+    standaloneSpec,
+  };
 }
 
 function resolveUnit(courseDoc: CourseDoc, unit: number): CourseUnit {
@@ -319,8 +385,9 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
   }
 
   // --- kind-specific authored spec (§11.2 disputation/craftLab, §12.1
-  //     elenchus/thoughtExperiment/argumentLab) --------------------------------
-  const spec = resolveSpec(kind, ctx.unitDef, state.disputeId ?? state.labId ?? state.specId);
+  //     elenchus/thoughtExperiment/argumentLab, §13.2 dailyQuestion) ----------
+  const spec = ctx.standaloneSpec ??
+    resolveSpec(kind, ctx.unitDef, state.disputeId ?? state.labId ?? state.specId);
 
   // --- essay submission bookkeeping (phase machine, CONTRACTS §5) ----------
   if (kind === "essay" && tc.essayBody) {
@@ -408,24 +475,31 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
   const query = tc.userText.trim() ||
     `${ctx.unitDef.title} ${ctx.unitDef.lectureOutline?.[state.segment ?? 0] ?? ""}`;
   let passages: Passage[] = [];
-  try {
-    passages = await retrievePassages(db, {
-      query,
-      bookIds: courseBookIds(ctx.courseDoc, ctx.unitDef),
-      focusChStart: span?.chStart ?? null,
-      focusChEnd: span?.chEnd ?? null,
-      matchCount: 8,
-    });
-  } catch (e) {
-    console.error("retrieval failed (continuing without passages):", e);
+  // Standalone kinds skip retrieval by contract (§13.2/§13.3 — citations
+  // stay empty; the quote guardrail holds trivially).
+  if (!ctx.standalone) {
+    try {
+      passages = await retrievePassages(db, {
+        query,
+        bookIds: courseBookIds(ctx.courseDoc, ctx.unitDef),
+        focusChStart: span?.chStart ?? null,
+        focusChEnd: span?.chEnd ?? null,
+        matchCount: 8,
+      });
+    } catch (e) {
+      console.error("retrieval failed (continuing without passages):", e);
+    }
   }
 
-  // --- reader profile digest (§11.3 — gated on evidenceCount ≥ 5) -----------
+  // --- reader profile digest (§11.3 — gated on evidenceCount ≥ 5; skipped
+  //     for standalone sessions, §13.1) --------------------------------------
   let digest: string | null = null;
-  try {
-    digest = profileDigest(await loadReaderProfile(db, enrollment.user_id));
-  } catch (e) {
-    console.error("profile digest failed (continuing without):", e);
+  if (!ctx.standalone) {
+    try {
+      digest = profileDigest(await loadReaderProfile(db, enrollment.user_id));
+    } catch (e) {
+      console.error("profile digest failed (continuing without):", e);
+    }
   }
 
   // --- commitment digest (§12.2 — gated on ≥3 non-abandoned commitments) ----
@@ -497,7 +571,10 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
     "[The student has just joined the session. Greet them briefly, in character, and begin.]";
   const prompt = buildPrompt({
     personaDocs,
-    courseContext: courseContextBlock(ctx.courseDoc, ctx.unitDef),
+    courseContext: ctx.standalone
+      ? `STANDALONE SESSION: no course context — this is a ${kind} session ` +
+        `between the student and Prof. ${ctx.persona.name}.`
+      : courseContextBlock(ctx.courseDoc, ctx.unitDef),
     engineInstructions: instructionBlock(kind, state, {
       unit: ctx.unitDef,
       pace: enrollment.pace,
@@ -652,6 +729,11 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
   // --- apply state ops (unknown ops rejected) --------------------------------
   const applied = applyStateOps(kind, state, envelope.stateOps);
   const newState = applied.state;
+  // §13.4 "the ritual stays small": a dailyQuestion session auto-completes on
+  // its single reply, whether or not the model remembered completeSession.
+  if (kind === "dailyQuestion" && !applied.completeSession) {
+    applied.completeSession = true;
+  }
   for (const rejected of applied.rejectedOps) {
     newCorrections.push(
       `Your stateOp "${rejected}" was rejected: unknown op. Use only the ops defined in the envelope contract.`,
@@ -735,15 +817,19 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
 
   // --- completeSession: fold memory buffer into relationship memory ----------
   if (applied.completeSession) {
-    const buffer: string[] = Array.isArray(newState._memoryBuffer) ? newState._memoryBuffer : [];
-    const merged = await summarizeRelationshipMemory(
-      enrollment.relationship_memory ?? "",
-      buffer,
-      tc.usage,
-    );
-    await db.from("enrollments")
-      .update({ relationship_memory: merged })
-      .eq("id", enrollment.id);
+    // Relationship memory + reader profile are enrollment-bound; standalone
+    // sessions (§13.1) skip both at MVP.
+    if (!ctx.standalone) {
+      const buffer: string[] = Array.isArray(newState._memoryBuffer) ? newState._memoryBuffer : [];
+      const merged = await summarizeRelationshipMemory(
+        enrollment.relationship_memory ?? "",
+        buffer,
+        tc.usage,
+      );
+      await db.from("enrollments")
+        .update({ relationship_memory: merged })
+        .eq("id", enrollment.id);
+    }
     await db.from("sessions")
       .update({ status: "completed", completed_at: new Date().toISOString() })
       .eq("id", session.id);
@@ -752,10 +838,12 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
 
     // Reader-profile pipeline (§11.3): decay, fold this session's evidence,
     // regenerate the narrative on drift. Never fails the turn.
-    try {
-      await updateReaderProfile(db, enrollment.user_id, session.id, tc.usage);
-    } catch (e) {
-      console.error("reader profile update failed:", e);
+    if (!ctx.standalone) {
+      try {
+        await updateReaderProfile(db, enrollment.user_id, session.id, tc.usage);
+      } catch (e) {
+        console.error("reader profile update failed:", e);
+      }
     }
 
     // Commitment pipeline (§12.4): extraction sweep over the transcript →
@@ -777,7 +865,16 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
         transcript,
         touchedOntologyIds: touched.ids,
         touchedClaims: touched.claims,
-        domains: [...new Set([...unitClaimDomains(ctx.unitDef), ...touched.domains])],
+        domains: [
+          ...new Set([
+            ...unitClaimDomains(ctx.unitDef),
+            ...touched.domains,
+            // §13.2: the daily question's own domain scopes the sweep.
+            ...(kind === "dailyQuestion" && spec
+              ? [(spec as DailyQuestionSpec).domain]
+              : []),
+          ]),
+        ],
         strengthChangedInTurn: newState._commitmentDrift === true,
         claims: await claimsCatalog(),
         usage: tc.usage,
@@ -815,6 +912,138 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
 // Actions
 // ---------------------------------------------------------------------------
 
+/** §13.1 standalone starts: dailyQuestion (one round trip: tap + sentence in,
+ * single reply out) and argumentClinic (normal opening turn). */
+async function handleStandaloneStart(
+  db: Db,
+  userId: string,
+  body: RequestBody,
+  send: Send,
+  softBudget: boolean,
+  usage: UsageAccumulator,
+): Promise<void> {
+  const kind = body.kind as SessionKind;
+
+  let spec: DailyQuestionSpec | undefined;
+  let option: DailyQuestionSpec["options"][number] | undefined;
+  let personaId: string;
+
+  if (kind === "dailyQuestion") {
+    if (!body.questionId || !body.optionId) {
+      throw new Error("dailyQuestion start requires questionId and optionId");
+    }
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(body.localDate ?? "")) {
+      throw new Error("dailyQuestion start requires localDate (YYYY-MM-DD)");
+    }
+    const { data: qRow, error: qErr } = await db
+      .from("daily_questions").select("doc").eq("id", body.questionId).maybeSingle();
+    if (qErr) throw new Error(`daily question load failed: ${qErr.message}`);
+    if (!qRow) throw new Error("daily question not found");
+    spec = qRow.doc as DailyQuestionSpec;
+    option = spec.options.find((o) => o.id === body.optionId);
+    if (!option) throw new Error("unknown option for that question");
+    personaId = spec.personaId;
+  } else {
+    personaId = body.personaId ?? "whitmore";
+  }
+
+  const { data: persona, error: pErr } = await db
+    .from("personas").select("*").eq("id", personaId).maybeSingle();
+  if (pErr || !persona) {
+    throw new Error(`persona load failed: ${pErr?.message ?? `not found: ${personaId}`}`);
+  }
+
+  const state = initialState(kind, STANDALONE_UNIT, { spec });
+  if (kind === "dailyQuestion") state.optionId = body.optionId;
+
+  const { data: session, error: sErr } = await db
+    .from("sessions")
+    .insert({ user_id: userId, persona_id: personaId, unit: 0, kind, state })
+    .select()
+    .single();
+  if (sErr) throw new Error(`session create failed: ${sErr.message}`);
+
+  if (kind === "dailyQuestion" && spec && option) {
+    // One answer per user per local date (§13.2) — the unique constraint is
+    // the gate; on conflict the just-created session is removed again.
+    const { error: aErr } = await db.from("daily_answers").insert({
+      user_id: userId,
+      question_id: spec.id,
+      question_date: body.localDate,
+      option_id: option.id,
+      sentence: (body.userText ?? "").trim(),
+      session_id: session.id,
+    });
+    if (aErr) {
+      await db.from("sessions").delete().eq("id", session.id);
+      if (aErr.code === "23505") {
+        throw new Error("you already answered today's question");
+      }
+      throw new Error(`daily answer insert failed: ${aErr.message}`);
+    }
+
+    // Deterministic commitment write (§13.2 / A17): the tap enters the map at
+    // 'lean' via the normal fold; 'assert' only ever comes from the model
+    // reading the typed sentence.
+    if (option.ontologyId) {
+      try {
+        const claims = await loadClaims(db);
+        const claim = claims.find((c) => c.id === option!.ontologyId);
+        if (claim) {
+          const persisted = await persistCommitmentOps(db, userId, [{
+            op: "lean",
+            claim: claim.claim,
+            domain: claim.domain as CommitmentOp["domain"],
+            ontologyId: claim.id,
+            evidence: `Daily Question ${spec.id}: tapped "${option.label}"`,
+          }], { sessionId: session.id, turnSeq: 1 });
+          state._commitmentTouched = {
+            ids: persisted.touchedOntologyIds,
+            claims: persisted.touchedClaims,
+            domains: [claim.domain],
+          };
+          if (persisted.strengthChanged) state._commitmentDrift = true;
+          await db.from("sessions").update({ state }).eq("id", session.id);
+          session.state = state;
+        }
+      } catch (e) {
+        console.error("daily deterministic commitment failed (continuing):", e);
+      }
+    }
+  }
+
+  send("session", { sessionId: session.id, kind: session.kind, unit: session.unit });
+
+  const ctx: LoadedContext = {
+    enrollment: syntheticEnrollment(userId),
+    course: null,
+    courseDoc: standaloneCourseDoc(personaId),
+    persona,
+    unitDef: STANDALONE_UNIT,
+    standalone: true,
+    standaloneSpec: spec,
+  };
+
+  // dailyQuestion: the tap + sentence IS the user turn; the reply completes
+  // the session. argumentClinic: normal in-character opening.
+  await runProfessorTurn(
+    {
+      db,
+      session,
+      ctx,
+      userText: kind === "dailyQuestion" && option
+        ? `[tapped: "${option.label}"] ${(body.userText ?? "").trim()}`.trim()
+        : "",
+      annotations: [],
+      essayBody: null,
+      isOpening: kind !== "dailyQuestion",
+      softBudget,
+      usage,
+    },
+    send,
+  );
+}
+
 async function handleStart(
   db: Db,
   userId: string,
@@ -823,6 +1052,9 @@ async function handleStart(
   softBudget: boolean,
   usage: UsageAccumulator,
 ): Promise<void> {
+  if (body.kind && STANDALONE_KINDS.includes(body.kind)) {
+    return handleStandaloneStart(db, userId, body, send, softBudget, usage);
+  }
   if (!body.enrollmentId) throw new Error("start requires enrollmentId");
   if (!body.kind || !KINDS.includes(body.kind)) {
     throw new Error(`start requires kind (one of ${KINDS.join("|")})`);
@@ -915,7 +1147,9 @@ async function handleTurn(
   if (!session) throw new Error("session not found");
   if (session.status !== "active") throw new Error("session is completed");
 
-  const ctx = await loadEnrollmentContext(db, userId, session.enrollment_id, session.unit);
+  const ctx = session.enrollment_id
+    ? await loadEnrollmentContext(db, userId, session.enrollment_id, session.unit)
+    : await loadStandaloneContext(db, userId, session);
 
   const userText = (body.userText ?? "").trim();
   const essayBody = (body.essayBody ?? "").trim() || null;

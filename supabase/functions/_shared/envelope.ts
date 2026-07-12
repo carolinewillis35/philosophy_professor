@@ -15,6 +15,8 @@
 //   * commitmentOps[] — Commitment Map writes (max 2 per turn, server-side)
 //   * stateOps recordThesis / reviseDefinition / declareOutcome /
 //     recordChoice / applyPump / recordHuntResult
+// Engagement additions (§13.3, argumentClinic map construction):
+//   * stateOps setConclusion / addPremise / revisePremise / markCrux
 // Persisted envelopes carry a server-stamped "v": 2 marker (NOT part of the
 // model-facing schema — the session function adds it before writing to turns).
 //
@@ -281,6 +283,57 @@ const STATE_OP_SCHEMA = {
       required: ["op", "found", "attempts"],
       additionalProperties: false,
     },
+    // --- Engagement ops (§13.3, argumentClinic only) ---
+    {
+      type: "object",
+      properties: {
+        op: { const: "setConclusion" },
+        text: {
+          type: "string",
+          description: "The claim actually at issue, one clean sentence, confirmed with the student.",
+        },
+      },
+      required: ["op", "text"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: {
+        op: { const: "addPremise" },
+        id: { type: "string", description: 'Premise id like "p1".' },
+        text: { type: "string" },
+        stated: {
+          type: "boolean",
+          description: "false when this is an unstated load-bearing assumption.",
+        },
+        supports: {
+          type: "string",
+          description: '"c" or an existing premise id.',
+        },
+      },
+      required: ["op", "id", "text", "stated", "supports"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: {
+        op: { const: "revisePremise" },
+        id: { type: "string" },
+        text: { type: "string" },
+      },
+      required: ["op", "id", "text"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: {
+        op: { const: "markCrux" },
+        id: { type: "string", description: '"c" or a premise id already in the map.' },
+        kind: { enum: ["fact", "value", "definition"] },
+      },
+      required: ["op", "id", "kind"],
+      additionalProperties: false,
+    },
   ],
 } as const;
 
@@ -457,7 +510,11 @@ export type StateOp =
   | { op: "declareOutcome"; outcome: "aporia" | "robust" }
   | { op: "recordChoice"; nodeId: string; choice: string }
   | { op: "applyPump"; pumpId: string }
-  | { op: "recordHuntResult"; found: boolean; attempts: number };
+  | { op: "recordHuntResult"; found: boolean; attempts: number }
+  | { op: "setConclusion"; text: string }
+  | { op: "addPremise"; id: string; text: string; stated: boolean; supports: string }
+  | { op: "revisePremise"; id: string; text: string }
+  | { op: "markCrux"; id: string; kind: "fact" | "value" | "definition" };
 
 export interface UiHints {
   showPassagePicker: boolean;
@@ -499,6 +556,10 @@ export const KNOWN_OPS = new Set([
   "recordChoice",
   "applyPump",
   "recordHuntResult",
+  "setConclusion",
+  "addPremise",
+  "revisePremise",
+  "markCrux",
 ]);
 
 function isRecord(v: unknown): v is Record<string, unknown> {

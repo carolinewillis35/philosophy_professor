@@ -16,6 +16,13 @@ struct CatalogView: View {
                 } else if !app.isLoaded {
                     ProgressView().frame(maxWidth: .infinity).padding(.top, 60)
                 } else {
+                    // The sixty-second ritual opens the day (§13.5): the
+                    // Daily Question card sits at the top of the bulletin.
+                    DailyQuestionCard()
+
+                    // "Bring me an argument" — the clinic door (§13.5).
+                    ClinicEntryCard()
+
                     ForEach(app.courses) { course in
                         NavigationLink(value: course) {
                             CourseCard(course: course)

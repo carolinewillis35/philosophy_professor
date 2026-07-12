@@ -135,10 +135,17 @@ enum StateOp: Decodable {
     case applyPump(pumpId: String)
     // argumentLab (§12.1)
     case recordHuntResult(found: Bool, attempts: Int)
+    // argumentClinic (§13.3) — the professor builds the user's map
+    // incrementally; the client folds these into ClinicMapState.
+    case setConclusion(text: String)
+    case addPremise(ArgumentSpec.Premise)
+    case revisePremise(id: String, text: String)
+    case markCrux(id: String, kind: ClinicCruxKind)
 
     private enum CodingKeys: String, CodingKey {
         case op, question, depth, value, note, thesis, definition, outcome,
-             nodeId, choice, pumpId, found, attempts
+             nodeId, choice, pumpId, found, attempts,
+             text, id, stated, supports, kind
     }
 
     init(from decoder: Decoder) throws {
@@ -177,6 +184,20 @@ enum StateOp: Decodable {
         case "recordHuntResult":
             self = .recordHuntResult(found: try c.decode(Bool.self, forKey: .found),
                                      attempts: try c.decodeIfPresent(Int.self, forKey: .attempts) ?? 0)
+        case "setConclusion":
+            self = .setConclusion(text: try c.decode(String.self, forKey: .text))
+        case "addPremise":
+            self = .addPremise(ArgumentSpec.Premise(
+                id: try c.decode(String.self, forKey: .id),
+                text: try c.decode(String.self, forKey: .text),
+                stated: try c.decodeIfPresent(Bool.self, forKey: .stated) ?? true,
+                supports: try c.decodeIfPresent(String.self, forKey: .supports) ?? "c"))
+        case "revisePremise":
+            self = .revisePremise(id: try c.decode(String.self, forKey: .id),
+                                  text: try c.decode(String.self, forKey: .text))
+        case "markCrux":
+            self = .markCrux(id: try c.decode(String.self, forKey: .id),
+                             kind: try c.decode(ClinicCruxKind.self, forKey: .kind))
         default:
             throw DecodingError.dataCorruptedError(
                 forKey: .op, in: c,

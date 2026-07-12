@@ -10,6 +10,9 @@ protocol ContentStore {
     func loadBooks() async throws -> [BookMeta]
     func loadChapter(bookID: String, ch: Int) async throws -> Chapter
     func availableChapters(bookID: String) async -> [Int]
+    /// The daily bank (§13.2); fixture-bundled, later the `daily_questions`
+    /// table.
+    func loadDailyQuestions() async throws -> [DailyQuestion]
 }
 
 enum ContentStoreError: LocalizedError {
@@ -77,6 +80,13 @@ final class FixtureContentStore: ContentStore {
         }
         let data = try Data(contentsOf: url)
         return try decoder.decode(Chapter.self, from: data)
+    }
+
+    func loadDailyQuestions() async throws -> [DailyQuestion] {
+        guard let root = fixturesRoot else { throw ContentStoreError.fixturesMissing }
+        let url = root.appendingPathComponent("daily-questions.json")
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(DailyQuestionBank.self, from: data).questions
     }
 
     func availableChapters(bookID: String) async -> [Int] {

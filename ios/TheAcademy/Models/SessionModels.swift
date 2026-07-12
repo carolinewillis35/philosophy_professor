@@ -6,6 +6,9 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
     case lecture, seminar, closeReading, officeHours, essay, quiz
     // Academy kinds (CONTRACTS §12.1, migration 0004).
     case elenchus, thoughtExperiment, argumentLab
+    // Engagement kinds (CONTRACTS §13, migration 0005) — standalone: no
+    // enrollment, no course unit; bound to user + persona instead.
+    case dailyQuestion, argumentClinic
 
     var displayName: String {
         switch self {
@@ -18,6 +21,8 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .elenchus: return "Elenchus"
         case .thoughtExperiment: return "Thought Experiment"
         case .argumentLab: return "Argument Lab"
+        case .dailyQuestion: return "Daily Question"
+        case .argumentClinic: return "Argument Clinic"
         }
     }
 
@@ -32,7 +37,15 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .elenchus: return "questionmark.circle"
         case .thoughtExperiment: return "arrow.triangle.branch"
         case .argumentLab: return "square.stack.3d.up"
+        case .dailyQuestion: return "sun.max"
+        case .argumentClinic: return "stethoscope"
         }
+    }
+
+    /// §13.1: not course-bound — sessions carry user + persona instead of an
+    /// enrollment.
+    var isStandalone: Bool {
+        self == .dailyQuestion || self == .argumentClinic
     }
 }
 
@@ -144,6 +157,41 @@ enum ArgumentLabPhase: String, Decodable, Hashable {
     case mapPresented, hunt, reveal, collapse, rebuild
 }
 
+/// argumentClinic phases (§13.3): intake → excavation → map → crux →
+/// handback.
+enum ClinicPhase: String, Decodable, Hashable, CaseIterable {
+    case intake, excavation, map, crux, handback
+
+    var displayName: String {
+        switch self {
+        case .intake: return "Intake"
+        case .excavation: return "Excavation"
+        case .map: return "Map"
+        case .crux: return "Crux"
+        case .handback: return "Handback"
+        }
+    }
+}
+
+/// Where a disagreement really lives (§13.3 markCrux).
+enum ClinicCruxKind: String, Decodable, Hashable {
+    case fact, value, definition
+}
+
+/// argumentClinic state: the client's mirror of the server's ClinicState
+/// (kinds_engagement.ts), folded from the four map stateOps plus
+/// advancePhase. The map re-renders on every `mapVersion` bump; premises
+/// reuse the §12.5 shape so the deterministic renderer consumes them as-is.
+struct ClinicMapState: Hashable {
+    var phase: ClinicPhase = .intake
+    /// The user's claim at issue (map node id "c"); nil until setConclusion.
+    var conclusion: String?
+    var premises: [ArgumentSpec.Premise] = []
+    /// Crux badges keyed by map node id ("c" or a premise id).
+    var cruxes: [String: ClinicCruxKind] = [:]
+    var mapVersion: Int = 0
+}
+
 // MARK: - Session Edge Function request body (CONTRACTS §4, §12.1)
 
 struct SessionRequest: Encodable {
@@ -160,6 +208,14 @@ struct SessionRequest: Encodable {
     /// server into `path` via the `recordChoice` stateOp.
     var nodeId: String?
     var choice: String?
+    /// Standalone starts (§13.1): the student-picked professor
+    /// (argumentClinic; dailyQuestion derives it from the question).
+    var personaId: String?
+    /// dailyQuestion start (§13.2): tap + local date collected FIRST, one
+    /// round trip; `userText` carries the optional one-sentence why.
+    var questionId: String?
+    var optionId: String?
+    var localDate: String?
 
     static func start(enrollmentId: String, kind: SessionKind, unit: Int,
                       essayBody: String? = nil) -> SessionRequest {
@@ -167,6 +223,29 @@ struct SessionRequest: Encodable {
                        kind: kind, unit: unit, userText: nil,
                        userAnnotations: nil, essayBody: essayBody,
                        nodeId: nil, choice: nil)
+    }
+
+    /// §13.1 standalone start (argumentClinic): no enrollment; the session
+    /// binds to the user and the picked persona.
+    static func startStandalone(kind: SessionKind, personaId: String) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: kind, unit: nil, userText: nil,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil, personaId: personaId)
+    }
+
+    /// §13.2 dailyQuestion start — the whole ritual in one request: the
+    /// server validates the option, records the answer, writes the `lean`
+    /// commitment deterministically, and the professor replies once.
+    static func startDailyQuestion(questionId: String, optionId: String,
+                                   localDate: String,
+                                   sentence: String?) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: .dailyQuestion, unit: nil, userText: sentence,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil,
+                       questionId: questionId, optionId: optionId,
+                       localDate: localDate)
     }
 
     static func turn(sessionId: String, kind: SessionKind, userText: String?,

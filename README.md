@@ -21,11 +21,12 @@ the faculty disagree with each other so no house view can leak.**
 | `docs/SCOPE.md` | The Academy product scope (MVP → V2) |
 | `docs/SCOPE-ADDENDUM.md` | Engagement addendum (E1–E3): daily loop, growth ladder, seminar-to-life bridge |
 | `docs/SEMINAR-SCOPE*.md` | Platform reference (the engine this forks) |
-| `docs/CONTRACTS.md` | **Binding cross-component interfaces** — §12 is the Academy delta; read it first |
+| `docs/CONTRACTS.md` | **Binding cross-component interfaces** — §12 is the Academy delta, §13 the E-M1 engagement delta; read them first |
 | `docs/DECISIONS.md` | Resolved `[DECISION]` flags (A1–A14) |
 | `docs/LICENSING.md` | Public-domain verification per edition (Kaufmann is NOT PD; Jowett is) |
 | `content/personas/` | Faculty persona documents + registry (Vlachos, Whitmore, Lindqvist at MVP) |
 | `content/ontology/claims.json` | **The claim ontology** — canonical positions + classical entailments/tensions; powers the Commitment Map |
+| `content/daily/questions.json` | The Daily Question bank (§13.2) — one-tap positions mapped to ontology claims |
 | `content/courses/` | Authored course JSON incl. elenchus specs, thought experiments, argument labs |
 | `pipeline/` | Text ingestion (Gutenberg → chapters → passages → embeddings → seed SQL) + content validator |
 | `supabase/` | Schema + RLS + retrieval RPC, session-engine Edge Function, commitment pipeline |

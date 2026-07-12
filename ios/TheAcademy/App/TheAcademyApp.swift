@@ -44,12 +44,32 @@ struct RootTabView: View {
 
     /// Dev affordances: `-demo-elenchus` jumps straight into the mock
     /// elenchus, `-demo-seminar` into a mock seminar, `-demo-worldview`
-    /// opens the Worldview tab (screenshots/UI checks from the command line).
+    /// opens the Worldview tab, `-demo-daily` fronts a fresh Daily Question
+    /// card and answers it with the mock professor, `-demo-clinic` opens a
+    /// mock Argument Clinic (screenshots/UI checks from the command line).
     private func handleDemoLaunchArguments() async {
         #if DEBUG
         if CommandLine.arguments.contains("-demo-worldview")
             || CommandLine.arguments.contains("-demo-profile") {
             selectedTab = .worldview
+            return
+        }
+        if CommandLine.arguments.contains("-demo-daily") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            app.daily.resetForDemo()
+            if let question = app.daily.todayQuestion,
+               let option = question.options.first {
+                await app.daily.submit(question: question, option: option,
+                                       sentence: "", client: app.makeSessionClient())
+            }
+            return
+        }
+        if CommandLine.arguments.contains("-demo-clinic") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            catalogPath.append(SessionRoute(standalone: .argumentClinic,
+                                            personaId: "whitmore"))
             return
         }
         let kind: SessionKind? =
@@ -68,9 +88,30 @@ struct RootTabView: View {
 // MARK: - Navigation routes
 
 struct SessionRoute: Hashable {
-    let course: Course
+    /// nil for standalone sessions (§13.1): no course, no unit doc.
+    let course: Course?
     let unit: Int
     let kind: SessionKind
+    /// Standalone sessions carry the student-picked professor directly.
+    let personaId: String?
+
+    init(course: Course, unit: Int, kind: SessionKind) {
+        self.course = course
+        self.unit = unit
+        self.kind = kind
+        self.personaId = nil
+    }
+
+    /// §13.1 standalone route (dailyQuestion, argumentClinic).
+    init(standalone kind: SessionKind, personaId: String) {
+        self.course = nil
+        self.unit = 0
+        self.kind = kind
+        self.personaId = personaId
+    }
+
+    /// The professor in the room, however the route was built.
+    var resolvedPersonaId: String? { personaId ?? course?.personaId }
 }
 
 struct ReaderRoute: Hashable {

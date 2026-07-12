@@ -1,0 +1,245 @@
+{
+  "version": 1,
+  "questions": [
+    {
+      "id": "dq-001",
+      "question": "A perfect copy of you appears — same memories, same habits, same loves. Is it you?",
+      "domain": "metaphysics",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Yes — that continuity is all I am", "ontologyId": "metaphysics.personal-identity-psychological" },
+        { "id": "no", "label": "No — a copy is a twin, not me", "ontologyId": "metaphysics.personal-identity-bodily" },
+        { "id": "unsure", "label": "I genuinely can't tell", "ontologyId": null }
+      ],
+      "relatedClaims": ["mind.physicalism"]
+    },
+    {
+      "id": "dq-002",
+      "question": "If you could get away with anything — no one would ever know — would you still be good?",
+      "domain": "ethics",
+      "personaId": "vlachos",
+      "options": [
+        { "id": "yes", "label": "Yes — being just is worth it in itself", "ontologyId": "political.justice-intrinsically-good" },
+        { "id": "no", "label": "Honestly, no — we're good because we're watched", "ontologyId": "ethics.psychological-egoism" },
+        { "id": "hope", "label": "I'd like to say yes", "ontologyId": null }
+      ],
+      "relatedClaims": ["political.justice-advantage-of-stronger"]
+    },
+    {
+      "id": "dq-003",
+      "question": "Could a machine ever really think — not simulate thinking, but think?",
+      "domain": "mind",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Yes — thinking is what it does, not what it's made of", "ontologyId": "mind.machine-thought-possible" },
+        { "id": "no", "label": "No — there'd be nobody home", "ontologyId": "mind.machine-thought-impossible" },
+        { "id": "wrong-q", "label": "That's the wrong question", "ontologyId": null }
+      ],
+      "relatedClaims": ["mind.functionalism"]
+    },
+    {
+      "id": "dq-004",
+      "question": "Five people will die unless you sacrifice one. Is it ever right to do it?",
+      "domain": "ethics",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Yes — five outweighs one", "ontologyId": "ethics.consequentialism" },
+        { "id": "no", "label": "No — some things you may never do to a person", "ontologyId": "ethics.deontology" },
+        { "id": "depends", "label": "It depends on how, not how many", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-005",
+      "question": "Is beauty in the eye of the beholder?",
+      "domain": "aesthetics",
+      "personaId": "lindqvist",
+      "options": [
+        { "id": "yes", "label": "Yes — there's no fact about what's beautiful", "ontologyId": "aesthetics.beauty-subjective" },
+        { "id": "no", "label": "No — some things really are more beautiful", "ontologyId": "aesthetics.beauty-objective" },
+        { "id": "trained", "label": "It's in the eye — but the eye can be trained", "ontologyId": "aesthetics.taste-can-be-educated" }
+      ]
+    },
+    {
+      "id": "dq-006",
+      "question": "This morning you chose what to wear. Could you actually have chosen otherwise?",
+      "domain": "metaphysics",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Yes — the choice was genuinely open", "ontologyId": "metaphysics.libertarian-free-will" },
+        { "id": "no", "label": "No — it only felt open", "ontologyId": "metaphysics.hard-determinism" },
+        { "id": "enough", "label": "No, but I was free in every way that matters", "ontologyId": "metaphysics.compatibilism" }
+      ]
+    },
+    {
+      "id": "dq-007",
+      "question": "The sun has risen every day of your life. Does that give you any reason to expect it tomorrow?",
+      "domain": "epistemology",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Of course — what else could?", "ontologyId": "epistemology.induction-justified" },
+        { "id": "no", "label": "Strictly? No — and that's unsettling", "ontologyId": "epistemology.inductive-skepticism" },
+        { "id": "never", "label": "I've never once thought about it", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-008",
+      "question": "Is anything wrong everywhere — or is morality local custom, all the way down?",
+      "domain": "ethics",
+      "personaId": "vlachos",
+      "options": [
+        { "id": "universal", "label": "Some things are wrong everywhere", "ontologyId": "ethics.moral-universalism" },
+        { "id": "local", "label": "Custom, all the way down", "ontologyId": "ethics.moral-relativism" },
+        { "id": "unsure", "label": "I want the first, I suspect the second", "ontologyId": null }
+      ],
+      "relatedClaims": ["ethics.moral-realism"]
+    },
+    {
+      "id": "dq-009",
+      "question": "Do you owe the law obedience because you agreed to it — or because it can make you?",
+      "domain": "political",
+      "personaId": "vlachos",
+      "options": [
+        { "id": "consent", "label": "Because in some real sense I agreed", "ontologyId": "political.legitimacy-requires-consent" },
+        { "id": "force", "label": "Because it can make me — that's all law is", "ontologyId": "political.justice-advantage-of-stronger" },
+        { "id": "never-agreed", "label": "I never agreed to anything", "ontologyId": null }
+      ],
+      "relatedClaims": ["political.social-contract"]
+    },
+    {
+      "id": "dq-010",
+      "question": "Is your mind just your brain?",
+      "domain": "mind",
+      "personaId": "lindqvist",
+      "options": [
+        { "id": "yes", "label": "Yes — three pounds of matter, doing all of it", "ontologyId": "mind.physicalism" },
+        { "id": "no", "label": "No — the mind is something else", "ontologyId": "mind.dualism" },
+        { "id": "more", "label": "It's the brain, but not JUST the brain", "ontologyId": "mind.property-dualism" }
+      ]
+    },
+    {
+      "id": "dq-011",
+      "question": "Has anyone, anywhere, ever done a purely selfless thing?",
+      "domain": "ethics",
+      "personaId": "lindqvist",
+      "options": [
+        { "id": "yes", "label": "Yes — real altruism exists", "ontologyId": "ethics.altruism-possible" },
+        { "id": "no", "label": "No — scratch it and you find self-interest", "ontologyId": "ethics.psychological-egoism" },
+        { "id": "unsure", "label": "I keep going back and forth", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-012",
+      "question": "Can you be certain the world outside your head exists?",
+      "domain": "epistemology",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Yes — doubting it is a parlor game", "ontologyId": "epistemology.external-world-knowable" },
+        { "id": "no", "label": "No — and I can't prove otherwise", "ontologyId": "epistemology.skepticism-external-world" },
+        { "id": "beside", "label": "Certainty isn't the point", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-013",
+      "question": "Should the wisest rule — or should everyone get an equal say, wise or not?",
+      "domain": "political",
+      "personaId": "vlachos",
+      "options": [
+        { "id": "wisest", "label": "The wisest — flying blind is not a virtue", "ontologyId": "political.philosopher-rule" },
+        { "id": "equal", "label": "Equal say — nobody's wisdom entitles them to rule me", "ontologyId": "political.democracy-equal-voice" },
+        { "id": "torn", "label": "Both answers frighten me", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-014",
+      "question": "Can a morally rotten artwork still be a great artwork?",
+      "domain": "aesthetics",
+      "personaId": "lindqvist",
+      "options": [
+        { "id": "yes", "label": "Yes — greatness and goodness are different measures", "ontologyId": "aesthetics.aesthetic-value-autonomous" },
+        { "id": "no", "label": "No — the rot reaches the art", "ontologyId": "aesthetics.art-has-moral-duties" },
+        { "id": "torn", "label": "I love works I can't defend", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-015",
+      "question": "A tree falls with no one anywhere to hear it. Sound, or no sound?",
+      "domain": "metaphysics",
+      "personaId": "lindqvist",
+      "options": [
+        { "id": "yes", "label": "Sound — the world doesn't need an audience", "ontologyId": "metaphysics.mind-independent-world" },
+        { "id": "no", "label": "No sound — no hearer, no heard", "ontologyId": "metaphysics.idealism" },
+        { "id": "define", "label": "Depends entirely what 'sound' means", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-016",
+      "question": "Is happiness the only thing good for its own sake?",
+      "domain": "ethics",
+      "personaId": "vlachos",
+      "options": [
+        { "id": "yes", "label": "Yes — everything else is good FOR something", "ontologyId": "ethics.hedonism" },
+        { "id": "flourish", "label": "No — a good life is more than a pleasant one", "ontologyId": "ethics.virtue-ethics" },
+        { "id": "unsure", "label": "I can't name the alternative, but yes feels wrong", "ontologyId": null }
+      ],
+      "relatedClaims": ["ethics.greatest-happiness-principle"]
+    },
+    {
+      "id": "dq-017",
+      "question": "Is knowledge just true belief you can back up — or can you be right for the wrong reasons?",
+      "domain": "epistemology",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "jtb", "label": "Justified true belief — that's knowledge", "ontologyId": "epistemology.knowledge-jtb" },
+        { "id": "luck", "label": "You can be justified, true — and still just lucky", "ontologyId": "epistemology.gettier-cases-refute-jtb" },
+        { "id": "unsure", "label": "I need to see the trick first", "ontologyId": null }
+      ]
+    },
+    {
+      "id": "dq-018",
+      "question": "If a law is genuinely unjust, do you still owe it obedience?",
+      "domain": "political",
+      "personaId": "vlachos",
+      "options": [
+        { "id": "order", "label": "Yes — order itself is worth something", "ontologyId": null },
+        { "id": "no-law", "label": "No — an unjust law has no claim on me", "ontologyId": "political.natural-rights" },
+        { "id": "obey-fight", "label": "Obey it while fighting to change it", "ontologyId": null }
+      ],
+      "relatedClaims": ["political.legitimacy-requires-consent"]
+    },
+    {
+      "id": "dq-019",
+      "question": "Your neurons are replaced one by one with chips doing exactly the same job. Are you still there at the end?",
+      "domain": "mind",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "yes", "label": "Yes — same functions, same me", "ontologyId": "mind.functionalism" },
+        { "id": "no", "label": "No — somewhere in there I ended", "ontologyId": null },
+        { "id": "fade", "label": "I'd fade out and nobody would notice — including me", "ontologyId": null }
+      ],
+      "relatedClaims": ["metaphysics.personal-identity-psychological"]
+    },
+    {
+      "id": "dq-020",
+      "question": "Do you deserve blame for something you couldn't help doing?",
+      "domain": "ethics",
+      "personaId": "whitmore",
+      "options": [
+        { "id": "needs-alt", "label": "No — blame needs a real alternative", "ontologyId": "metaphysics.responsibility-requires-alternatives" },
+        { "id": "still-you", "label": "Sometimes yes — it was still YOU doing it", "ontologyId": "ethics.moral-responsibility-exists" },
+        { "id": "nobody", "label": "No one deserves blame for anything, ever", "ontologyId": "ethics.moral-responsibility-skepticism" }
+      ]
+    },
+    {
+      "id": "dq-021",
+      "question": "A machine offers you a perfect life you could never tell from real. Do you plug in?",
+      "domain": "ethics",
+      "personaId": "lindqvist",
+      "options": [
+        { "id": "yes", "label": "Yes — how it feels is all that could matter", "ontologyId": "ethics.hedonism" },
+        { "id": "no", "label": "No — I want reality, not the feeling of it", "ontologyId": null },
+        { "id": "already", "label": "How do I know I haven't already?", "ontologyId": null }
+      ],
+      "relatedClaims": ["epistemology.skepticism-external-world"]
+    }
+  ]
+}

@@ -19,6 +19,9 @@ Validates:
   - content/personas/personas.json + <id>.md: registry shape, required
     persona-doc sections (incl. a course-specific-context section), and
     course personaId -> registry cross-check
+  - content/daily/questions.json (section 13.6): bank size, unique ids,
+    2-4 options each, ontologyId/relatedClaims -> ontology cross-check,
+    personaId -> registry cross-check
 
 Exit code 0 iff clean; nonzero with a readable report otherwise.
 """
@@ -511,6 +514,65 @@ def validate_personas():
 
 
 # ---------------------------------------------------------------------------
+# Daily-question bank (CONTRACTS section 13.6)
+# ---------------------------------------------------------------------------
+
+DAILY_PATH = ROOT / "content" / "daily" / "questions.json"
+DAILY_MIN_BANK = 14
+
+
+def validate_daily(claim_ids, persona_ids):
+    try:
+        bank = json.loads(DAILY_PATH.read_text())
+    except FileNotFoundError:
+        err(f"daily: {DAILY_PATH} not found")
+        return
+    except json.JSONDecodeError as e:
+        err(f"daily: invalid JSON: {e}")
+        return
+
+    questions = bank.get("questions", [])
+    if len(questions) < DAILY_MIN_BANK:
+        err(f"daily: bank has {len(questions)} questions; contract minimum is {DAILY_MIN_BANK}")
+
+    seen = Counter(q.get("id", "<missing>") for q in questions)
+    for qid, n in seen.items():
+        if n > 1:
+            err(f"daily: duplicate question id {qid!r}")
+
+    for q in questions:
+        qid = q.get("id", "<missing id>")
+        ctx = f"daily {qid}"
+        if not str(q.get("question", "")).strip():
+            err(f"{ctx}: question text is empty")
+        if q.get("domain") not in DOMAINS:
+            err(f"{ctx}: domain {q.get('domain')!r} not one of {sorted(DOMAINS)}")
+        if q.get("personaId") not in persona_ids:
+            err(f"{ctx}: personaId {q.get('personaId')!r} not in the persona registry")
+        options = q.get("options", [])
+        if not 2 <= len(options) <= 4:
+            err(f"{ctx}: needs 2-4 options, has {len(options)}")
+        opt_ids = Counter(o.get("id", "<missing>") for o in options)
+        for oid, n in opt_ids.items():
+            if n > 1:
+                err(f"{ctx}: duplicate option id {oid!r}")
+        for o in options:
+            octx = f"{ctx} option {o.get('id')!r}"
+            if not str(o.get("label", "")).strip():
+                err(f"{octx}: label is empty")
+            if "ontologyId" not in o:
+                err(f"{octx}: ontologyId must be present (use null when unmapped)")
+            elif o["ontologyId"] is not None and o["ontologyId"] not in claim_ids:
+                err(f"{octx}: ontologyId {o['ontologyId']!r} not in the ontology")
+        check_claims(q.get("relatedClaims", []), ctx, claim_ids)
+
+    mapped = sum(
+        1 for q in questions for o in q.get("options", []) if o.get("ontologyId")
+    )
+    print(f"daily: {len(questions)} questions, {mapped} claim-mapped options")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -518,6 +580,7 @@ def main():
     claim_ids = validate_ontology()
     books = load_books()
     persona_ids = validate_personas()
+    validate_daily(claim_ids, persona_ids)
 
     course_files = sorted(glob.glob(str(COURSES_DIR / "*.json")))
     if not course_files:
@@ -536,7 +599,7 @@ def main():
         for e in errors:
             print(f"  - {e}")
         return 1
-    print("\nOK: ontology, courses, and personas all pass.")
+    print("\nOK: ontology, courses, personas, and the daily bank all pass.")
     return 0
 
 

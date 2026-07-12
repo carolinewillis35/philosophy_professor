@@ -718,3 +718,156 @@ Units MAY carry (all optional; validated by `pipeline/validate_content.py`):
 - **No invented citations:** unchanged from §11; entailment claims ground in
   the ontology, not model improvisation.
 
+---
+
+# ENGAGEMENT addendum (§13) — E-M1: the Daily Question + the Argument Clinic
+
+Additive to §1–12. Scope source: `docs/SCOPE-ADDENDUM.md` (tiers E1–E3);
+this section binds E-M1 only. Later E-tiers get their own sections.
+
+## 13.1 Standalone sessions (migration 0005)
+
+E-M1 sessions are not course-bound. Migration 0005:
+
+- `sessions.enrollment_id` becomes **nullable**; new columns
+  `user_id uuid null references auth.users`,
+  `persona_id text null references personas`.
+- Integrity check `sessions_binding_check`:
+  `(enrollment_id is not null) or (user_id is not null and persona_id is not null)`.
+- `sessions_kind_check` grows: + `'dailyQuestion', 'argumentClinic'`.
+- RLS `sessions_owner` gains the standalone arm: owner =
+  enrollment owner **or** `sessions.user_id = auth.uid()`. Same for `turns`
+  (which checks via session).
+- Standalone sessions: `unit = 0`; no course doc; **relationship memory and
+  reader-profile digest are skipped at MVP**; the **commitment digest is still
+  injected** (same §12.2 rules — it is the whole point of the daily loop).
+
+## 13.2 `dailyQuestion` — the sixty-second ritual
+
+**Content asset** `content/daily/questions.json` (validated, seeded to catalog
+table `daily_questions` by `seed_content.ts`):
+
+```json
+{ "version": 1,
+  "questions": [{
+    "id": "dq-001",
+    "question": "Is a perfect copy of you — memories, habits, loves — you?",
+    "domain": "mind",
+    "personaId": "whitmore",
+    "options": [
+      {"id": "yes", "label": "Yes — that's all I am", "ontologyId": "mind.psychological-continuity"},
+      {"id": "no",  "label": "No — a copy is a twin, not me", "ontologyId": null},
+      {"id": "unsure", "label": "I genuinely can't tell", "ontologyId": null}
+    ],
+    "relatedClaims": ["mind.physicalism"]
+  }]
+}
+```
+
+- 2–4 options; `ontologyId` (nullable) must exist in the ontology; `personaId`
+  must exist in `personas.json`; ids unique; bank ≥ 14 questions.
+- **Selection is deterministic, no cron:** questions sorted by `id`; today's
+  question = `bank[daysSinceEpoch(localDate) % bank.length]`, where
+  `localDate` is the client's `YYYY-MM-DD`. Client and server compute the
+  same index; this also lets the client schedule the local notification
+  offline — and the notification text **is the question** (never "come back").
+- **Table `daily_answers`:** `user_id`, `question_id`, `question_date date`,
+  `option_id`, `sentence text`, `session_id uuid`, unique
+  `(user_id, question_date)`. RLS: owner select; writes service role.
+  Streaks are **derived client-side** from `daily_answers` (rolling ratio);
+  no server streak state.
+- **Flow — one round trip.** The client collects tap + one sentence FIRST,
+  then starts the session: `{kind: "dailyQuestion", questionId, optionId,
+  localDate, userText: sentence}`. The server: validates the option, creates
+  the standalone session (persona from the question), inserts the
+  `daily_answers` row, **deterministically writes the commitment** from the
+  tapped option (below), and the professor replies ONCE.
+- **Deterministic commitment write:** if the tapped option carries an
+  `ontologyId`, the server synthesizes a `lean` op (claim text from the
+  ontology) and runs it through the §12.2 fold — a one-tap NEVER yields
+  `asserted` by itself. The model may additionally emit a normal
+  `commitmentOps` upgrade (`assert`) ONLY when the typed sentence itself
+  asserts the position.
+- **The reply contract (kind instruction):** ≤120 words; ONE move (sharpen
+  the position, name its tradition and its best enemy, or complicate it with
+  the cost it carries); it may END on a question only as food-for-thought —
+  nothing that demands an answer; then `completeSession` +
+  `uiHints.endOfSession` in the SAME turn. State
+  `{questionId, optionId, replied}`; no retrieval; `citations` empty.
+
+## 13.3 `argumentClinic` — "Bring me an argument"
+
+A standalone session; the user picks the professor (default `whitmore`). The
+user brings a live argument — a disagreement, a take, a decision — and the
+professor extracts its structure into the SAME map shape the deterministic
+renderer already consumes (§12.5 argument spec: `conclusion {id,text}`,
+`premises [{id, text, stated, supports}]`), built incrementally via stateOps.
+
+**State:**
+```json
+{ "phase": "intake|excavation|map|crux|handback",
+  "userArgument": { "conclusion": null, "premises": [] },
+  "cruxes": [ {"id": "p2", "kind": "fact|value|definition"} ],
+  "mapVersion": 0 }
+```
+
+**Phases:** `intake` (what's the actual claim at issue? ≤2 clarifying
+questions, then `setConclusion`) → `excavation` (premises pulled out one at a
+time, in the arguer's own terms, each confirmed with the user; unstated
+load-bearers get `stated:false`) → `map` (the whole map on the table; the
+professor walks it once) → `crux` (where do the parties REALLY diverge —
+`markCrux` classifies each crux as fact / value / definition; discovering the
+disagreement was about something else entirely is the payload) → `handback`
+(name what would settle it — empirical work, a definition, or a genuinely
+evaluative choice — and hand judgment back; then `completeSession`).
+
+**New stateOps (clinic only), added to the envelope schema:**
+- `{ "op": "setConclusion", "text": "…" }` — sets `userArgument.conclusion`
+  (id `"c"`); bumps `mapVersion`.
+- `{ "op": "addPremise", "id": "p1", "text": "…", "stated": true, "supports": "c" }`
+  — `supports` must be `"c"` or an existing premise id; cap 8 premises;
+  bumps `mapVersion`.
+- `{ "op": "revisePremise", "id": "p1", "text": "…" }`
+- `{ "op": "markCrux", "id": "p2", "kind": "fact|value|definition" }` — id
+  must exist in the map.
+- plus generic `advancePhase` (intake→excavation→map→crux→handback).
+
+`canComplete`: `phase == "handback"` only. The client re-renders the map from
+state on every `mapVersion` bump (deterministic renderer reused; unstated
+premises render dashed; cruxes get a fact/value/definition badge).
+Commitment ops: allowed for positions the USER asserts about the issue —
+never inferred from the interlocutor's side of the argument. No retrieval at
+MVP; `citations` empty; canonical frameworks may be named, never excerpted.
+
+## 13.4 Guardrails (E-M1, enforced in kind instructions AND server)
+
+- **The clinic dissects arguments, never referees relationships and never
+  gives life advice.** No verdicts on who is right; "I can map the reasoning;
+  the judgment stays yours" is the register. If the material turns
+  therapy-adjacent (grief, self-harm, abuse), the professor names the limit
+  plainly and points at the human step — mapping stops being the move.
+- **The ritual stays small.** dailyQuestion replies never exceed one short
+  paragraph and never demand a reply; the session auto-completes in one turn.
+- **One-tap is not a conviction.** Deterministic daily writes enter at
+  `lean`, ratchet rules unchanged; `assert` requires the student's own words.
+- **Aggregates (later tiers) are shown only after answering, as description
+  not pressure** — recorded here so E-M2 inherits it.
+
+## 13.5 iOS additions (E-M1)
+
+- **Home surface:** Daily Question card at top (question + option buttons +
+  one-line "why" field); answered state shows the professor's reply and a
+  "added to your worldview" affordance linking to the Worldview page. Bank
+  bundled as fixture; local-date rotation computed on device.
+- **Clinic entry:** "Bring me an argument" from Home with professor picker;
+  session surface = chat + the live argument map growing above it
+  (`ArgumentMapView` reused; re-render on `mapVersion` change).
+- Demo launch args: `-demo-daily`, `-demo-clinic`.
+
+## 13.6 Validation
+
+`pipeline/validate_content.py` gains a daily-bank pass: unique ids; 2–4
+options each; every non-null `ontologyId` and every `relatedClaims` entry
+exists in `claims.json`; `personaId` exists in `personas.json`; bank ≥ 14;
+question text nonempty.
+

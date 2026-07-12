@@ -27,7 +27,9 @@ struct SessionView: View {
             }
         }
         .background(Theme.paper)
-        .navigationTitle("\(route.kind.displayName) · Unit \(route.unit + 1)")
+        .navigationTitle(route.course == nil
+                         ? route.kind.displayName
+                         : "\(route.kind.displayName) · Unit \(route.unit + 1)")
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -37,13 +39,17 @@ struct SessionView: View {
         .academyDestinations()
         .task(id: app.requiresSignIn) {
             guard !app.requiresSignIn, viewModel == nil else { return }
-            let enrollmentId = app.userStore.enrollment(for: route.course.id)?.id.uuidString
+            let enrollmentId = route.course
+                .flatMap { app.userStore.enrollment(for: $0.id)?.id.uuidString }
                 ?? UUID().uuidString
-            // The professor's voice follows this course's persona.
-            app.professorVoice.persona = app.persona(route.course.personaId)
+            // The professor's voice follows this session's persona — the
+            // course's, or the one picked for a standalone session (§13.1).
+            app.professorVoice.persona = route.resolvedPersonaId.flatMap { app.persona($0) }
             let userStore = app.userStore
             let vm = SessionViewModel(course: route.course, unit: route.unit,
-                                      kind: route.kind, enrollmentId: enrollmentId,
+                                      kind: route.kind,
+                                      personaId: route.resolvedPersonaId,
+                                      enrollmentId: enrollmentId,
                                       client: app.makeSessionClient(
                                         course: route.course, unit: route.unit),
                                       voice: app.professorVoice,
@@ -70,7 +76,7 @@ struct SessionView: View {
             Image(systemName: app.userStore.voiceReplies
                   ? "speaker.wave.2.fill" : "speaker.slash")
                 .foregroundStyle(app.userStore.voiceReplies
-                                 ? Theme.tint(for: route.course.personaId)
+                                 ? Theme.tint(for: route.resolvedPersonaId)
                                  : Theme.inkSecondary)
         }
         .accessibilityLabel(app.userStore.voiceReplies
@@ -83,8 +89,8 @@ private struct SessionContent: View {
     @Bindable var viewModel: SessionViewModel
     var inputFocused: FocusState<Bool>.Binding
 
-    private var persona: Persona? { app.persona(viewModel.course.personaId) }
-    private var tint: Color { Theme.tint(for: viewModel.course.personaId) }
+    private var persona: Persona? { viewModel.personaId.flatMap { app.persona($0) } }
+    private var tint: Color { Theme.tint(for: viewModel.personaId) }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -92,6 +98,15 @@ private struct SessionContent: View {
             // rendered deterministically from the spec (§12.7 / A11).
             if viewModel.kind == .argumentLab, let spec = viewModel.argumentSpec {
                 ArgumentMapPanel(spec: spec, phase: viewModel.labState.phase, tint: tint)
+            }
+
+            // Argument clinic (§13.3): the user's own argument grows on the
+            // blackboard as the professor's stateOps build it.
+            if viewModel.kind == .argumentClinic, let spec = viewModel.clinicSpec {
+                // Observation re-renders this on every mapVersion bump: the
+                // spec is recomputed from clinicState each time it changes.
+                ClinicMapPanel(spec: spec, cruxes: viewModel.clinicState.cruxes,
+                               tint: tint)
             }
 
             ScrollViewReader { proxy in
@@ -102,6 +117,12 @@ private struct SessionContent: View {
                         // Elenchus: where the definition stands (§12.7).
                         if viewModel.kind == .elenchus {
                             ElenchusPhaseStrip(state: viewModel.elenchusState, tint: tint)
+                        }
+
+                        // Clinic: intake → excavation → map → crux →
+                        // handback (§13.3).
+                        if viewModel.kind == .argumentClinic {
+                            ClinicPhaseStrip(phase: viewModel.clinicState.phase, tint: tint)
                         }
 
                         ForEach(viewModel.messages) { message in
@@ -356,6 +377,7 @@ private struct SessionContent: View {
         case .elenchus: return "Defend it…"
         case .thoughtExperiment: return "Say why…"
         case .argumentLab: return "Name the premise…"
+        case .argumentClinic: return "Your argument, as you'd say it…"
         default: return "Respond…"
         }
     }

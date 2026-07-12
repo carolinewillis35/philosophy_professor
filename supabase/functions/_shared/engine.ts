@@ -27,6 +27,7 @@ import {
   type ElenchusSpec,
   type ThoughtExperimentSpec,
 } from "./kinds_academy.ts";
+import { type DailyQuestionSpec, engagementKinds } from "./kinds_engagement.ts";
 
 // ---------------------------------------------------------------------------
 // Course JSON shapes (CONTRACTS §7 + §11.4 authored specs)
@@ -44,7 +45,9 @@ export type SessionKind =
   | "coReading"
   | "elenchus"
   | "thoughtExperiment"
-  | "argumentLab";
+  | "argumentLab"
+  | "dailyQuestion"
+  | "argumentClinic";
 
 export interface ReadingSpan {
   bookID: string;
@@ -122,13 +125,14 @@ export interface CourseUnit {
   argumentLabs?: ArgumentLabSpec[];
 }
 
-/** Any kind-specific authored spec asset (§11.4 + §12.5). */
+/** Any kind-specific authored spec asset (§11.4 + §12.5 + §13.2). */
 export type KindSpec =
   | DisputeSpec
   | CraftLabSpec
   | ElenchusSpec
   | ThoughtExperimentSpec
-  | ArgumentLabSpec;
+  | ArgumentLabSpec
+  | DailyQuestionSpec;
 
 export interface CourseDoc {
   id: string;
@@ -704,6 +708,9 @@ export const KIND_REGISTRY: Record<SessionKind, KindDef> = {
   elenchus: academyKinds.elenchus,
   thoughtExperiment: academyKinds.thoughtExperiment,
   argumentLab: academyKinds.argumentLab,
+  // Engagement kinds (§13, standalone) — defined in kinds_engagement.ts.
+  dailyQuestion: engagementKinds.dailyQuestion,
+  argumentClinic: engagementKinds.argumentClinic,
 };
 
 // ---------------------------------------------------------------------------

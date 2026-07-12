@@ -11,6 +11,7 @@
 //   content/personas/<id>.md         — full persona doc per registry entry
 //   content/courses/*.json           — course JSON (CONTRACTS §7 + §12.5)
 //   content/ontology/claims.json     — claim ontology (CONTRACTS §12.6)
+//   content/daily/questions.json     — daily-question bank (CONTRACTS §13.2)
 //
 // Book text (editions/chapters/passages) is seeded separately via the
 // pipeline's seed.sql — see supabase/README.md.
@@ -147,6 +148,32 @@ if (ontology) {
     Deno.exit(1);
   }
   console.log(`claim_edges: ${edgeRows.length} ✓`);
+}
+
+// --- daily-question bank (CONTRACTS §13.2 -> daily_questions) ----------------
+
+const dailyPath = "content/daily/questions.json";
+let daily: { version?: number; questions: { id: string }[] } | null = null;
+try {
+  daily = JSON.parse(await Deno.readTextFile(dailyPath));
+} catch {
+  console.warn(`no ${dailyPath} — skipping daily questions`);
+}
+
+if (daily) {
+  const questions = daily.questions ?? [];
+  const { error: dErr } = await db.from("daily_questions").upsert(
+    questions.map((q) => ({
+      id: q.id,
+      doc: q,
+      version: daily.version ?? 1,
+    })),
+  );
+  if (dErr) {
+    console.error(`daily_questions: ${dErr.message}`);
+    Deno.exit(1);
+  }
+  console.log(`daily_questions: ${questions.length} ✓`);
 }
 
 console.log("done");

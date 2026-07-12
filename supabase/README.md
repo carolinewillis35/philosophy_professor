@@ -10,6 +10,8 @@ supabase/
   migrations/0002_usage_and_deletion.sql # usage_daily + record_usage RPC (§4.3), FK cascade hygiene (§4.2)
   migrations/0003_profile_and_kinds.sql  # 9 session kinds, reader_profiles + profile_evidence,
                                          # highlights.enrollment_id (§10 Addendum v2)
+  migrations/0004_academy.sql            # Academy kinds + Commitment Map tables (§12)
+  migrations/0005_engagement.sql         # standalone sessions + daily_questions/daily_answers (§13)
   functions/
     _shared/                   # anthropic client, envelope schema (v2), say streamer,
                                # retrieval, prompt assembly, per-kind registry (engine.ts),
@@ -17,7 +19,7 @@ supabase/
     session/index.ts           # the session engine Edge Function (SSE)
     session/deno.json
     delete-account/index.ts    # account deletion Edge Function (§4.2)
-  scripts/seed_content.ts      # seed personas/courses from content/ (service role)
+  scripts/seed_content.ts      # seed personas/courses/ontology/daily bank from content/ (service role)
 ```
 
 ## Prerequisites
@@ -34,7 +36,7 @@ supabase/
 supabase init          # safe to skip if you deploy straight to a linked project
 supabase link --project-ref <PROJECT_REF>
 
-# apply migrations/ (0001_init, 0002_usage_and_deletion, 0003_profile_and_kinds)
+# apply migrations/ (0001_init … 0005_engagement)
 supabase db push
 ```
 

@@ -27,6 +27,8 @@ final class AppModel {
     /// The Commitment Map behind the Worldview page (§12.7); fixture-backed
     /// in mock mode.
     let worldview: WorldviewStore
+    /// The Daily Question ritual (§13.2): bank, rotation, answered state.
+    let daily: DailyQuestionStore
 
     // Voice mode (DECISIONS #11): one mic, one synthesizer, app-wide.
     let speechTranscriber: SpeechTranscriber
@@ -44,6 +46,7 @@ final class AppModel {
         self.config = config
         self.auth = AuthClient(config: config)
         self.worldview = WorldviewStore()
+        self.daily = DailyQuestionStore()
 
         // Recording and speaking never overlap: the mic silences the
         // professor, and the professor won't start while the mic is open.
@@ -64,6 +67,9 @@ final class AppModel {
             let personas = try await content.loadPersonas()
             personasByID = Dictionary(uniqueKeysWithValues: personas.map { ($0.id, $0) })
             books = try await content.loadBooks()
+            // The home surface survives a missing daily bank — the card
+            // simply doesn't render.
+            daily.load(bank: (try? await content.loadDailyQuestions()) ?? [])
             isLoaded = true
         } catch {
             loadError = error.localizedDescription

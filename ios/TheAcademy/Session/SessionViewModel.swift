@@ -11,10 +11,14 @@ import Observation
 @MainActor
 final class SessionViewModel {
 
-    let course: Course
+    /// nil for the standalone kinds (§13.1) — no course, no unit doc.
+    let course: Course?
     let unit: Int
     let kind: SessionKind
     let enrollmentId: String
+    /// The professor in the room: the course's persona, or the one the
+    /// student picked for a standalone session (§13.1).
+    let personaId: String?
 
     private let client: SessionClient
 
@@ -41,16 +45,20 @@ final class SessionViewModel {
     private(set) var elenchusState = ElenchusState()
     private(set) var experimentState = ThoughtExperimentState()
     private(set) var labState = ArgumentLabState()
+    /// argumentClinic (§13.3): the user's map, folded from stateOps.
+    private(set) var clinicState = ClinicMapState()
 
     var inputText = ""
 
-    init(course: Course, unit: Int, kind: SessionKind,
+    init(course: Course?, unit: Int, kind: SessionKind,
+         personaId: String? = nil,
          enrollmentId: String, client: SessionClient,
          voice: ProfessorVoice? = nil,
          voiceEnabled: @escaping () -> Bool = { false }) {
         self.course = course
         self.unit = unit
         self.kind = kind
+        self.personaId = personaId ?? course?.personaId
         self.enrollmentId = enrollmentId
         self.client = client
         self.voice = voice
@@ -63,7 +71,7 @@ final class SessionViewModel {
     }
 
     var currentUnit: Unit? {
-        course.units.first { $0.number == unit + 1 }
+        course?.units.first { $0.number == unit + 1 }
     }
 
     // Authored specs for this unit (§12.5) — the deterministic render sources.
@@ -74,6 +82,20 @@ final class SessionViewModel {
     /// The authored node currently on the table (thoughtExperiment run phase).
     var currentExperimentNode: ThoughtExperimentSpec.Node? {
         experimentSpec?.node(experimentState.nodeId)
+    }
+
+    /// The clinic's live map in the shape the deterministic renderer already
+    /// consumes (§13.3): the user's argument as a synthesized ArgumentSpec —
+    /// same conclusion/premise shape, nothing hidden, nothing removed.
+    var clinicSpec: ArgumentSpec? {
+        guard kind == .argumentClinic, let conclusion = clinicState.conclusion else { return nil }
+        return ArgumentSpec(
+            id: "clinic-map", title: "Your argument",
+            source: ArgumentSpec.Source(bookID: "", passageIds: []),
+            conclusion: ArgumentSpec.Statement(id: "c", text: conclusion),
+            premises: clinicState.premises,
+            mode: .hunt, hiddenPremiseId: nil, removedPremiseId: nil,
+            pedagogicalPoint: "", elicitationQuestions: [], relatedClaims: nil)
     }
 
     /// Choice buttons replace the keyboard while the branch walk is live.
@@ -103,8 +125,12 @@ final class SessionViewModel {
     func start(essayBody: String? = nil) async {
         guard !hasStarted else { return }
         hasStarted = true
-        await consume(client.send(.start(
-            enrollmentId: enrollmentId, kind: kind, unit: unit, essayBody: essayBody)))
+        // Standalone kinds (§13.1) start with user + persona, no enrollment.
+        let request: SessionRequest = kind.isStandalone
+            ? .startStandalone(kind: kind, personaId: personaId ?? "whitmore")
+            : .start(enrollmentId: enrollmentId, kind: kind, unit: unit,
+                     essayBody: essayBody)
+        await consume(client.send(request))
     }
 
     func sendUserText() async {
@@ -263,6 +289,29 @@ final class SessionViewModel {
             case .recordHuntResult(let found, let attempts):
                 labState.found = found
                 labState.attempts = attempts
+            // argumentClinic (§13.3): fold the map ops; the panel re-renders
+            // on every mapVersion bump.
+            case .setConclusion(let text):
+                clinicState.conclusion = text
+                clinicState.mapVersion += 1
+            case .addPremise(let premise):
+                guard clinicState.premises.count < 8,
+                      !clinicState.premises.contains(where: { $0.id == premise.id })
+                else { break }
+                clinicState.premises.append(premise)
+                clinicState.mapVersion += 1
+            case .revisePremise(let id, let text):
+                if let i = clinicState.premises.firstIndex(where: { $0.id == id }) {
+                    let old = clinicState.premises[i]
+                    clinicState.premises[i] = ArgumentSpec.Premise(
+                        id: old.id, text: text, stated: old.stated, supports: old.supports)
+                    clinicState.mapVersion += 1
+                }
+            case .markCrux(let id, let kind):
+                if id == "c" || clinicState.premises.contains(where: { $0.id == id }) {
+                    clinicState.cruxes[id] = kind
+                    clinicState.mapVersion += 1
+                }
             case .advanceSegment, .pushQuestion, .popQuestion,
                  .setDepth, .requireEvidence, .writeMemory:
                 // Server-side session state; nothing to mirror locally.
@@ -298,6 +347,13 @@ final class SessionViewModel {
             case (.hunt, _): labState.phase = .reveal
             case (.reveal, _), (.collapse, _): labState.phase = .rebuild
             case (.rebuild, _): break
+            }
+        case .argumentClinic:
+            // intake → excavation → map → crux → handback (§13.3).
+            let phases = ClinicPhase.allCases
+            if let i = phases.firstIndex(of: clinicState.phase),
+               i + 1 < phases.count {
+                clinicState.phase = phases[i + 1]
             }
         default:
             break

@@ -15,6 +15,7 @@ final class MockSessionClient: SessionClient {
     private var experimentTurn = 0
     private var interrogationTurn = 0
     private var labTurn = 0
+    private var clinicTurn = 0
     private var pumpFired = false
 
     private let assignmentId: String
@@ -146,6 +147,81 @@ final class MockSessionClient: SessionClient {
         case .argumentLab:
             defer { labTurn += 1 }
             return argumentLabStep(labTurn)
+        case .dailyQuestion:
+            return dailyQuestionStep(userText: request.userText)
+        case .argumentClinic:
+            defer { clinicTurn += 1 }
+            return clinicStep(clinicTurn)
+        }
+    }
+
+    // MARK: - Daily question (§13.2: one reply, then it's over)
+
+    private func dailyQuestionStep(userText: String?) -> Step {
+        let sharpen = (userText?.isEmpty == false)
+            ? "And you gave a reason — a sentence can be examined; a tap can only be counted. "
+            : ""
+        return Step(envelope: Envelope(
+            say: "A clean answer — and notice it is an answer, not a mood. \(sharpen)Positions like yours have a long ancestry: careful people spent lifetimes defending it, and equally careful people think it fails at exactly one point. That point of failure is the part worth knowing, because holding the position consistently will commit you elsewhere — usually somewhere less comfortable than here. It sits on your worldview as a lean: an inclination honestly recorded, not a conviction claimed. Food for thought, nothing owed: what would have to be true for the other answer to be right?",
+            stateOps: [.completeSession],
+            uiHints: UIHints(endOfSession: true)))
+    }
+
+    // MARK: - Argument clinic (§13.3: the roommate-rent demo, Prof. Whitmore's bench)
+
+    private func clinicStep(_ turn: Int) -> Step {
+        switch turn {
+        case 0:
+            return Step(envelope: Envelope(
+                say: "The clinic is open. Bring me an argument — a live one: a disagreement you are actually in, a take you are being pushed on, a decision with sides. Not the polished version; the version you would say out loud. I will pull the structure out where we can both see it. One thing before we start: I map reasoning — I do not referee. The judgment stays yours. So: what is the claim at issue?",
+                uiHints: UIHints(checkInQuestion: "What's the actual claim in dispute?")))
+        case 1:
+            return Step(envelope: Envelope(
+                say: "Good — feelings, history, and the other party's tone all arrived with it, which is normal; none of them are the claim. Let me put the proposition itself on the table, in one clean sentence, taking your side of it as the claim under inspection: *Sam should pay a larger share of the rent.* That's the conclusion — node c on the board above. If it's not quite yours, we fix it now; a wrong conclusion ruins the whole map. Assuming it holds: give me the strongest reason in its favor, the one doing the real work.",
+                stateOps: [
+                    .setConclusion(text: "Sam should pay a larger share of the rent."),
+                    .advancePhase
+                ],
+                uiHints: UIHints(checkInQuestion: "What's the strongest reason in its favor?")))
+        case 2:
+            return Step(envelope: Envelope(
+                say: "On the board: p1 — Sam has the larger bedroom. Now notice what kind of thing that is: a measurement. And a measurement, by itself, proves nothing about what anyone *should* pay; something unspoken is bridging the fact to the ought. That bridge is a premise too, whether or not anyone in the apartment has said it aloud. Say it out loud if you can — what principle connects the size of a room to the size of a rent check?",
+                stateOps: [
+                    .addPremise(ArgumentSpec.Premise(
+                        id: "p1", text: "Sam has the larger bedroom.",
+                        stated: true, supports: "c"))
+                ],
+                uiHints: UIHints(checkInQuestion: "What principle connects the room to the rent?")))
+        case 3:
+            return Step(envelope: Envelope(
+                say: "There it is — p2: whoever gets more of the apartment should pay more of its cost. Stated, and creditable. But look at the board now, because under p2 hangs a premise *nobody* in this dispute has said out loud: p3 — room size is the right measure of who gets more of the apartment. Dashed border, because it's unstated — and it is carrying the entire argument. If Sam works late, hosts nothing, and uses the kitchen twice a week, the argument reads differently, doesn't it? I've also sharpened p1 while we're here: 'larger' was doing quiet work, so let's say how much. The whole machine is now on the table: a measurement, a fairness principle, and the silent assumption connecting them. Walk it once with me before we go on.",
+                stateOps: [
+                    .addPremise(ArgumentSpec.Premise(
+                        id: "p2",
+                        text: "Whoever gets more of the apartment should pay more of its cost.",
+                        stated: true, supports: "c")),
+                    .addPremise(ArgumentSpec.Premise(
+                        id: "p3",
+                        text: "Room size is the right measure of who gets more of the apartment.",
+                        stated: false, supports: "p2")),
+                    .revisePremise(id: "p1",
+                                   text: "Sam's bedroom is roughly a third larger."),
+                    .advancePhase
+                ],
+                uiHints: UIHints(checkInQuestion: "Does the map match the argument you've actually been having?")))
+        case 4:
+            return Step(envelope: Envelope(
+                say: "Then here is the clinic's real question: where do you and Sam actually diverge? Not p1 — a tape measure settles that, and I doubt either of you disputes it. Not even p2 — I would wager Sam accepts the principle happily. The live wire is p3: what counts as *getting more* of a shared home. That is a definition crux — badged on the board. You two mean different things by 'more,' and until that word is settled you are not disagreeing; you are talking past each other. Which explains something, doesn't it: why the same three sentences keep repeating. The fight was never about money.",
+                stateOps: [
+                    .advancePhase,
+                    .markCrux(id: "p3", kind: .definition)
+                ],
+                uiHints: UIHints(checkInQuestion: "Does that match where the conversation actually stalls?")))
+        default:
+            return Step(envelope: Envelope(
+                say: "So here is what would settle it — and note that it is not louder repetition of p1. Agree on the measure. Sit down and decide together what 'share of the apartment' means: square feet, waking hours at home, common space, guests — all of it on the table. That is a definition to negotiate, not a fact to prove, which is exactly why the argument kept sliding. You came in with a rent dispute; you leave with one word to settle. Whether Sam's share changes once you've settled it — that judgment was never mine to make. The map is yours; take it home.",
+                stateOps: [.advancePhase, .completeSession],
+                uiHints: UIHints(endOfSession: true)))
         }
     }
 

@@ -10,6 +10,12 @@ struct ArgumentMapView: View {
     let spec: ArgumentSpec
     let phase: ArgumentLabPhase
     let tint: Color
+    /// Crux badges (§13.3, argumentClinic): map node id → fact/value/
+    /// definition. Empty for the authored labs.
+    var cruxes: [String: ClinicCruxKind] = [:]
+    /// Clinic rendering (§13.3): premises with `stated: false` draw dashed —
+    /// excavated load-bearers, not hunted slots.
+    var dashUnstated = false
 
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
@@ -119,6 +125,9 @@ struct ArgumentMapView: View {
                         .foregroundStyle(isRemoved(premise) ? Theme.inkSecondary.opacity(0.6) : Theme.ink)
                         .strikethrough(isRemoved(premise), color: Theme.inkSecondary.opacity(0.5))
                         .fixedSize(horizontal: false, vertical: true)
+                    if let crux = cruxes[premise.id] {
+                        CruxBadge(kind: crux, tint: tint)
+                    }
                 }
                 .padding(10)
                 .frame(width: nodeWidth, alignment: .leading)
@@ -126,9 +135,19 @@ struct ArgumentMapView: View {
                     .fill(isRemoved(premise) ? Theme.rule.opacity(0.35)
                           : isRevealed(premise) ? tint.opacity(0.12)
                           : Theme.card))
-                .overlay(RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .strokeBorder(isRevealed(premise) ? tint : Theme.rule,
-                                  lineWidth: isRevealed(premise) ? 1.5 : 1))
+                .overlay {
+                    if dashUnstated && !premise.stated {
+                        // The unstated load-bearer the professor excavated
+                        // (§13.3): on the board, but drawn as an admission.
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .strokeBorder(tint.opacity(0.55),
+                                          style: StrokeStyle(lineWidth: 1.5, dash: [6, 4]))
+                    } else {
+                        RoundedRectangle(cornerRadius: 12, style: .continuous)
+                            .strokeBorder(isRevealed(premise) ? tint : Theme.rule,
+                                          lineWidth: isRevealed(premise) ? 1.5 : 1)
+                    }
+                }
                 .opacity(isRemoved(premise) ? 0.55 : 1)
             }
         }
@@ -137,7 +156,12 @@ struct ArgumentMapView: View {
 
     private var conclusionNode: some View {
         VStack(alignment: .leading, spacing: 6) {
-            Text("Conclusion").overline(tint)
+            HStack(spacing: 6) {
+                Text("Conclusion").overline(tint)
+                if let crux = cruxes[spec.conclusion.id] {
+                    CruxBadge(kind: crux, tint: tint)
+                }
+            }
             Text(spec.conclusion.text)
                 .font(.footnote.weight(.medium))
                 .fontDesign(.serif)
@@ -170,9 +194,11 @@ struct ArgumentMapView: View {
         dashed.stroke(tint.opacity(0.5), style: StrokeStyle(lineWidth: 1.2, dash: [5, 4]))
     }
 
-    /// An edge draws dashed while its premise is the hunted empty slot.
+    /// An edge draws dashed while its premise is the hunted empty slot — or,
+    /// in the clinic, while the premise itself is an unstated load-bearer.
     private func edgeIsDashed(_ premise: ArgumentSpec.Premise) -> Bool {
         isHiddenSlot(premise) || isRemoved(premise)
+            || (dashUnstated && !premise.stated)
     }
 
     private func edgePath(anchors: [String: Anchor<CGRect>],
@@ -193,6 +219,27 @@ struct ArgumentMapView: View {
                     control2: CGPoint(x: end.x, y: end.y - (end.y - start.y) * 0.55))
             }
         }
+    }
+}
+
+/// Small fact/value/definition tag on a node the professor marked as a crux
+/// (§13.3): where the disagreement really lives.
+struct CruxBadge: View {
+    let kind: ClinicCruxKind
+    let tint: Color
+
+    var body: some View {
+        Text(kind.rawValue)
+            .font(.system(size: 8, weight: .bold))
+            .fontDesign(.default)
+            .textCase(.uppercase)
+            .kerning(0.6)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 1.5)
+            .background(Capsule().fill(tint.opacity(0.14)))
+            .overlay(Capsule().strokeBorder(tint.opacity(0.5), lineWidth: 1))
+            .foregroundStyle(tint)
+            .accessibilityLabel("Crux: \(kind.rawValue)")
     }
 }
 
