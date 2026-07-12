@@ -19,6 +19,7 @@ the faculty disagree with each other so no house view can leak.**
 | Path | What it is |
 |---|---|
 | `docs/SCOPE.md` | The Academy product scope (MVP → V2) |
+| `docs/SCOPE-ADDENDUM.md` | Engagement addendum (E1–E3): daily loop, growth ladder, seminar-to-life bridge |
 | `docs/SEMINAR-SCOPE*.md` | Platform reference (the engine this forks) |
 | `docs/CONTRACTS.md` | **Binding cross-component interfaces** — §12 is the Academy delta; read it first |
 | `docs/DECISIONS.md` | Resolved `[DECISION]` flags (A1–A14) |

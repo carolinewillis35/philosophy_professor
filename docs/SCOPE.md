@@ -4,6 +4,8 @@
 > **Relationship to the Seminar engine:** This is not a new app from scratch. It reuses the platform built for The Seminar — the persona system (persona docs + relationship memory), the server-side session engine and its `{say, citations[], stateOps[], uiHints}` envelope, the RAG layer (chunked public-domain texts, stable passage IDs, quote-only-from-retrieval contract), the reader, courses/units/enrollments, the reader-profile pipeline, and the authored-spine-plus-generated-flesh philosophy. **Everything below is a delta:** a new corpus, a new faculty, new session types, and one flagship subsystem with no analog in any tutor on earth. (Platform reference: `SEMINAR-SCOPE.md`, `SEMINAR-SCOPE-ADDENDUM.md`, `CONTRACTS.md`.)
 >
 > Tiers: **[MVP]**, **[V1]**, **[V2]**. Decisions flagged **[DECISION]** (resolved flags live in `DECISIONS.md`).
+>
+> **Engagement addendum:** the daily loop, the growth ladder, and the seminar-to-life bridge ("Bring me an argument", the Daily Question, the Practice Wing) live in `SCOPE-ADDENDUM.md`, tiered **[E1]–[E3]** with build order E-M1→E-M4.
 
 ---
 
