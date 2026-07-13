@@ -30,6 +30,8 @@ the faculty disagree with each other so no house view can leak.**
 | `content/drops/drops.json` | Weekly thought-experiment drops (§14.3) — five branching labs with crowd compare |
 | `content/practice/exercises.json` | The Practice Wing (§15.3) — morning intentions, the examen, negative visualizations |
 | `content/news/lenses.json` | News lens pairs (§15.2) — opposed frameworks the weekly story is read through |
+| `content/symposia/symposia.json` | Monthly Symposium bank (§16.1) — faculty debates the community rules on |
+| `content/packs/packs.json` | Dinner-party packs (§16.4) — exportable question decks, untracked by design |
 | `content/courses/` | Authored course JSON incl. elenchus specs, thought experiments, argument labs |
 | `pipeline/` | Text ingestion (Gutenberg → chapters → passages → embeddings → seed SQL) + content validator |
 | `supabase/` | Schema + RLS + retrieval RPC, session-engine Edge Function, commitment pipeline |

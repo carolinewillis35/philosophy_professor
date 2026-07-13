@@ -33,6 +33,12 @@ final class AppModel {
     let drops: DropStore
     /// The Practice Wing (§15.3): Bede's exercise bank, rotations, journal.
     let practice: PracticeStore
+    /// The monthly Symposium (§16.1–§16.3): bank, rotation, response record,
+    /// mock movement aggregate.
+    let symposia: SymposiumStore
+    /// The dinner-party packs (§16.4): a read-only catalog — deliberately
+    /// NOT a store; nothing about their use is tracked (§16.6).
+    private(set) var packs: [Pack] = []
     /// This week's news brief (§15.2); a fixture mock in mock mode, the
     /// cached `news_briefs` row in live mode. nil ⇒ the card doesn't render.
     private(set) var newsBrief: NewsBrief?
@@ -56,6 +62,7 @@ final class AppModel {
         self.daily = DailyQuestionStore()
         self.drops = DropStore()
         self.practice = PracticeStore()
+        self.symposia = SymposiumStore()
 
         // Recording and speaking never overlap: the mic silences the
         // professor, and the professor won't start while the mic is open.
@@ -85,6 +92,10 @@ final class AppModel {
             // a missing bank/brief simply means the surface doesn't render.
             practice.load(bank: try? await content.loadPracticeExercises())
             newsBrief = try? await content.loadNewsBrief()
+            // …and for the Agora (§16): a missing symposium bank or packs
+            // asset simply means those surfaces don't render.
+            symposia.load(bank: (try? await content.loadSymposia()) ?? [])
+            packs = (try? await content.loadPacks()) ?? []
             isLoaded = true
         } catch {
             loadError = error.localizedDescription
@@ -129,7 +140,8 @@ final class AppModel {
                            dropSpec: ThoughtExperimentSpec? = nil,
                            newsBrief: NewsBrief? = nil,
                            practiceMode: PracticeMode? = nil,
-                           practiceExercise: PracticeExercise? = nil) -> SessionClient {
+                           practiceExercise: PracticeExercise? = nil,
+                           symposiumSpec: SymposiumSpec? = nil) -> SessionClient {
         if let endpoint = config.sessionEndpoint, let key = config.supabaseAnonKey {
             let auth = self.auth
             return LiveSessionClient(
@@ -144,7 +156,8 @@ final class AppModel {
                                  newsBrief: newsBrief,
                                  practiceMode: practiceMode,
                                  practiceExercise: practiceExercise,
-                                 examenQuestions: practice.examenQuestions)
+                                 examenQuestions: practice.examenQuestions,
+                                 symposiumSpec: symposiumSpec)
     }
 
     // MARK: account

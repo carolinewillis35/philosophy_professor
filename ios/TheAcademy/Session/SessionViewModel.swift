@@ -32,6 +32,12 @@ final class SessionViewModel {
     /// exercise the start request carries (persona is bede server-side).
     let practiceMode: PracticeMode?
     let practiceExerciseId: String?
+    /// Non-nil for symposium sessions (§16.2): the month's spec — the phase
+    /// strip, the two voices' names/tints, and the movement door render from
+    /// it. The before-tap's position rides the start request and is never
+    /// shown to the session UI after (§16.6).
+    let symposiumSpec: SymposiumSpec?
+    let symposiumBefore: SymposiumStance?
 
     private let client: SessionClient
 
@@ -74,6 +80,9 @@ final class SessionViewModel {
     private(set) var practiceStep = 0
     /// practiceReview (§15.3): review → reflection.
     private(set) var reviewPhase: PracticeReviewPhase = .review
+    /// symposium (§16.2): phase + ruling, folded from advancePhase and
+    /// recordPosition — the client mirror of SymposiumState.
+    private(set) var symposiumState = SymposiumClientState()
 
     var inputText = ""
 
@@ -85,6 +94,8 @@ final class SessionViewModel {
          newsBrief: NewsBrief? = nil,
          practiceMode: PracticeMode? = nil,
          practiceExerciseId: String? = nil,
+         symposiumSpec: SymposiumSpec? = nil,
+         symposiumBefore: SymposiumStance? = nil,
          voice: ProfessorVoice? = nil,
          voiceEnabled: @escaping () -> Bool = { false }) {
         self.course = course
@@ -98,6 +109,8 @@ final class SessionViewModel {
         self.newsBrief = newsBrief
         self.practiceMode = practiceMode
         self.practiceExerciseId = practiceExerciseId
+        self.symposiumSpec = symposiumSpec
+        self.symposiumBefore = symposiumBefore
         self.voice = voice
         self.voiceEnabled = voiceEnabled
 
@@ -191,6 +204,12 @@ final class SessionViewModel {
             request = .startPractice(mode: practiceMode ?? .morning,
                                      exerciseId: practiceExerciseId,
                                      localDate: DailyQuestion.localDateString())
+        } else if kind == .symposium {
+            // §16.2: symposiumId + the before-tap + localDate — before is
+            // captured at start, before any argument is heard (§16.6).
+            request = .startSymposium(symposiumId: symposiumSpec?.id ?? "",
+                                      beforePosition: symposiumBefore ?? .undecided,
+                                      localDate: DailyQuestion.localDateString())
         } else if kind.isStandalone {
             // Standalone kinds (§13.1) start with user + persona, no
             // enrollment.
@@ -279,6 +298,7 @@ final class SessionViewModel {
                 if let i = professorIndex {
                     messages[i].text = envelope.say
                     messages[i].citations = envelope.citations
+                    messages[i].speakers = envelope.speakers
                     messages[i].isStreaming = false
                 }
                 apply(envelope, professorIndex: professorIndex)
@@ -388,6 +408,16 @@ final class SessionViewModel {
                     steelmanState.phase = .debrief
                     steelmanJustification = justification.isEmpty ? nil : justification
                 }
+            // symposium (§16.2): the ruling — mirrors the kind's onOps: only
+            // from adjudication (or a mid-exchange ruling), then straight to
+            // cross-examination by the rejected side.
+            case .recordPosition(let side, let statement):
+                if kind == .symposium,
+                   symposiumState.phase == .adjudication
+                    || symposiumState.phase == .exchange {
+                    symposiumState.position = SymposiumRuling(side: side, statement: statement)
+                    symposiumState.phase = .crossExamination
+                }
             case .advanceSegment, .pushQuestion, .popQuestion,
                  .setDepth, .requireEvidence, .writeMemory,
                  .markTensionReconciled:
@@ -457,6 +487,16 @@ final class SessionViewModel {
         case .practiceReview:
             // review → reflection (§15.3).
             if reviewPhase == .review { reviewPhase = .reflection }
+        case .symposium:
+            // question → exchange → adjudication → cross-examination →
+            // debrief (§16.2), clamped at debrief — the kind's onOps exactly
+            // (a ruling, not advancePhase, is the other door out of
+            // adjudication).
+            let phases = SymposiumPhase.allCases
+            if let i = phases.firstIndex(of: symposiumState.phase),
+               i + 1 < phases.count {
+                symposiumState.phase = phases[i + 1]
+            }
         default:
             break
         }

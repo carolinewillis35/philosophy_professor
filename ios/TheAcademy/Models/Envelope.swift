@@ -6,6 +6,11 @@ import Foundation
 /// `say` deltas immediately and reconciles against `envelope.say` on arrival.
 struct Envelope: Decodable {
     let say: String
+    /// Multi-voice turns (§11.1, extended to the symposium in §16.2): one
+    /// entry per voice, in speaking order, each with its OWN citations. The
+    /// `say` prose carries the same dialogue as labeled text; the client
+    /// renders `speakers` structurally when present.
+    let speakers: [Speaker]
     let citations: [Citation]
     let stateOps: [StateOp]
     let uiHints: UIHints
@@ -13,24 +18,51 @@ struct Envelope: Decodable {
     /// server-side; the client decodes but never acts on them.
     let commitmentOps: [CommitmentOp]
 
-    init(say: String, citations: [Citation] = [], stateOps: [StateOp] = [],
+    init(say: String, speakers: [Speaker] = [], citations: [Citation] = [],
+         stateOps: [StateOp] = [],
          uiHints: UIHints = UIHints(), commitmentOps: [CommitmentOp] = []) {
         self.say = say
+        self.speakers = speakers
         self.citations = citations
         self.stateOps = stateOps
         self.uiHints = uiHints
         self.commitmentOps = commitmentOps
     }
 
-    private enum CodingKeys: String, CodingKey { case say, citations, stateOps, uiHints, commitmentOps }
+    private enum CodingKeys: String, CodingKey { case say, speakers, citations, stateOps, uiHints, commitmentOps }
 
     init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         say = try c.decode(String.self, forKey: .say)
+        speakers = try c.decodeIfPresent([Speaker].self, forKey: .speakers) ?? []
         citations = try c.decodeIfPresent([Citation].self, forKey: .citations) ?? []
         stateOps = try c.decodeIfPresent([StateOp].self, forKey: .stateOps) ?? []
         uiHints = try c.decodeIfPresent(UIHints.self, forKey: .uiHints) ?? UIHints()
         commitmentOps = try c.decodeIfPresent([CommitmentOp].self, forKey: .commitmentOps) ?? []
+    }
+}
+
+/// One voice of a multi-voice turn (§11.1): the persona speaking, their
+/// prose, and their own citations — the envelope's structural mirror of the
+/// say text's "NAME: …" labeling.
+struct Speaker: Decodable, Hashable {
+    let personaId: String
+    let say: String
+    let citations: [Citation]
+
+    init(personaId: String, say: String, citations: [Citation] = []) {
+        self.personaId = personaId
+        self.say = say
+        self.citations = citations
+    }
+
+    private enum CodingKeys: String, CodingKey { case personaId, say, citations }
+
+    init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        personaId = try c.decode(String.self, forKey: .personaId)
+        say = try c.decode(String.self, forKey: .say)
+        citations = try c.decodeIfPresent([Citation].self, forKey: .citations) ?? []
     }
 }
 
@@ -146,12 +178,17 @@ enum StateOp: Decodable {
     case markTensionReconciled(resolution: String)
     // steelman (§14.4): the verdict — level 1–4 against the four named ranks.
     case recordSteelmanScore(level: Int, justification: String)
+    // symposium (§16.2): the student's ruling — the side they took (a
+    // persona id) and their reason, their words. The server maps it to the
+    // response row's after-position; the client mirrors it locally.
+    case recordPosition(side: String, statement: String)
 
     private enum CodingKeys: String, CodingKey {
         case op, question, depth, value, note, thesis, definition, outcome,
              nodeId, choice, pumpId, found, attempts,
              text, id, stated, supports, kind,
-             resolution, level, justification
+             resolution, level, justification,
+             side, statement
     }
 
     init(from decoder: Decoder) throws {
@@ -211,6 +248,10 @@ enum StateOp: Decodable {
             self = .recordSteelmanScore(
                 level: try c.decode(Int.self, forKey: .level),
                 justification: try c.decodeIfPresent(String.self, forKey: .justification) ?? "")
+        case "recordPosition":
+            self = .recordPosition(
+                side: try c.decode(String.self, forKey: .side),
+                statement: try c.decodeIfPresent(String.self, forKey: .statement) ?? "")
         default:
             throw DecodingError.dataCorruptedError(
                 forKey: .op, in: c,

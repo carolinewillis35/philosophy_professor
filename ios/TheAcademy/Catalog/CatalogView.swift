@@ -29,6 +29,10 @@ struct CatalogView: View {
                     // aggregates on news, ever.
                     NewsCard()
 
+                    // The monthly Symposium (§16.2/§16.5): the event of the
+                    // month — two professors, one question, your ruling.
+                    SymposiumCard()
+
                     // "Bring me an argument" — the clinic door (§13.5).
                     ClinicEntryCard()
 
@@ -41,6 +45,11 @@ struct CatalogView: View {
                         }
                         .buttonStyle(.plain)
                     }
+
+                    // Dinner-party packs (§16.4/§16.5): a low-key shelf door
+                    // below the cards — the questions leave the app;
+                    // nothing about them is tracked (§16.6).
+                    PacksEntryCard()
 
                     facultySection
                 }

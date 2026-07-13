@@ -22,6 +22,7 @@ final class MockSessionClient: SessionClient {
     private var newsTurn = 0
     private var practiceTurn = 0
     private var reviewTurn = 0
+    private var symposiumTurn = 0
 
     private let assignmentId: String
     /// The current course unit, so the scripted professor can lean on the
@@ -38,13 +39,18 @@ final class MockSessionClient: SessionClient {
     private let practiceMode: PracticeMode?
     private let practiceExercise: PracticeExercise?
     private let examenQuestions: [String]
+    /// The month's symposium spec (§16.2): the mock speaks the authored
+    /// volleys through the speakers[] contract, the way the server hands the
+    /// spec to the kind's instructionBlock.
+    private let symposiumSpec: SymposiumSpec?
 
     init(assignmentId: String = "wij-u1-response", unit: Unit? = nil,
          dropSpec: ThoughtExperimentSpec? = nil,
          newsBrief: NewsBrief? = nil,
          practiceMode: PracticeMode? = nil,
          practiceExercise: PracticeExercise? = nil,
-         examenQuestions: [String] = Examen.questions) {
+         examenQuestions: [String] = Examen.questions,
+         symposiumSpec: SymposiumSpec? = nil) {
         self.assignmentId = assignmentId
         self.unit = unit
         self.dropSpec = dropSpec
@@ -53,6 +59,7 @@ final class MockSessionClient: SessionClient {
         self.practiceExercise = practiceExercise
         self.examenQuestions = examenQuestions.count == 3
             ? examenQuestions : Examen.questions
+        self.symposiumSpec = symposiumSpec
     }
 
     func send(_ request: SessionRequest) -> AsyncStream<SessionEvent> {
@@ -194,6 +201,114 @@ final class MockSessionClient: SessionClient {
         case .practiceReview:
             defer { reviewTurn += 1 }
             return practiceReviewStep(reviewTurn)
+        case .symposium:
+            defer { symposiumTurn += 1 }
+            return symposiumStep(symposiumTurn, userText: request.userText)
+        }
+    }
+
+    // MARK: - Symposium (§16.2: question → exchange → your ruling →
+    // cross-examination → joint debrief; TWO voices via the speakers[]
+    // contract; the authored volleys are the exchange's spine; NO WINNER is
+    // ever declared and citations stay empty — no retrieval runs)
+
+    /// Labeled dialogue + its structural mirror: the say text carries
+    /// "NAME: …" per the §11.1 convention, speakers[] one entry per voice in
+    /// speaking order.
+    private func symposiumVoices(_ parts: [(personaId: String, say: String)])
+        -> (say: String, speakers: [Speaker]) {
+        (parts.map { "\($0.personaId.uppercased()): \($0.say)" }.joined(separator: "\n\n"),
+         parts.map { Speaker(personaId: $0.personaId, say: $0.say) })
+    }
+
+    /// An authored volley by index, with a crux-anchored fallback for thin
+    /// specs — mirroring the kind's "argue from the crux" posture.
+    private func symposiumVolley(_ index: Int, spec: SymposiumSpec)
+        -> (personaId: String, say: String) {
+        if let volleys = spec.volleys, index < volleys.count {
+            return (volleys[index].speaker, volleys[index].say)
+        }
+        let personaId = index.isMultiple(of: 2) ? spec.personaA : spec.personaB
+        return (personaId,
+                "Hold the crux in view — \(spec.crux) My side of that divide stands; press it where you think it bends.")
+    }
+
+    private func symposiumStep(_ turn: Int, userText: String?) -> Step {
+        guard let spec = symposiumSpec else {
+            // Guardrail parity with kinds_agora: spec missing ⇒ apologize in
+            // character and end the session.
+            return Step(envelope: Envelope(
+                say: "The house apologizes — tonight's question failed to arrive from the archive, and a symposium without its question is only a dinner. We will reconvene when the record is restored.",
+                stateOps: [.completeSession],
+                uiHints: UIHints(endOfSession: true)))
+        }
+        switch turn {
+        case 0:
+            // QUESTION PRESENTED: one voice frames it; both state their
+            // one-liners, neutrally — the arguments come next.
+            let (say, speakers) = symposiumVoices([
+                (spec.personaA,
+                 "The question before the house: \(spec.question) Stated as a position, mine is this — \(spec.positionA.label) That is the line I will argue, at full strength, in a moment."),
+                (spec.personaB,
+                 "And mine — \(spec.positionB.label) Two of us, one question, and no verdict from the chair, tonight or ever: the ruling belongs to you. Interject whenever you like; the floor hears you. First, the arguments.")
+            ])
+            return Step(envelope: Envelope(say: say, speakers: speakers,
+                                           stateOps: [.advancePhase]))
+        case 1:
+            // EXCHANGE, first volley pair — the authored spine, verbatim.
+            let a = symposiumVolley(0, spec: spec)
+            let b = symposiumVolley(1, spec: spec)
+            let (say, speakers) = symposiumVoices([a, b])
+            return Step(envelope: Envelope(say: say, speakers: speakers))
+        case 2:
+            let a = symposiumVolley(2, spec: spec)
+            let b = symposiumVolley(3, spec: spec)
+            let (say, speakers) = symposiumVoices([a, b])
+            return Step(envelope: Envelope(say: say, speakers: speakers))
+        case 3:
+            // Third exchange, then both rest — the floor turns to the
+            // student (§16.2 adjudication: undecided is a legitimate ruling).
+            let a = symposiumVolley(4, spec: spec)
+            let b = symposiumVolley(5, spec: spec)
+            let (say, speakers) = symposiumVoices([
+                a, b,
+                (spec.personaA, "I rest."),
+                (spec.personaB,
+                 "As do I. The floor is yours: rule for one of us, in your own words and with your reason — or remain undecided, which is a ruling too, and the house will respect it without pressure.")
+            ])
+            return Step(envelope: Envelope(
+                say: say, speakers: speakers,
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "Your ruling, and your reason — or an honest 'still undecided.'")))
+        case 4:
+            // The student rules: record it (side A for the script; their
+            // words as the statement) — then the REJECTED side cross-examines
+            // the ruling, not the student.
+            let statement = userText?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+            let (say, speakers) = symposiumVoices([
+                (spec.personaB,
+                 "So ruled — and a ruling costs two questions, both mine, since it went against me. First: my side's case did not simply vanish because you preferred another; name the exact point in it where, on your telling, the argument fails. Second: if the strongest consideration on my side weighed twice what it does, would your ruling survive — or was it settled before either of us spoke? Defend the ruling or amend it; both are thinking, and I will take either seriously.")
+            ])
+            return Step(envelope: Envelope(
+                say: say, speakers: speakers,
+                stateOps: [.recordPosition(
+                    side: spec.personaA,
+                    statement: statement.isEmpty ? "The student ruled for the first side." : statement)],
+                uiHints: UIHints(checkInQuestion: "Defend the ruling — or amend it.")))
+        default:
+            // JOINT DEBRIEF: what each side sees and what it misses — from
+            // its own advocate. No winner, no consolation, no split-the-
+            // difference evasion (§16.6).
+            let (say, speakers) = symposiumVoices([
+                (spec.personaA,
+                 "You defended it under fire, which is the only way a ruling becomes yours. The debrief, then, and we both speak against ourselves. What my side sees: \(spec.positionA.label) What it misses, named by its own advocate: the cost my colleague kept pointing at is real, and my account pays it — quietly, in installments, but it pays."),
+                (spec.personaB,
+                 "And what mine sees: \(spec.positionB.label) What it misses: the thing my colleague guards does not survive being made negotiable, and I have no better lock for it than the one I spent the evening doubting. Note where we actually parted — \(spec.crux) No winner leaves this room; neither of us conceded, and the house declares nothing. What leaves is the question, sharpened, in your keeping — and where the others landed, if you're curious, waits outside, now that your own ruling is on the record.")
+            ])
+            return Step(envelope: Envelope(
+                say: say, speakers: speakers,
+                stateOps: [.advancePhase, .completeSession],
+                uiHints: UIHints(endOfSession: true)))
         }
     }
 

@@ -57,12 +57,15 @@ struct SessionView: View {
                                         dropSpec: route.drop?.experiment,
                                         newsBrief: route.newsBrief,
                                         practiceMode: route.practiceMode,
-                                        practiceExercise: route.practiceExercise),
+                                        practiceExercise: route.practiceExercise,
+                                        symposiumSpec: route.symposium),
                                       drop: route.drop,
                                       steelmanTarget: route.steelmanTarget,
                                       newsBrief: route.newsBrief,
                                       practiceMode: route.practiceMode,
                                       practiceExerciseId: route.practiceExercise?.id,
+                                      symposiumSpec: route.symposium,
+                                      symposiumBefore: route.symposiumBefore,
                                       voice: app.professorVoice,
                                       voiceEnabled: { userStore.voiceReplies })
             viewModel = vm
@@ -151,10 +154,30 @@ private struct SessionContent: View {
                                            tint: tint)
                         }
 
+                        // Symposium: the question → the exchange → your
+                        // ruling → cross-examination → debrief (§16.2/§16.5).
+                        if viewModel.kind == .symposium {
+                            SymposiumPhaseStrip(phase: viewModel.symposiumState.phase,
+                                                tint: tint)
+                        }
+
                         ForEach(viewModel.messages) { message in
-                            MessageBubble(message: message, persona: persona, tint: tint,
-                                          pump: pump(for: message))
-                                .id(message.id)
+                            // Symposium professor turns carry TWO voices
+                            // (§16.2): render the speakers[] contract — or
+                            // the streamed "NAME: …" labeling — as
+                            // per-professor blocks in each voice's tint.
+                            if viewModel.kind == .symposium,
+                               message.role == .professor,
+                               let spec = viewModel.symposiumSpec {
+                                SymposiumBubble(message: message,
+                                                voiceIds: [spec.personaA, spec.personaB],
+                                                tint: tint)
+                                    .id(message.id)
+                            } else {
+                                MessageBubble(message: message, persona: persona, tint: tint,
+                                              pump: pump(for: message))
+                                    .id(message.id)
+                            }
                         }
 
                         // The aporia beat — a designed success state, not an
@@ -225,6 +248,14 @@ private struct SessionContent: View {
                             compareLink(drop: drop, prior: prior, current: current)
                         }
 
+                        // The MOVEMENT (§16.3/§16.6): reachable ONLY from a
+                        // completed symposium — your own debrief precedes
+                        // any number.
+                        if viewModel.endOfSession, viewModel.kind == .symposium,
+                           let spec = viewModel.symposiumSpec {
+                            movementLink(spec)
+                        }
+
                         // The sources footer (§15.2/§15.5): the story's URLs
                         // render client-side from the brief — the professor
                         // read only the brief; citations stay empty.
@@ -271,6 +302,14 @@ private struct SessionContent: View {
                 viewModel.inputText = app.speechTranscriber.transcript
             }
         }
+        .onChange(of: viewModel.symposiumState.position) { _, ruling in
+            // A recordPosition landed (§16.2): mirror the server's
+            // after-position update on the local response row.
+            if let ruling, viewModel.kind == .symposium,
+               let spec = viewModel.symposiumSpec {
+                app.symposia.recordAfter(symposium: spec, ruledSide: ruling.side)
+            }
+        }
         .onChange(of: viewModel.endOfSession) { _, ended in
             // A completed drop run mirrors the server's drop_responses row
             // locally (§14.3) — the record the CROWD gate hangs on.
@@ -291,7 +330,42 @@ private struct SessionContent: View {
                                          exerciseId: viewModel.practiceExerciseId,
                                          entry: words)
             }
+            // A completed symposium mirrors the server's completion mark
+            // (§16.2) — the record the MOVEMENT gate hangs on (§16.6).
+            // Completing without a ruling leaves after nil: still undecided,
+            // still a position.
+            if ended, viewModel.kind == .symposium,
+               let spec = viewModel.symposiumSpec {
+                app.symposia.recordCompletion(
+                    symposium: spec,
+                    ruledSide: viewModel.symposiumState.position?.side)
+            }
         }
+    }
+
+    /// "See where the house moved" — the only in-session door to the
+    /// MOVEMENT screen, offered strictly after completion (§16.6).
+    private func movementLink(_ spec: SymposiumSpec) -> some View {
+        NavigationLink {
+            SymposiumMovementView(symposium: spec)
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "arrow.left.and.right")
+                    .font(.footnote)
+                Text("See where the house moved")
+                    .font(.footnote.weight(.medium))
+                    .fontDesign(.serif)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.semibold))
+            }
+            .foregroundStyle(tint)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
+            .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(tint.opacity(0.08)))
+        }
+        .buttonStyle(.plain)
     }
 
     /// "Then & now" — the §15.4 side-by-side, offered once the repeat run
@@ -372,18 +446,39 @@ private struct SessionContent: View {
     private var sessionHeader: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 10) {
-                MonogramPortrait(persona: persona, size: 40)
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(persona?.name ?? "Professor")
-                        .font(.subheadline.weight(.semibold))
-                        .fontDesign(.serif)
-                        .foregroundStyle(Theme.ink)
-                    if let unit = viewModel.currentUnit {
-                        Text("Unit \(unit.number): \(unit.title)")
+                // The symposium seats TWO professors (§16.2): both portraits,
+                // both names — neither is "the" persona of the room.
+                if viewModel.kind == .symposium, let spec = viewModel.symposiumSpec {
+                    HStack(spacing: -8) {
+                        MonogramPortrait(persona: app.persona(spec.personaA), size: 40)
+                        MonogramPortrait(persona: app.persona(spec.personaB), size: 40)
+                    }
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("\(app.persona(spec.personaA)?.name ?? spec.personaA) · \(app.persona(spec.personaB)?.name ?? spec.personaB)")
+                            .font(.subheadline.weight(.semibold))
+                            .fontDesign(.serif)
+                            .foregroundStyle(Theme.ink)
+                        Text(spec.question)
                             .font(.caption)
                             .fontDesign(.serif)
                             .italic()
                             .foregroundStyle(Theme.inkSecondary)
+                            .lineLimit(2)
+                    }
+                } else {
+                    MonogramPortrait(persona: persona, size: 40)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text(persona?.name ?? "Professor")
+                            .font(.subheadline.weight(.semibold))
+                            .fontDesign(.serif)
+                            .foregroundStyle(Theme.ink)
+                        if let unit = viewModel.currentUnit {
+                            Text("Unit \(unit.number): \(unit.title)")
+                                .font(.caption)
+                                .fontDesign(.serif)
+                                .italic()
+                                .foregroundStyle(Theme.inkSecondary)
+                        }
                     }
                 }
                 Spacer()
@@ -513,6 +608,7 @@ private struct SessionContent: View {
             return viewModel.practiceMode == .evening
                 ? "About the day, plainly…" : "Stay in the exercise…"
         case .practiceReview: return "What you make of it…"
+        case .symposium: return "Speak to the house…"
         default: return "Respond…"
         }
     }

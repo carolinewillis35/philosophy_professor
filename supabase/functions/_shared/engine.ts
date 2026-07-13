@@ -29,6 +29,7 @@ import {
 } from "./kinds_academy.ts";
 import { type DailyQuestionSpec, engagementKinds } from "./kinds_engagement.ts";
 import { lifeKinds, type NewsReadSpec, type PracticeSpec } from "./kinds_life.ts";
+import { agoraKinds, type SymposiumSpec } from "./kinds_agora.ts";
 
 // ---------------------------------------------------------------------------
 // Course JSON shapes (CONTRACTS §7 + §11.4 authored specs)
@@ -52,7 +53,8 @@ export type SessionKind =
   | "steelman"
   | "newsRead"
   | "practice"
-  | "practiceReview";
+  | "practiceReview"
+  | "symposium";
 
 export interface ReadingSpan {
   bookID: string;
@@ -139,7 +141,8 @@ export type KindSpec =
   | ArgumentLabSpec
   | DailyQuestionSpec
   | NewsReadSpec
-  | PracticeSpec;
+  | PracticeSpec
+  | SymposiumSpec;
 
 export interface CourseDoc {
   id: string;
@@ -725,6 +728,8 @@ export const KIND_REGISTRY: Record<SessionKind, KindDef> = {
   newsRead: lifeKinds.newsRead,
   practice: lifeKinds.practice,
   practiceReview: lifeKinds.practiceReview,
+  // Agora kind (§16, standalone, dual-persona) — defined in kinds_agora.ts.
+  symposium: agoraKinds.symposium,
 };
 
 // ---------------------------------------------------------------------------

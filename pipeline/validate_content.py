@@ -28,6 +28,10 @@ Validates:
     ontologyIds -> ontology, both lenses named, splitHint nonempty
   - content/practice/exercises.json (section 15.6): morning >=14 unique,
     exactly 3 examen questions, visualizations >=7 with title/exercise/debrief
+  - content/symposia/symposia.json (section 16.7): >=3, personas in registry,
+    volley speakers in {personaA, personaB}, ontologyIds -> ontology
+  - content/packs/packs.json (section 16.7): >=3 packs, 8-12 cards each,
+    question/followUp nonempty, unique ids
 
 Exit code 0 iff clean; nonzero with a readable report otherwise.
 """
@@ -728,6 +732,113 @@ def validate_practice():
 
 
 # ---------------------------------------------------------------------------
+# Symposia (CONTRACTS section 16.7)
+# ---------------------------------------------------------------------------
+
+SYMPOSIA_PATH = ROOT / "content" / "symposia" / "symposia.json"
+SYMPOSIA_MIN = 3
+
+
+def validate_symposia(claim_ids, persona_ids):
+    try:
+        bank = json.loads(SYMPOSIA_PATH.read_text())
+    except FileNotFoundError:
+        err(f"symposia: {SYMPOSIA_PATH} not found")
+        return
+    except json.JSONDecodeError as e:
+        err(f"symposia: invalid JSON: {e}")
+        return
+
+    symposia = bank.get("symposia", [])
+    if len(symposia) < SYMPOSIA_MIN:
+        err(f"symposia: {len(symposia)}; contract minimum is {SYMPOSIA_MIN}")
+
+    seen = Counter(s.get("id", "<missing>") for s in symposia)
+    for sid, n in seen.items():
+        if n > 1:
+            err(f"symposia: duplicate id {sid!r}")
+
+    for s in symposia:
+        sid = s.get("id", "<missing id>")
+        ctx = f"symposium {sid}"
+        if not str(s.get("question", "")).strip():
+            err(f"{ctx}: question is empty")
+        if not str(s.get("crux", "")).strip():
+            err(f"{ctx}: crux is empty")
+        pa, pb = s.get("personaA"), s.get("personaB")
+        for label, p in (("personaA", pa), ("personaB", pb)):
+            if p not in persona_ids:
+                err(f"{ctx}: {label} {p!r} not in the persona registry")
+        if pa == pb:
+            err(f"{ctx}: personaA and personaB are the same professor")
+        for side in ("positionA", "positionB"):
+            pos = s.get(side)
+            if not isinstance(pos, dict):
+                err(f"{ctx}: missing {side}")
+                continue
+            if not str(pos.get("label", "")).strip():
+                err(f"{ctx}.{side}: label is empty")
+            if "ontologyId" not in pos:
+                err(f"{ctx}.{side}: ontologyId must be present (null when unmapped)")
+            elif pos["ontologyId"] is not None and pos["ontologyId"] not in claim_ids:
+                err(f"{ctx}.{side}: ontologyId {pos['ontologyId']!r} not in the ontology")
+        volleys = s.get("volleys", [])
+        if len(volleys) < 4:
+            err(f"{ctx}: only {len(volleys)} volleys; expected >=4 authored exchanges")
+        for i, v in enumerate(volleys):
+            if v.get("speaker") not in (pa, pb):
+                err(f"{ctx} volley {i}: speaker {v.get('speaker')!r} not personaA/personaB")
+            if not str(v.get("say", "")).strip():
+                err(f"{ctx} volley {i}: say is empty")
+        check_claims(s.get("relatedClaims", []), ctx, claim_ids)
+    print(f"symposia: {len(symposia)} validated")
+
+
+# ---------------------------------------------------------------------------
+# Dinner-party packs (CONTRACTS section 16.7)
+# ---------------------------------------------------------------------------
+
+PACKS_PATH = ROOT / "content" / "packs" / "packs.json"
+
+
+def validate_packs():
+    try:
+        bank = json.loads(PACKS_PATH.read_text())
+    except FileNotFoundError:
+        err(f"packs: {PACKS_PATH} not found")
+        return
+    except json.JSONDecodeError as e:
+        err(f"packs: invalid JSON: {e}")
+        return
+
+    packs = bank.get("packs", [])
+    if len(packs) < 3:
+        err(f"packs: {len(packs)}; contract minimum is 3")
+
+    seen = Counter(p.get("id", "<missing>") for p in packs)
+    for pid, n in seen.items():
+        if n > 1:
+            err(f"packs: duplicate id {pid!r}")
+
+    total_cards = 0
+    for p in packs:
+        pid = p.get("id", "<missing id>")
+        ctx = f"pack {pid}"
+        for f in ("title", "blurb"):
+            if not str(p.get(f, "")).strip():
+                err(f"{ctx}: {f} is empty")
+        cards = p.get("cards", [])
+        if not 8 <= len(cards) <= 12:
+            err(f"{ctx}: {len(cards)} cards; contract says 8-12")
+        total_cards += len(cards)
+        for i, c in enumerate(cards):
+            for f in ("question", "followUp"):
+                if not str(c.get(f, "")).strip():
+                    err(f"{ctx} card {i}: {f} is empty")
+    print(f"packs: {len(packs)} packs, {total_cards} cards")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -739,6 +850,8 @@ def main():
     validate_drops(claim_ids, persona_ids, books)
     validate_lenses(claim_ids)
     validate_practice()
+    validate_symposia(claim_ids, persona_ids)
+    validate_packs()
 
     course_files = sorted(glob.glob(str(COURSES_DIR / "*.json")))
     if not course_files:
@@ -757,7 +870,7 @@ def main():
         for e in errors:
             print(f"  - {e}")
         return 1
-    print("\nOK: ontology, courses, personas, daily bank, drops, lenses, and practice all pass.")
+    print("\nOK: all content passes — ontology, courses, personas, daily, drops, lenses, practice, symposia, packs.")
     return 0
 
 

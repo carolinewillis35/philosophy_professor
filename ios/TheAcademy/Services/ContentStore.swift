@@ -22,6 +22,13 @@ protocol ContentStore {
     /// The practice exercise bank (§15.3); fixture-bundled, later the
     /// `practice_exercises` catalog table.
     func loadPracticeExercises() async throws -> PracticeBank
+    /// The symposium bank (§16.1); fixture-bundled, later the `symposia`
+    /// catalog table.
+    func loadSymposia() async throws -> [SymposiumSpec]
+    /// The dinner-party packs (§16.4); fixture-bundled, later the `packs`
+    /// catalog table. Read-only by design — nothing about their use is
+    /// written anywhere (§16.6).
+    func loadPacks() async throws -> [Pack]
 }
 
 enum ContentStoreError: LocalizedError {
@@ -117,6 +124,20 @@ final class FixtureContentStore: ContentStore {
         let url = root.appendingPathComponent("practice-exercises.json")
         let data = try Data(contentsOf: url)
         return try decoder.decode(PracticeBank.self, from: data)
+    }
+
+    func loadSymposia() async throws -> [SymposiumSpec] {
+        guard let root = fixturesRoot else { throw ContentStoreError.fixturesMissing }
+        let url = root.appendingPathComponent("symposia.json")
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(SymposiumBank.self, from: data).symposia
+    }
+
+    func loadPacks() async throws -> [Pack] {
+        guard let root = fixturesRoot else { throw ContentStoreError.fixturesMissing }
+        let url = root.appendingPathComponent("packs.json")
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(PackBank.self, from: data).packs
     }
 
     func availableChapters(bookID: String) async -> [Int] {

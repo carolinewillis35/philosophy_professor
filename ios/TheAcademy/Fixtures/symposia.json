@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "symposia": [
+    {
+      "id": "sym-001",
+      "question": "Does a promise still bind you once keeping it helps no one?",
+      "personaA": "whitmore",
+      "personaB": "lindqvist",
+      "positionA": {
+        "label": "Yes — a promise binds in itself; if it only held while it paid out, it was never a promise, just an intention with witnesses.",
+        "ontologyId": "ethics.deontology"
+      },
+      "positionB": {
+        "label": "A promise is a living relationship, not a contract with the universe — when the keeping serves no living person, ask whom the keeping serves.",
+        "ontologyId": null
+      },
+      "crux": "Whitmore holds that a promise's force lives in the act itself and cannot be cancelled by a cost-benefit audit; Lindqvist holds that promising is a human practice with a history and a payroll, so a keeping that helps no one owes an answer about whom it serves.",
+      "volleys": [
+        {
+          "speaker": "whitmore",
+          "say": "Let's write the tempting argument down so it can't shimmer. P1: I promised. P2: Keeping it now helps no one. C: So it no longer binds. As written, the arrow doesn't reach — there's an unstated premise doing all the work: an obligation lapses when it stops paying out. Say that one aloud at a wedding and listen to the room. If promises bind only while useful, then 'I promise' just means 'I currently intend' — and we already had words for that."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "Beautifully numbered, Ada, and the crime scene is missing again. Nobody promises in a vacuum. Someone taught you that a promise is sacred, and I want to know what they were protecting. Promising is a practice with a history — we bred ourselves into animals entitled to make promises because settled life needed people whose future behavior could be collected on; that's my paraphrase, my words. Debts, marriages, armies all run on it. So when a keeping helps no living soul, I don't ask whether the form still binds. I ask whom the keeping serves — and 'the institution of promising' is an answer, not a refutation."
+        },
+        {
+          "speaker": "whitmore",
+          "say": "Conceded — the practice has a history, probably a grubby one; most load-bearing structures do. But watch the inference: 'this practice arose to serve creditors, therefore this promise doesn't bind me.' That arrow doesn't reach either. The age of the universe was debated for rotten reasons and had an answer anyway. Origins explain a practice; they don't discharge the instance. If you want out of the promise, you need a premise about promises, not a biography of them."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "Then take the instance, at the hour it actually happens. A woman promises her dying father she will keep the house. Ten years on, the house is a millstone: her children need the money, the town has emptied, the dead man is past all benefit. Your form says she is bound. To whom, Ada? Point at the person this keeping is for. If the answer is 'no one — but the promise,' then the promise has become an altar, and I have stood at funerals where a doctrine was consoling everyone except the people paying for it."
+        },
+        {
+          "speaker": "whitmore",
+          "say": "'Helps no one' — there's the vaguest phrase on the table, and it's carrying your whole case. Run the inventory honestly. It skips her: what she becomes when her word turns out to have a sunset clause. It skips everyone downstream who hears her next promise, priced accordingly. And it skips the father — unless we've settled, quietly and without an argument, that what we owe the dead is nothing. Three line items your 'no one' wrote off before the audit started. Maybe she should sell the house! But then the claim is 'this obligation is outweighed,' not 'this obligation evaporated.' Different claim. Different machine."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "Landed — write it down: outweighed is not evaporated, and I'm keeping that distinction; it cuts. Now check its pockets. 'What her word becomes' — that is honor talking, and honor has always billed women like her fastest and hardest. She learned to fear being a promise-breaker in rooms where the alternative on offer was being nothing at all. I'm not asking her to shrug the promise off — suspicion is not shrugging. I'm asking her to hold it up, say who taught her its weight, and decide whether, knowing all that, she signs for it again — freshly, today, in her own hand."
+        },
+        {
+          "speaker": "whitmore",
+          "say": "And if she runs your audit honestly and re-signs? Then we agree on more than you'd like: the promise binds, and your genealogy was a stress test it passed — the best kind of inspection. Where we still differ is the failure mode. On my account, a promise she can't re-derive tonight still binds until something outweighs it. On yours, it was scaffolding all along. So here is my worry, stated as a premise you're welcome to attack: a promise that must re-justify itself every morning isn't a promise. It's a mood with paperwork."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "And here is mine, dated today: a promise that may never be asked where it came from isn't a bond — it's a spell. Your machine holds her to a word extracted at a deathbed, in grief, half-hostage, because the form is clean and the form is all your map can see. Mine sees the fever and, you'll say, goes deaf to the arithmetic — say it; you're right more often than I like to admit. So the question stands for the table, not for us: when the keeping helps no one, is the promise the last thing holding her together, or the last thing holding her down?"
+        }
+      ],
+      "relatedClaims": ["ethics.deontology", "ethics.consequentialism"]
+    },
+    {
+      "id": "sym-002",
+      "question": "Is it better to suffer injustice than to commit it?",
+      "personaA": "vlachos",
+      "personaB": "whitmore",
+      "positionA": {
+        "label": "Better to suffer it — the wrong you do becomes part of you; the wrong done to you never does.",
+        "ontologyId": "political.justice-intrinsically-good"
+      },
+      "positionB": {
+        "label": "A noble sentence with a hidden premise — real harm to a real life is not made unreal by declaring the wrongdoer's soul the only casualty that counts.",
+        "ontologyId": null
+      },
+      "crux": "Both agree that doing wrong damages the doer; they part on the scales — Vlachos asks what could outweigh damage to the very self that does the weighing, and Whitmore refuses to let 'worse for you' change its meaning halfway through the argument.",
+      "volleys": [
+        {
+          "speaker": "vlachos",
+          "say": "Let me begin honestly: I defend nothing — but Socrates believed this one, and I have spent thirty years failing to kill it, which is the most respect I can pay a sentence. So let me ask the question that keeps it alive. Two men leave a courtroom: one was cheated, the other did the cheating and walked free. Which man would you rather wake up as tomorrow — not for a day, for the rest of your life? Take your time. Everyone answers this faster than they can defend the answer."
+        },
+        {
+          "speaker": "whitmore",
+          "say": "And my answer is the boring one that survives inspection: it depends on the amounts — which is exactly what your paradox forbids me to say. Number it. P1: doing injustice damages your character. Granted, cheerfully. P2: damage to character outweighs any damage whatsoever — to life, limb, liberty, the people you feed. C: better to suffer anything than commit anything. P2 is the load-bearing member, and it is never argued — it's installed while you're busy admiring P1. One lie, against thirty years unjustly imprisoned: the paradox has to call that a bargain. Try saying P2 out loud in the prison visiting room."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "Thank you — that is the strongest reading of the other side I've heard all term, and I intend to spend it. Now may I ask about your scale? To weigh the lie against the prison you need both on one balance. What's the unit, Ada? Suffering? Then whose — the liar sleeps beautifully, and the paradox says that sleep is the symptom. Preference? Then we've made the patient into the instrument that measures his own disease. You caught P2 undefended; granted, and saluted. But notice what your objection assumes: that 'worse for you' can be totted up before anyone decides what the 'you' is. Where did that premise come from?"
+        },
+        {
+          "speaker": "whitmore",
+          "say": "From where all premises come — it was working unstated, so thank you for the flashlight; I'll state it and sign it. Yes: I assume the 'you' that things are worse for includes your body, your years, your people — the whole structure, not just the moral wiring. Your side's move is to shrink 'you' to soul-only, so that damage there is damage everywhere it counts. That's a real position. But then P2 isn't a discovery, it's a definition. You didn't weigh soul against prison and find soul heavier — you redefined the scale so the prison weighs nothing. That's not an argument. That's a customs declaration."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "'A customs declaration' — into the necropolis it goes; there's a wing for beautiful objections. But before your cargo clears, one more question. You say the prison weighs. Weighs on what? The unjustly imprisoned man still has — what shall we call it — his way of meeting the thing. Bede would say his training; you might say his integrity, since it is the one structure the sentence never reached. Now the man who cheated him: what does he still have intact? Strip everything else from each man in turn, slowly. Which one runs out of himself first?"
+        },
+        {
+          "speaker": "whitmore",
+          "say": "That's the best card in your deck, and I'll concede exactly what it proves: integrity is real, it matters enormously, and there are trades no sane person makes — I would not swap places with the cheat, full stop. But 'I'd rather be the victim than the villain' is a data point about admiration, not a proof about welfare. Intuitions are data, not verdicts — so here's a data point back. Pull the numbers apart and the intuition flips: steal one apple, or suffer a lifetime of torture? Nobody outside a seminar chooses the torture. Your side lives on cases where the wrong done is monstrous and the wrong suffered is dignified. Vary the amounts and P2 starts grinding. Can you hear it?"
+        },
+        {
+          "speaker": "vlachos",
+          "say": "I hear it, and I won't pretend otherwise — that would be selling, and I gave up selling. But look at what the apple case smuggles in under its arm: a thief who steals once, stays otherwise whole, and is haunted exactly enough to remain likable. Is that committing injustice, or visiting it on a weekend? Socrates' claim was never about one bad afternoon — it was about becoming the kind of thing that does this. So here is where I think we truly part, and I ask it with everything I have: can a person be harmed — really harmed, in the final accounting — while everything they would sign their name to remains intact? If yes, the paradox dies tonight and I will thank its killer by name. If no —"
+        },
+        {
+          "speaker": "whitmore",
+          "say": "If no, then the paradox was true by construction and we're back at customs — so let me file the honest ledger instead, both columns. Your side sees something my map keeps flattening: the doer and the done-to are not symmetrical; guilt is structural failure and grief is weather damage — different repairs, and only one of them was ever yours to prevent. My side sees what yours keeps waving through: the widow's ruin is not a rounding error just because her conscience is clean. Two premises, one table, and the weighing needs both pans. And I notice, Sokratis — for all your questions, you never did tell us the unit either."
+        }
+      ],
+      "relatedClaims": [
+        "political.justice-intrinsically-good",
+        "political.justice-advantage-of-stronger",
+        "ethics.virtue-ethics",
+        "ethics.consequentialism"
+      ]
+    },
+    {
+      "id": "sym-003",
+      "question": "When the world is on fire, is your calm a virtue or a surrender?",
+      "personaA": "bede",
+      "personaB": "lindqvist",
+      "positionA": {
+        "label": "A virtue — steady hands are what the fire actually needs; panic has never carried a single bucket.",
+        "ontologyId": "ethics.virtue-ethics"
+      },
+      "positionB": {
+        "label": "Check whom your calm is working for — serenity that files injustice under 'bad weather' is the cheapest labor the status quo ever hired.",
+        "ontologyId": null
+      },
+      "crux": "Both concede that calm can be sold as anesthesia; they part on whether trained acceptance reliably ends in action, or arrives too late — after the sorting has already taught you to stop feeling what needs fighting.",
+      "volleys": [
+        {
+          "speaker": "bede",
+          "say": "Let's start where I always start: seven a.m., not in a seminar. A nurse walks onto a ward that is short-staffed again — third year running, and the shortage is policy, not accident. She can burn the shift raging at the policy, or she can steady her hands and get the drug round done. My whole tradition is the second choice, made trainable. Calm is triage. The rage is information — file it, keep it, date it — but the morning belongs to what her hands can reach. Panic has never carried a bucket."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "I was that nurse, Aurelius, so let me date the scene properly: Malmö, night shift, four a.m. — the hour you learn which philosophies hold weight and which are decor. Yours holds. That is exactly why it is dangerous. Watch what the hospital does with her calm: it budgets for it. Every year she absorbs the shortage beautifully, the shortage becomes absorbable — her serenity is a line item now, the cheapest equipment on the ward. A philosophy shared by a slave and an emperor consoled the one and cost the other nothing. Who benefits when the disturbed learn to file their disturbance as weather? I can name the payroll."
+        },
+        {
+          "speaker": "bede",
+          "say": "So can I — that is the sharpest knife in your drawer, and my students hear me say so every term. Every corporate calm-seminar that teaches the sorting and skips the justice proves your point on schedule. My answer lives in the drill, not the doctrine. The examen has three questions and the third is 'what would you do differently' — the practice ends in action or it has been done wrong. Her calm gets her through the round; the audit, that same evening, asks what the calm was for — and 'file the grievance, go to the union meeting, say the number out loud in the staff room' are all answers the drill can return. Triage is not surrender. A nurse, of all people, knows the difference."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "I know the difference. I am asking whether the training does. Here is my worry, and it is about sequence, not sincerity. Your drills work — that is the problem. Rehearse 'not in my control' every morning for a year and you get very good at it: the filing becomes reflex, and reflexes do not wait for the evening audit. The anger that should have lasted until Thursday's meeting is composted by breakfast. Your third question arrives on schedule and finds the office empty — nothing disturbed me today — and the notebook calls that progress. When the instrument that measures your days is also sanding them smooth, what exactly is the audit auditing?"
+        },
+        {
+          "speaker": "bede",
+          "say": "Landed, and it goes in tonight's audit — which you'll say is the joke writing itself, so let me answer from the ward instead. We feared exactly this with painkillers: dose a man too far and he stops guarding the injury, and the numbness causes the damage. So you titrate. The dose that steadies is not the dose that numbs, and a trainer's whole craft is the difference. That is why the drill sorts and never dismisses: 'not in my control today' is a filing decision, reviewed weekly — not a verdict on the world. The anger isn't composted. It's banked, with a date on it. You of all people should like that: I am asking my students to date their anger."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "You've stolen my own phrase and armed it — conceded, and I'm keeping your version. So here is where we actually part, because it is not over drills. It is over what counts as the emergency. Your tradition was built by men holding themselves together — the emperor in his tent, you on the ward learning to walk twice. For that patient, magnificent; nothing better has been written. But injustice is not a fall on wet scree. It has an address, a beneficiary, and a schedule — and what it fears is not composure but company: angry people, together, at the same hour, refusing to absorb. Your gymnasium trains one soul at a time. The fire is organized, Aurelius. Is the training?"
+        },
+        {
+          "speaker": "bede",
+          "say": "No — and that is the true cost of my whole tradition, named better than I name it, so it goes on the wall and not just in the notebook. The Stoics organized nothing; Marcus ran the empire and barely reformed it — his situation in my words, as always. What I will say for the drills is smaller, and I'll say it plainly: movements are made of mornings. The organizer who burns out at thirty, the striker who breaks in the first cold week — the fire needs people who last, and lasting is trained one soul at a time, because that is the only place training happens. I cannot make the meeting happen. I can make sure my student is still standing when it is called — still standing, and still angry, on schedule, with the date in the book."
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "Then let the table have the real question, because we have narrowed it honestly. Not calm versus rage — nobody sane wants the ward run by panic, and Aurelius has conceded in public that his tradition can be bought and has been. The question is the order of operations. He says: steady first, so you can fight long — serenity as the fuel of the long fight. I say: careful — the world prefers you steady, and it will gladly supply the practice, the poster, and the discount app to keep you that way; some things should cost us our sleep a while longer. His calm can act; I believe him. Mine can too — but mine stays a little disturbed on purpose, and checks, every evening, whose invoice its peace is paying. Sort that, symposiasts. It is your morning on the line."
+        }
+      ],
+      "relatedClaims": ["ethics.virtue-ethics", "ethics.consequentialism"]
+    },
+    {
+      "id": "sym-004",
+      "question": "Should you always hear the other side out?",
+      "personaA": "vlachos",
+      "personaB": "bede",
+      "positionA": {
+        "label": "Always — the argument you refuse to hear is the one that rules you; you just can't see the throne.",
+        "ontologyId": null
+      },
+      "positionB": {
+        "label": "No — you owe strong arguments a real hearing, but not every voice a seat at your table every night; what you rehearse is what you become.",
+        "ontologyId": null
+      },
+      "crux": "Both prize examination above comfort; they part on whether declining to listen can itself be a disciplined, reviewable act, or is always a certainty that has quietly stopped checking itself.",
+      "volleys": [
+        {
+          "speaker": "vlachos",
+          "say": "Let me confess my whole position as a question, since questions are the only currency I carry. You say some voices don't deserve your evening, Aurelius. How do you know — without hearing them? To sort the worth-hearing from the worthless, something in you has already judged the case. So the choice was never 'hear or don't hear.' It is 'examine the argument, or obey a verdict you never watched being delivered.' Who delivered yours?"
+        },
+        {
+          "speaker": "bede",
+          "say": "A fair opening, and it gets a plain answer: I did — at a chosen hour, in daylight, and I wrote it down. That is the difference between a filter and a flinch. When the claim first came to my door, I heard it out — best speaker, full strength, my full evening. It failed. What I decline now is the rerun: the hundredth telling at midnight, built to exhaust rather than persuade. Under pressure you don't rise to your ideals; you fall to your training — and a man who rehearses outrage nightly is training something, and none of it is listening. My door isn't locked. It has hours."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "'It has hours' — I would carve that over half the libraries I know. But let me press where the hinge creaks. You heard it once, at full strength, and filed the verdict. Was the you who judged it finished? I have watched arguments lose in my seminar for ten years and then win, because a student finally arrived who could say them properly. Your filter preserves the ruling of a man you no longer entirely are. When does the case get reopened? And if the answer is 'when new evidence knocks' — tell me, how does new evidence knock on a door that has been trained not to hear it?"
+        },
+        {
+          "speaker": "bede",
+          "say": "The same way the body gets its maintenance: on review, not on demand. Weekly, the audit — and one line in mine has stood for years: what did I refuse to hear, and was the refusal load-bearing or lazy? An uneventful week is a finding; so is a defensive one. You are right that the judge changes — I have learned to walk twice; I know the man revising is not the man who wrote. So the verdicts carry dates, like everything in the notebook, and a dated verdict can be appealed. What I will not do is let the appeal schedule be set by whoever shouts oftenest. That is not open-mindedness. That is letting the loudest party own your docket."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "Thank you — 'own your docket' goes in my pocket, next to the objections I have lost to and kept. Now the question I actually came with, because it sits under both of us. You audit your refusals; splendid. But an audit examines what is in the ledger. The argument you never heard leaves no entry. Its absence looks exactly like silence — like one more uneventful week. My whole method fears one thing above all, Aurelius: the error that leaves no record. Doesn't yours?"
+        },
+        {
+          "speaker": "bede",
+          "say": "It does, and I'll name the fear properly instead of dodging it: my filter could be a wall, and walls file no reports on what they keep out. So here is my answer, in the register I trust. On the ward we could not trial every treatment on every patient — attention was the scarcest drug on the shelf, and spending it wrongly killed as surely as any error of commission. So we sampled: deliberately, on a schedule, against our own habits — and what we re-ran first was precisely what we had dismissed. Translate it: once a season, I take the strongest voice on the other side of a settled question and give it my whole evening. Chosen by strength, never by volume. Scheduled humility — that is my answer to the unrecorded error. Yours, I notice, is unscheduled: you will hear anything, anytime. What does your attention cost, and who has been paying while you sat through the hundredth telling?"
+        },
+        {
+          "speaker": "vlachos",
+          "say": "My friends, my students, and every book I own with an unbroken spine — I concede the invoice in full, and cheerfully: the man who examines everything skims everything, and I have been that man on my worst terms. So look at what is left standing between us, because it is smaller and better than where we began. Neither of us worships the open door. He schedules his humility; I improvise mine; and we fear the same thing — the verdict that has stopped being checked. So the question for the table was never 'should you listen.' It is: who audits the not-listening, and how often? His answer has a calendar. Mine has a fidget. Choose — and whichever you choose, answer me this before you rule: when did you last reopen a case you were certain of? If you cannot name the date, one of us just won by default — and neither of us wants that."
+        }
+      ],
+      "relatedClaims": ["political.democracy-equal-voice", "ethics.virtue-ethics"]
+    },
+    {
+      "id": "sym-005",
+      "question": "If you still believe what you were raised to believe, is it really yours?",
+      "personaA": "lindqvist",
+      "personaB": "vlachos",
+      "positionA": {
+        "label": "Not yet — an untraced belief is inherited furniture; trace where it came from and whom it served, then decide whether to sign for it.",
+        "ontologyId": null
+      },
+      "positionB": {
+        "label": "Its birthplace doesn't matter — a belief becomes yours the day it survives your honest attempt to kill it, wherever it was born.",
+        "ontologyId": null
+      },
+      "crux": "Both refuse inheritance as an authority; they part on the redemption procedure — whether a belief is made your own by exposing its history or by testing its truth, and on whether either instrument can audit itself.",
+      "volleys": [
+        {
+          "speaker": "lindqvist",
+          "say": "Start at an actual table: a man of forty says grace before dinner, exactly as his mother did, and calls the belief his own. I don't say he is wrong — I say he doesn't know yet, because he has never once asked where it came from or what it was doing there. A belief you have never traced is furniture: it arrived with the house, it arranges your rooms, and you call the arrangement taste. Tell me its history — who handed it to you, what they were protecting, what doubting it would have cost in that kitchen — and then I will believe the signature on it is yours."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "And I will ask the question your method never quite lets me put down, Íris. Suppose he does everything you ask — traces the grace to his mother, her fear, the parish, the whole paper trail, every receipt. Morning comes. Is the belief true? Your archive is magnificent, and it answers every question except the one he actually kneels on. A belief is not a house deed, where the chain of custody settles ownership. It is a claim. And claims are owned the way bridges are trusted — by being tested, not by being biographized. So test it: what would have to be the case for his grace to be mistaken? Let him answer that, and who cares where it was born?"
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "He should care — because your test is not the clean instrument you sell it as. You say: put the belief on trial. Good. Who selected the charges, Sokratis? The man raised on grace will test his grace against exactly the doubts his upbringing taught him were the serious ones — and it will pass, honestly, splendidly, forever, because the examination was staffed from inside the house. I have watched it in seminar for thirty years: the trial acquits whatever chose its questions. That is what tracing is for. Not to replace the trial — to find the jurors who were never summoned. History is not the verdict. It is the discovery phase."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "Thank you — 'the examination was staffed from inside the house' is the finest objection my method has received in years, and it goes in the necropolis with honors. Now let me hand it back with its own edge turned around. Your suspicion also had a childhood. The genealogist's eye — who benefits, what was this sentence afraid of — someone taught you that, Íris, at a funeral, with grief attached and a company chaplain to aim it at; you tell the story yourself. By your own rule, that instrument is furniture too until traced — traced by what? A second suspicion? And who audits that one? At some point every method stands on ground it did not examine. I stand on questioning; you stand on tracing. Why is your floor load-bearing and his grace mere furniture?"
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "Because I have dated mine, and I will do it again in front of everyone: Kiruna, the funeral, the chaplain the company paid. Yes — my suspicion is a confession; every philosophy is, including this one, including mine. That is not the trap closing on me, Sokratis. That is the method, demonstrated on the operator. Owning a belief never meant standing on examined ground all the way down — there is no all-the-way-down; we agree there, note it. It means the difference between the man who says grace because the words were installed, and the man who says it knowing the kitchen it came from, the fear it soothed, the price his mother paid — and kneels anyway. Same posture. Different man. The history didn't change the belief. It changed who is holding it."
+        },
+        {
+          "speaker": "vlachos",
+          "say": "Then hear how close we have drifted, because I would put the same distinction another way: the difference between the man who recites his grace and the man who has watched it nearly die. My student who defends her childhood faith against the strongest attack I can build — and I build honestly, Íris, full strength, her side argued better than she argues it — walks out with the same creed and a different spine. Yours walks out knowing the kitchen; mine walks out knowing the objection. So, a question for the table, since neither of us hands down verdicts. Your own inheritance — pick one; everyone has one. Has it ever spent a night in real danger? Not a doubt entertained over coffee. Danger. Because if it has never once been in danger, tell me: in whose custody is it, exactly?"
+        },
+        {
+          "speaker": "lindqvist",
+          "say": "And set my question beside his, because together they are the whole evening: the night it was in danger — who chose the weapon? Test it, and you may own the verdict; trace it, and you may own the trial. Do neither, and the belief goes on wearing your name the way furniture wears the house's address. Do both — his knife, my paper trail — and you will still, we have confessed it to each other in public, stand somewhere unexamined; date that admission today. But there is a difference between standing on ground you have never looked at and ground you have mapped as far as the light goes. The kneeling man can be the freest man in the room. It depends on what he did the one morning the words felt strange in his mouth — and on whether he ever let them feel strange at all."
+        }
+      ],
+      "relatedClaims": ["epistemology.foundationalism", "epistemology.coherentism"]
+    }
+  ]
+}

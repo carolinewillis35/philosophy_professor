@@ -16,6 +16,8 @@ supabase/
                                          # aggregate RPC, steelman kind + scores (§14)
   migrations/0007_life.sql               # news briefs + lenses, practice exercises/entries,
                                          # newsRead/practice/practiceReview kinds (§15)
+  migrations/0008_agora.sql              # symposia + responses + movement RPC, packs,
+                                         # symposium kind (§16)
   functions/
     _shared/                   # anthropic client, envelope schema (v2), say streamer,
                                # retrieval, prompt assembly, per-kind registry (engine.ts),
@@ -40,7 +42,7 @@ supabase/
 supabase init          # safe to skip if you deploy straight to a linked project
 supabase link --project-ref <PROJECT_REF>
 
-# apply migrations/ (0001_init … 0007_life)
+# apply migrations/ (0001_init … 0008_agora)
 supabase db push
 ```
 

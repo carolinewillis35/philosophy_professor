@@ -15,6 +15,8 @@
 //   content/drops/drops.json         — weekly thought-experiment drops (§14.3)
 //   content/practice/exercises.json  — Practice Wing exercises (§15.3)
 //   content/news/lenses.json         — news lens pairs (§15.2)
+//   content/symposia/symposia.json   — monthly symposia (§16.1)
+//   content/packs/packs.json         — dinner-party packs (§16.4)
 //
 // Book text (editions/chapters/passages) is seeded separately via the
 // pipeline's seed.sql — see supabase/README.md.
@@ -269,5 +271,35 @@ if (lenses) {
   }
   console.log(`news_lenses: ${pairs.length} ✓`);
 }
+
+// --- monthly symposia + dinner-party packs (CONTRACTS §16) -------------------
+
+async function seedCatalog(
+  path: string,
+  listKey: string,
+  table: string,
+): Promise<void> {
+  // deno-lint-ignore no-explicit-any
+  let bank: any = null;
+  try {
+    bank = JSON.parse(await Deno.readTextFile(path));
+  } catch {
+    console.warn(`no ${path} — skipping ${table}`);
+    return;
+  }
+  // deno-lint-ignore no-explicit-any
+  const items: any[] = bank[listKey] ?? [];
+  const { error } = await db.from(table).upsert(
+    items.map((it) => ({ id: it.id, doc: it, version: bank.version ?? 1 })),
+  );
+  if (error) {
+    console.error(`${table}: ${error.message}`);
+    Deno.exit(1);
+  }
+  console.log(`${table}: ${items.length} ✓`);
+}
+
+await seedCatalog("content/symposia/symposia.json", "symposia", "symposia");
+await seedCatalog("content/packs/packs.json", "packs", "packs");
 
 console.log("done");

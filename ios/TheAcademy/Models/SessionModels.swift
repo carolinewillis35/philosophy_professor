@@ -12,6 +12,8 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
     case dailyQuestion, argumentClinic, steelman
     // Life kinds (CONTRACTS §15, migration 0007) — also standalone.
     case newsRead, practice, practiceReview
+    // The Agora (CONTRACTS §16, migration 0008) — standalone, dual-persona.
+    case symposium
 
     var displayName: String {
         switch self {
@@ -30,6 +32,7 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .newsRead: return "Read Philosophically"
         case .practice: return "Practice"
         case .practiceReview: return "Weekly Review"
+        case .symposium: return "Symposium"
         }
     }
 
@@ -50,6 +53,7 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .newsRead: return "newspaper"
         case .practice: return "figure.mind.and.body"
         case .practiceReview: return "calendar.badge.clock"
+        case .symposium: return "person.2.wave.2"
         }
     }
 
@@ -58,7 +62,7 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
     var isStandalone: Bool {
         switch self {
         case .dailyQuestion, .argumentClinic, .steelman,
-             .newsRead, .practice, .practiceReview:
+             .newsRead, .practice, .practiceReview, .symposium:
             return true
         default:
             return false
@@ -321,6 +325,10 @@ struct SessionRequest: Encodable {
     /// The persona is forced to bede server-side.
     var mode: String?
     var exerciseId: String?
+    /// symposium start extras (§16.2): the month's symposium and the
+    /// before-tap — captured BEFORE any argument is heard (§16.6).
+    var symposiumId: String?
+    var beforePosition: String?
 
     static func start(enrollmentId: String, kind: SessionKind, unit: Int,
                       essayBody: String? = nil) -> SessionRequest {
@@ -398,6 +406,22 @@ struct SessionRequest: Encodable {
                        nodeId: nil, choice: nil,
                        localDate: localDate,
                        mode: mode.rawValue, exerciseId: exerciseId)
+    }
+
+    /// §16.2 symposium start: the month's symposium, the local date, and the
+    /// before-tap's position — the ordering honesty (§16.6): before is
+    /// captured at start, before any argument is heard. The server loads the
+    /// spec from `symposia`, inserts the response row, and both persona docs
+    /// share the session.
+    static func startSymposium(symposiumId: String, beforePosition: SymposiumStance,
+                               localDate: String) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: .symposium, unit: nil, userText: nil,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil,
+                       localDate: localDate,
+                       symposiumId: symposiumId,
+                       beforePosition: beforePosition.rawValue)
     }
 
     static func turn(sessionId: String, kind: SessionKind, userText: String?,
@@ -480,6 +504,10 @@ struct TurnMessage: Identifiable {
     let role: Role
     var text: String
     var citations: [Citation] = []
+    /// Multi-voice turns (§11.1/§16.2): set from `envelope.speakers` on
+    /// reconciliation; when present the bubble renders one labeled voice per
+    /// entry instead of the raw labeled text.
+    var speakers: [Speaker] = []
     var isStreaming = false
     /// Set when the professor's `applyPump` fired on this turn: the id of the
     /// authored intuition pump to render as a "the dial turns" card (§12.7).

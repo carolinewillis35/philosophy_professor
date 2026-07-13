@@ -1,0 +1,32 @@
+{
+  "sym-001": {
+    "total": 74,
+    "moved": 19,
+    "byBefore": { "a": 31, "b": 27, "undecided": 16 },
+    "byAfter": { "a": 36, "b": 29 }
+  },
+  "sym-002": {
+    "total": 6,
+    "moved": null,
+    "byBefore": null,
+    "byAfter": null
+  },
+  "sym-003": {
+    "total": 41,
+    "moved": 9,
+    "byBefore": { "a": 22, "b": 12, "undecided": 7 },
+    "byAfter": { "a": 21, "b": 15 }
+  },
+  "sym-004": {
+    "total": 128,
+    "moved": 31,
+    "byBefore": { "a": 52, "b": 47, "undecided": 29 },
+    "byAfter": { "a": 60, "b": 55 }
+  },
+  "sym-005": {
+    "total": 17,
+    "moved": 4,
+    "byBefore": { "a": 5, "b": 8, "undecided": 4 },
+    "byAfter": { "a": 7, "b": 8 }
+  }
+}

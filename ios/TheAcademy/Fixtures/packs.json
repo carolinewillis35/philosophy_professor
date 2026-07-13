@@ -1,0 +1,193 @@
+{
+  "version": 1,
+  "packs": [
+    {
+      "id": "pack-001",
+      "title": "The First Dinner",
+      "blurb": "For tables where people are still learning each other's names. Ten questions that are easy to walk into and hard to walk out of — no wrong answers, no homework, and everyone leaves knowing something real about everyone else.",
+      "cards": [
+        {
+          "question": "What's something you're good at that you never chose to be good at?",
+          "followUp": "Ask them: if you had gotten to choose, would you have picked something else?"
+        },
+        {
+          "question": "What's a rule you follow that you can't fully explain?",
+          "followUp": "Go around the table: who has the strangest one — and who's secretly glad their rule exists?"
+        },
+        {
+          "question": "Would you rather be confidently wrong or anxiously right?",
+          "followUp": "Ask which one they'd hire. Then ask which one they'd marry. The answers usually differ — ask why."
+        },
+        {
+          "question": "What's the best compliment someone could give you that has nothing to do with your work?",
+          "followUp": "When answers stall, flip it: what compliment do you get all the time that means nothing to you?"
+        },
+        {
+          "question": "Is there a food, a song, or a place you love mostly because of who you were with the first time?",
+          "followUp": "Then ask: if the memory faded, would the love survive on its own?"
+        },
+        {
+          "question": "What do you believe that most people at this table probably don't?",
+          "followUp": "House rule: for two full minutes, nobody argues back — questions only. Watch how much further it goes."
+        },
+        {
+          "question": "If your friends described you in one word behind your back, what word do you hope for — and what word do you suspect?",
+          "followUp": "The gap between those two answers is the real conversation. Ask about the gap."
+        },
+        {
+          "question": "What's one small thing that instantly tells you a lot about a person?",
+          "followUp": "Test it on the spot: would anyone's signal wrongly condemn somebody at this table?"
+        },
+        {
+          "question": "Luck or effort — which one explains more of where you are tonight?",
+          "followUp": "Ask the person with the most impressive job to answer first. Then ask the person with the best life."
+        },
+        {
+          "question": "What question do you wish people asked you more often?",
+          "followUp": "Then ask it — right now, out loud, to the person who said it."
+        }
+      ]
+    },
+    {
+      "id": "pack-002",
+      "title": "Home for the Holidays",
+      "blurb": "For the table you didn't choose and wouldn't trade. Questions built for three generations at once — grandparents can answer every one, teenagers will actually want to — and follow-ups for when somebody's uncle gets going.",
+      "cards": [
+        {
+          "question": "What's one rule from this family you've kept on purpose — and one you quietly dropped?",
+          "followUp": "Ask the oldest person here where the kept rule originally came from. It's usually older than anyone guesses."
+        },
+        {
+          "question": "What's something your parents were right about that you hated hearing at the time?",
+          "followUp": "Now reverse it: what might the youngest person at this table be right about right now?"
+        },
+        {
+          "question": "Who from this family's past would you want at dinner tonight, and what would you ask them?",
+          "followUp": "Ask what they'd criticize about how we live now. Let it sting a little before anyone defends us."
+        },
+        {
+          "question": "What's a family story that everyone tells slightly differently?",
+          "followUp": "Have two people tell it back to back, then ask the table: which of the differences actually matter?"
+        },
+        {
+          "question": "What did 'a good life' mean in this family fifty years ago — and does it still?",
+          "followUp": "Ask who at the table has come closest to it. First by the old definition, then by the new one."
+        },
+        {
+          "question": "What's something you do exactly like your mother or father, even though you swore you never would?",
+          "followUp": "Ask: is that a habit you're stuck with, or one you'd defend? They're not the same thing."
+        },
+        {
+          "question": "When is keeping the peace at this table the right call — and when is it just the easier one?",
+          "followUp": "No naming names: ask everyone for one topic they think this family avoids a little too well."
+        },
+        {
+          "question": "Which tradition here would you fight to keep, even after it stopped being convenient?",
+          "followUp": "Ask: if we kept the tradition but forgot why we do it, would it still count?"
+        },
+        {
+          "question": "What do you owe family that you don't owe anyone else — and what do you not owe them, even if they think you do?",
+          "followUp": "Ask the person who moved farthest away to answer first."
+        },
+        {
+          "question": "What's the kindest lie ever told at this table — and should it have been told?",
+          "followUp": "Keep it general if you need to. Then ask: who here claims they'd rather have the hard truth — and who's just saying that?"
+        }
+      ]
+    },
+    {
+      "id": "pack-003",
+      "title": "Old Friends, Long Table",
+      "blurb": "For the people who knew you before you were this version of you. These questions spend the one currency new friends don't have — decades — and the follow-ups make sure nobody hides behind the old jokes.",
+      "cards": [
+        {
+          "question": "What did all of us believe back then that turned out to be completely wrong?",
+          "followUp": "Then ask: what do we all believe now that will look exactly the same in twenty years?"
+        },
+        {
+          "question": "Which past version of you would be most surprised by tonight — and pleasantly or not?",
+          "followUp": "Make everyone pick a specific age for their answer. The ages people choose are half the conversation."
+        },
+        {
+          "question": "What's the biggest risk anyone at this table ever took — and honestly, did it pay off?",
+          "followUp": "Ask the risk-taker: knowing everything you know now, do you take it again? Then ask the table whether they should."
+        },
+        {
+          "question": "Is anyone here actually the same person they were at twenty — and how would we know?",
+          "followUp": "Run the test: what would you have to lose — memories, habits, people — before this table said you weren't you anymore?"
+        },
+        {
+          "question": "What's something you envied in someone at this table and never said?",
+          "followUp": "One rule: the envied person has to say what they envied back. There is always something back."
+        },
+        {
+          "question": "Which of your old dreams are you glad didn't come true?",
+          "followUp": "Ask: did you outgrow it, or did you get talked out of it? Those are different stories — which one is yours?"
+        },
+        {
+          "question": "What do we let each other get away with that strangers never would?",
+          "followUp": "Then ask: is that what friendship is — or is it the one thing friends shouldn't do for each other?"
+        },
+        {
+          "question": "If this group of friends has a job in your life, what is it — and who's been doing it?",
+          "followUp": "Ask who in this group tells you the truth. Then ask when you last actually let them."
+        },
+        {
+          "question": "What's a fight this friendship survived that would have ended a lesser one?",
+          "followUp": "Ask what actually fixed it — time, an apology, or someone simply refusing to leave. Would the same thing work today?"
+        },
+        {
+          "question": "What should we have said to each other years ago that there's still time to say?",
+          "followUp": "Don't rush past the silence. Someone at the table has an answer — pour them a drink and wait."
+        }
+      ]
+    },
+    {
+      "id": "pack-004",
+      "title": "After Midnight",
+      "blurb": "For the hour when the plates are cleared, somebody's shoes are off, and nobody is checking the time. The big questions, asked plainly — no reading required, no philosophy degree, just the nerve to answer honestly.",
+      "cards": [
+        {
+          "question": "Would you want to know the day you're going to die?",
+          "followUp": "Whoever says no — ask what they're doing differently by not knowing. That's usually the real answer."
+        },
+        {
+          "question": "If you could take a pill that made you permanently content, would you take it?",
+          "followUp": "Ask the holdouts what they're saving the discontent for. Make them name it out loud."
+        },
+        {
+          "question": "Does your life need to matter to anyone beyond the people who love you for it to be a good life?",
+          "followUp": "Push once: if a life fully matters to five people, what exactly would 'mattering to history' add?"
+        },
+        {
+          "question": "Is there anything you'd refuse to do — even to save someone you love?",
+          "followUp": "If someone says no, nothing's off-limits: ask them, gently, what that makes the rest of us at this table."
+        },
+        {
+          "question": "You get one completely honest answer to any question, from anyone alive or dead. What do you ask?",
+          "followUp": "Then the follow-up that matters: why don't you already know? Who could you still ask?"
+        },
+        {
+          "question": "If nobody would ever find out, what would you do differently — and what does your answer say about you?",
+          "followUp": "Flip it: what do you already do right that nobody ever sees? Ask which list came to mind faster."
+        },
+        {
+          "question": "Do you think you're a good person — and what's your actual evidence?",
+          "followUp": "When people hedge: 'I try' is not evidence. Ask for one witness they'd call, and what that witness would say."
+        },
+        {
+          "question": "What's the closest you've ever come to changing your mind about something huge?",
+          "followUp": "Ask what finally did it — an argument, a person, or something that happened. Notice how rarely anyone says an argument."
+        },
+        {
+          "question": "If you had to lean one way, would you rather your life be happy or interesting?",
+          "followUp": "Then ask which one they're actually building. The gap between the answer and the calendar is the conversation."
+        },
+        {
+          "question": "What are you doing with your one short life — and is tonight part of the answer, or a break from it?",
+          "followUp": "Let everyone laugh first. Then ask it again, quietly. Second answers are better after midnight."
+        }
+      ]
+    }
+  ]
+}

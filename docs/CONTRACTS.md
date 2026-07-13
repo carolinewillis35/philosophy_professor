@@ -1169,3 +1169,123 @@ ontologyIds exist; both lenses named; splitHint nonempty) and a practice pass
 with title/exercise/debrief). The personas pass picks up `bede`
 automatically.
 
+---
+
+# ENGAGEMENT addendum (§16) — E-M4: the Agora
+
+Additive to §1–15. Scope source: `docs/SCOPE-ADDENDUM.md` §4. Two systems:
+the monthly Symposium and dinner-party packs.
+
+## 16.1 Symposium content + selection
+
+**Content asset** `content/symposia/symposia.json` (seeded to catalog table
+`symposia` — id, doc, version; read authenticated, writes service role):
+
+```json
+{ "version": 1,
+  "symposia": [{
+    "id": "sym-001",
+    "question": "Does a promise bind you once keeping it helps no one?",
+    "personaA": "whitmore", "personaB": "lindqvist",
+    "positionA": {"label": "…the side A one-liner…", "ontologyId": "ethics.deontology"},
+    "positionB": {"label": "…", "ontologyId": null},
+    "crux": "…where the two sides actually part…",
+    "volleys": [{"speaker": "whitmore", "say": "…"}, …],
+    "relatedClaims": ["…"]
+  }] }
+```
+
+- `personaA`/`personaB` in the registry; `volleys[].speaker` ∈ {personaA,
+  personaB}; `ontologyId`s (nullable) in the ontology; ≥ 3 symposia.
+- **Monthly selection, deterministic (A16 family):** symposia sorted by id;
+  this month's = `bank[monthsSinceEpoch(localDate) % bank.length]`, where
+  `monthsSinceEpoch("YYYY-MM-DD") = YYYY*12 + (MM-1)`.
+
+## 16.2 Kind `symposium` (standalone, dual-persona)
+
+Modeled on the platform disputation (§11.2) but QUESTION-anchored — no
+reading span, no passages, citations empty. Prompt assembly loads BOTH
+persona docs (the §11.2 disputation path, extended to this kind); the
+envelope's `speakers[]` multi-voice contract applies.
+
+- **Start request:** `{kind: "symposium", symposiumId, localDate,
+  beforePosition: "a"|"b"|"undecided"}`. The server inserts the
+  `symposium_responses` row (before captured BEFORE any argument is heard)
+  and stamps `state.symposiumId`, `state.month`.
+- **State/phases:** `question_presented` (the question, both one-liners,
+  neutrally) → `exchange` (the faculty argue — authored volleys as the
+  spine, live extension; the student may interject and either voice may
+  take them up) → `adjudication` (the student rules:
+  `{op:"recordPosition", side, statement}`; side must be personaA or
+  personaB; ruling "still undecided" is legitimate — then no recordPosition
+  is emitted and the professors are told to say so without pressure) →
+  `cross_examination` (the REJECTED side cross-examines the ruling) →
+  `joint_debrief` (both voices; what each side sees and misses; **no winner
+  is declared**) → complete. `canComplete`: `joint_debrief` only.
+- **After-position capture:** when `recordPosition` lands in a symposium
+  session, the server maps `side` → `"a"|"b"`, updates the response row's
+  `after_position`, and — when that position carries an `ontologyId` —
+  writes the §13.2/A17 deterministic `lean` (a ruling is a tap, not an
+  assertion; `assert` still requires the student's own words via
+  commitmentOps). Completing without ruling leaves `after_position` null.
+- Completion marks the response row `completed = true` (the movement gate).
+
+## 16.3 Movement aggregate
+
+**Table `symposium_responses`:** `id`, `user_id`, `symposium_id FK->symposia`,
+`month int`, `before_position text check in ('a','b','undecided')`,
+`after_position text null check in ('a','b')`, `completed boolean default
+false`, `session_id`, `created_at`, unique `(user_id, symposium_id, month)`.
+RLS owner select; writes service role.
+
+**RPC `symposium_movement(p_symposium_id)`** (SECURITY DEFINER, A22 pattern):
+caller must have a COMPLETED response row for that symposium; returns
+`{ total, moved, byBefore: {...}, byAfter: {...} }` over completed responses
+— `moved` = count where `after_position` is non-null and ≠
+`before_position` ("this argument moved 22% of you"). Below 10 completed
+responses: `{total, moved: null, byBefore: null, byAfter: null}`.
+Description, never pressure; shown only post-debrief; never per-user.
+
+## 16.4 Dinner-party packs
+
+**Content asset** `content/packs/packs.json`: `{version, packs: [{id, title,
+blurb, cards: [{question, followUp}]}]}` — ≥ 3 packs, 8–12 cards each,
+`followUp` the one move that keeps a real table talking. Seeded to catalog
+table `packs` (read authenticated). NO response tracking of any kind — the
+packs exist to push philosophy OFF the screen; export is the point.
+
+## 16.5 iOS additions (E-M4)
+
+- **Symposium card** on the home surface ("This month's Symposium:
+  <question>"): the before-tap (A / B / undecided one-liners, tapped before
+  entering) → the debate session (speakers[] multi-voice rendering, phase
+  strip question → exchange → your ruling → cross-examination → debrief) →
+  post-debrief MOVEMENT screen ("this argument moved N% of you", byBefore/
+  byAfter bars; suppressed small crowds: "too few symposiasts yet").
+- **Dinner-party packs**: a packs shelf (from fixture/catalog), each pack a
+  swipeable card deck; whole-pack export via ShareLink as clean plain text
+  (title + cards) — designed to be sent to a group chat or printed.
+- Fixtures: symposia + packs + a mock movement payload; MockSessionClient
+  scripts a full symposium (volleys in speakers[], adjudication,
+  cross-examination, debrief).
+- Demo launch args: `-demo-symposium`, `-demo-packs`.
+
+## 16.6 Guardrails (E-M4)
+
+- **No winner, ever.** The joint debrief names what each side sees and
+  misses; faculty never concede the question; the server never marks a side
+  correct.
+- **Movement is description, post-completion only** (A22 ethic): your own
+  debrief precedes any number; distributions never identify anyone;
+  "undecided" is a position, not a failure to have one.
+- **The before-tap precedes the arguments** — that ordering is the data's
+  honesty and is enforced by the flow (before is captured at start).
+- **Packs are untracked.** No analytics on what happens at the table.
+
+## 16.7 Validation
+
+`validate_content.py` gains: a symposia pass (≥3; personas in registry;
+volley speakers ∈ {personaA, personaB}; position labels + crux nonempty;
+ontologyIds/relatedClaims in the ontology) and a packs pass (≥3 packs;
+8–12 cards each; question/followUp nonempty; unique ids).
+

@@ -51,6 +51,7 @@ import {
   type PracticeSpec,
 } from "../_shared/kinds_life.ts";
 import { generateNewsBrief, loadNewsBrief } from "../_shared/news.ts";
+import type { SymposiumSpec } from "../_shared/kinds_agora.ts";
 import {
   loadReaderProfile,
   profileDigest,
@@ -118,6 +119,7 @@ const KINDS: SessionKind[] = [
   "newsRead",
   "practice",
   "practiceReview",
+  "symposium",
 ];
 
 /** Standalone kinds (§13.1): no enrollment, no course, no retrieval.
@@ -130,6 +132,7 @@ const STANDALONE_KINDS: SessionKind[] = [
   "newsRead",
   "practice",
   "practiceReview",
+  "symposium",
 ];
 
 /** Session kinds driven by an authored spec from the course unit JSON. */
@@ -171,6 +174,9 @@ interface RequestBody {
   /** practice start extras (§15.3). */
   mode?: "morning" | "evening" | "visualization";
   exerciseId?: string;
+  /** symposium start extras (§16.2). */
+  symposiumId?: string;
+  beforePosition?: "a" | "b" | "undecided";
 }
 
 function jsonResponse(status: number, payload: unknown): Response {
@@ -260,6 +266,10 @@ async function loadStandaloneContext(
         exercise: ex.doc as PracticeExerciseDoc,
       } as PracticeSpec;
     }
+  } else if (session.kind === "symposium" && session.state?.symposiumId) {
+    const { data: sym } = await db
+      .from("symposia").select("doc").eq("id", session.state.symposiumId).maybeSingle();
+    if (sym) standaloneSpec = sym.doc as SymposiumSpec;
   }
   return {
     enrollment: syntheticEnrollment(userId),
@@ -349,8 +359,9 @@ function unitClaimDomains(unitDef: CourseUnit): string[] {
 }
 
 /**
- * Persona docs for the system prompt. Disputation sessions carry BOTH
- * personas' docs (§11.2); everything else uses the course persona.
+ * Persona docs for the system prompt. Disputation and symposium sessions
+ * carry BOTH personas' docs (§11.2/§16.2); everything else uses the
+ * session's persona.
  */
 async function loadPersonaDocs(
   db: Db,
@@ -358,8 +369,8 @@ async function loadPersonaDocs(
   kind: SessionKind,
   spec: KindSpec | undefined,
 ): Promise<string[]> {
-  if (kind === "disputation" && spec) {
-    const ds = spec as DisputeSpec;
+  if ((kind === "disputation" || kind === "symposium") && spec) {
+    const ds = spec as Pick<DisputeSpec, "personaA" | "personaB">;
     const { data: rows, error } = await db
       .from("personas")
       .select("id, doc")
@@ -866,6 +877,58 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
   if (raisedTensionId) newState._raisedTensionId = raisedTensionId;
   else delete newState._raisedTensionId;
 
+  // --- symposium adjudication (§16.2): first recordPosition maps to a side,
+  //     writes after_position, and leans on the ruled position's claim (A17).
+  if (
+    kind === "symposium" && spec &&
+    !state.position && newState.position?.side
+  ) {
+    const sym = spec as SymposiumSpec;
+    const side = newState.position.side === sym.personaA
+      ? "a"
+      : newState.position.side === sym.personaB
+      ? "b"
+      : null;
+    if (side) {
+      const { error: apErr } = await db.from("symposium_responses")
+        .update({ after_position: side })
+        .eq("user_id", enrollment.user_id)
+        .eq("symposium_id", sym.id)
+        .eq("month", newState.month);
+      if (apErr) console.error("symposium after-position failed:", apErr.message);
+      const pos = side === "a" ? sym.positionA : sym.positionB;
+      if (pos.ontologyId) {
+        try {
+          const claim = (await claimsCatalog()).find((c) => c.id === pos.ontologyId);
+          if (claim) {
+            const persisted = await persistCommitmentOps(db, enrollment.user_id, [{
+              op: "lean",
+              claim: claim.claim,
+              domain: claim.domain as CommitmentOp["domain"],
+              ontologyId: claim.id,
+              evidence: `Symposium ${sym.id}: ruled for "${pos.label}"`,
+            }], { sessionId: session.id, turnSeq: seq });
+            const touched = newState._commitmentTouched ??
+              { ids: [], claims: [], domains: [] };
+            touched.ids = [...new Set([...touched.ids, ...persisted.touchedOntologyIds])];
+            touched.claims = [...new Set([...touched.claims, ...persisted.touchedClaims])];
+            touched.domains = [...new Set([...touched.domains, claim.domain])];
+            newState._commitmentTouched = touched;
+            if (persisted.strengthChanged) newState._commitmentDrift = true;
+          }
+        } catch (e) {
+          console.error("symposium ruling lean failed (continuing):", e);
+        }
+      }
+    } else {
+      newCorrections.push(
+        `Your recordPosition side "${newState.position.side}" was not one of the two symposiasts (${sym.personaA} | ${sym.personaB}); the ruling was not recorded.`,
+      );
+      newState._corrections = newCorrections;
+      newState.position = null;
+    }
+  }
+
   // --- recordSteelmanScore (§14.4): persist once, when the kind accepted it.
   if (
     kind === "steelman" && applied.steelmanScore &&
@@ -977,6 +1040,16 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
           console.error("practice entry insert failed:", peErr.message);
         }
       }
+    }
+
+    // Symposium (§16.2): completion opens the movement gate (A33).
+    if (ctx.standalone && kind === "symposium" && newState.symposiumId) {
+      const { error: scErr } = await db.from("symposium_responses")
+        .update({ completed: true })
+        .eq("user_id", enrollment.user_id)
+        .eq("symposium_id", newState.symposiumId)
+        .eq("month", newState.month);
+      if (scErr) console.error("symposium completion mark failed:", scErr.message);
     }
 
     // Weekly drop (§14.3): record the response for the crowd aggregate.
@@ -1176,6 +1249,22 @@ async function handleStandaloneStart(
     personaId = "bede";
   } else if (kind === "practiceReview") {
     personaId = "bede";
+  } else if (kind === "symposium") {
+    // §16.2: the before-tap precedes the arguments, captured at start.
+    if (!body.symposiumId) throw new Error("symposium start requires symposiumId");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(body.localDate ?? "")) {
+      throw new Error("symposium start requires localDate (YYYY-MM-DD)");
+    }
+    if (!["a", "b", "undecided"].includes(body.beforePosition ?? "")) {
+      throw new Error("symposium start requires beforePosition (a|b|undecided)");
+    }
+    const { data: symRow, error: symErr } = await db
+      .from("symposia").select("doc").eq("id", body.symposiumId).maybeSingle();
+    if (symErr) throw new Error(`symposium load failed: ${symErr.message}`);
+    if (!symRow) throw new Error("symposium not found");
+    spec = symRow.doc as SymposiumSpec;
+    // The sessions row carries personaA; both docs load at prompt time.
+    personaId = (spec as SymposiumSpec).personaA;
   } else {
     personaId = body.personaId ?? "whitmore";
   }
@@ -1198,6 +1287,10 @@ async function handleStandaloneStart(
   }
   if (kind === "newsRead") state.week = dropWeek;
   if (kind === "practice") state.localDate = body.localDate;
+  if (kind === "symposium") {
+    const [y, m] = body.localDate!.split("-").map((n) => parseInt(n, 10));
+    state.month = y * 12 + (m - 1);
+  }
 
   const { data: session, error: sErr } = await db
     .from("sessions")
@@ -1205,6 +1298,40 @@ async function handleStandaloneStart(
     .select()
     .single();
   if (sErr) throw new Error(`session create failed: ${sErr.message}`);
+
+  if (kind === "symposium" && spec) {
+    // §16.2: one response per (user, symposium, month). A crashed session may
+    // resume — the original before-tap stands (its honesty is the ordering).
+    const { error: srErr } = await db.from("symposium_responses").insert({
+      user_id: userId,
+      symposium_id: (spec as SymposiumSpec).id,
+      month: state.month,
+      before_position: body.beforePosition,
+      session_id: session.id,
+    });
+    if (srErr) {
+      if (srErr.code === "23505") {
+        const { data: prior } = await db
+          .from("symposium_responses")
+          .select("id, completed")
+          .eq("user_id", userId)
+          .eq("symposium_id", (spec as SymposiumSpec).id)
+          .eq("month", state.month)
+          .maybeSingle();
+        if (prior?.completed) {
+          await db.from("sessions").delete().eq("id", session.id);
+          throw new Error("you already attended this month's symposium");
+        }
+        if (prior) {
+          await db.from("symposium_responses")
+            .update({ session_id: session.id }).eq("id", prior.id);
+        }
+      } else {
+        await db.from("sessions").delete().eq("id", session.id);
+        throw new Error(`symposium response insert failed: ${srErr.message}`);
+      }
+    }
+  }
 
   if (kind === "dailyQuestion" && dailySpec && option) {
     // One answer per user per local date (§13.2) — the unique constraint is
