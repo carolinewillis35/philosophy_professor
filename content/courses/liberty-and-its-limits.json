@@ -1,0 +1,617 @@
+{
+  "id": "liberty-and-its-limits",
+  "title": "Liberty & Its Limits",
+  "personaId": "reyes",
+  "description": "Four weeks on one very simple principle and everything it fails to settle. Mill's On Liberty proposes a single rule for when society may lay hands on an adult: only to prevent harm to others, never for the adult's own good. Prof. Reyes teaches it the way she learned to read any rule — by finding the person at the losing end of it. We build Mill's harm principle to full strength, then hunt the invoice: the drunkard's family, the ruined competitor, the public purse that pays for a private choice. We reconstruct his argument that no opinion may ever be silenced, and ask what free discussion is an institution for. We take his case for individuality as a piece of well-being, and then his own hardest chapter, where the principle meets the world and the clean line between self-regarding and other-regarding conduct starts to smear. Mill's pages are public domain and ingested, so unlike Rawls and Nozick he is quoted here directly, through verified passages. You will not leave knowing whether liberty or its limits should win. You will leave knowing exactly what each costs and who signs for it.",
+  "difficulty": "intermediate",
+  "estWeeks": 4,
+  "texts": [
+    {
+      "bookID": "mill-on-liberty",
+      "title": "On Liberty",
+      "author": "John Stuart Mill",
+      "source": "gutenberg",
+      "sourceUrl": "https://www.gutenberg.org/cache/epub/34901/pg34901.txt",
+      "license": "public-domain-us",
+      "licenseNote": "Mill died 1873; On Liberty first published 1859 — public domain in the US."
+    }
+  ],
+  "units": [
+    {
+      "number": 1,
+      "title": "One Very Simple Principle: The Harm Principle and Its Invoice",
+      "reading": [
+        {
+          "bookID": "mill-on-liberty",
+          "chStart": 0,
+          "chEnd": 0
+        }
+      ],
+      "lectureOutline": [
+        "The struggle Mill is entering: not liberty against kings but liberty against the majority — society itself as the tyrant, ruling through law and, more insidiously, through the moral coercion of opinion.",
+        "The principle stated at full strength: the sole warrant for interfering with an adult's liberty is self-protection; his own good, physical or moral, is never a sufficient reason. Read the sentence slowly — it forbids far more than it permits.",
+        "The exemptions clause, read as an administrator would: children, and 'backward states of society,' left outside the principle. Name what the exemption assumes about competence, and who gets to certify it.",
+        "The ground floor: Mill forgoes any appeal to abstract right and rests the whole thing on utility 'in the largest sense, grounded on the permanent interests of man as a progressive being.' The principle is a bet about consequences, not a claim about rights — which means it can be lost on its own terms.",
+        "The self-regarding sphere: the part of life that affects only the agent, or others only with their free and undeceived consent. This is the province the principle fences off — and the fence is the whole argument.",
+        "Who bears the cost of liberty: the drunkard's children, the gambler's creditors, the neighbor who must watch. Every self-regarding act has a claimant somewhere; the principle's work is to decide whose claim counts, and it does that work quietly.",
+        "The name-the-institution discipline applied to Mill: 'society may not interfere' — which body enforces the not-interfering, and who appeals to it when a private ruin becomes a public bill?"
+      ],
+      "seminarQuestionBank": [
+        "State the harm principle as one sentence you would defend at a counter to the person it puts last. Now say exactly what it forbids that you wish it permitted — and what it permits that you wish it forbade.",
+        "Mill exempts children and 'backward' societies from the principle. What is the exemption really about — an age, or a competence? Name the office that would certify who is 'in the maturity of their faculties,' and tell me who appeals its verdict.",
+        "Mill refuses to rest his case on abstract right and rests it on utility instead. What does he gain by that move, and what does he hand his opponent? Could a utilitarian argue the principle away with better statistics?",
+        "The self-regarding sphere is defined as conduct that affects 'only himself, or others only with their free and undeceived consent.' Bring me one act you think is purely self-regarding. I will walk to the back of the line and find someone it touched. What survives?",
+        "'His own good is not a sufficient warrant.' Whose good, then, is Mill protecting when he stops society from protecting you against yourself — yours, or the majority's comfort in not being your keeper?",
+        "Refusing to interfere is also an allocation: the ruin falls on the family, the cost falls on the parish, and the rule that lets it fall was chosen by someone. Is the harm principle a hands-off rule, or a rule about whose hands the harm lands in?",
+        "Behind a veil where you did not know whether you would be the competent risk-taker or the person picking up the pieces of his choices — do you sign Mill's principle? Say which position made you hesitate.",
+        "Mill calls the principle 'very simple.' After one chapter, is it? Locate the single word in his statement of it that will do the most quiet work in the fights to come — and predict the fight."
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "lal-elenchus-coerce-adult",
+          "openingQuestion": "When may society rightly coerce a competent adult?",
+          "span": {
+            "bookID": "mill-on-liberty",
+            "chStart": 0,
+            "chEnd": 0
+          },
+          "passageIds": [
+            "mill-on-liberty:0:9",
+            "mill-on-liberty:0:10",
+            "mill-on-liberty:0:12"
+          ],
+          "classicMoves": [
+            {
+              "definition": "Society may coerce an adult whenever the coercion would make him better off — healthier, safer, longer-lived, wiser.",
+              "counterexample": "This licenses limitless paternalism. By it a majority could forbid every dangerous sport, every improvident marriage, every unhealthy pleasure, and impose its own tastes on the person who feels the consequences most and knows his situation best. Mill's reply: the individual is the party most interested in his own well-being and, in his own concerns, the interest society has is 'fractional' beside his. Name the office that adjudicates 'better off,' and read aloud the name of the adult it overrules."
+            },
+            {
+              "definition": "Society may coerce an adult only to prevent harm to other people, never for his own good.",
+              "counterexample": "Nearly every self-regarding vice reaches others through the agent — the drunkard's neglected family, the gambler's creditors, the burden the reckless place on the public purse. Read 'affects others' widely and the exception swallows the rule: paternalism walks back in wearing the language of harm. Read it narrowly and Mill owes us the line, which this definition has not yet drawn."
+            },
+            {
+              "definition": "Society may coerce an adult only to prevent harm to others' assignable rights or definite obligations — not mere offence or diffuse cost.",
+              "counterexample": "This rescues the principle from collapse, but now everything rides on a prior list of rights and obligations that the principle itself does not supply. The moralist simply asserts a right that public decency not be affronted; the tax-payer asserts a right not to fund another's folly. The self-regarding sphere is only as firm as the rights-list beneath it — so which body writes that list, and who appeals its entries?"
+            }
+          ],
+          "relatedClaims": [
+            "political.anti-paternalism-harm-principle",
+            "political.paternalism-justified"
+          ],
+          "reflectionPrompt": "Write down the rule for coercing an adult that you walked in believing — the one sentence you would have handed me before tonight. Then find the case it cannot survive: the person it either abandons to a ruin you would have stopped, or the person it overrules 'for his own good' against his standing refusal. If you cannot find such a case, you have either drawn the line more precisely than Mill did or hidden it from yourself. Say which, and read me the name on the invoice your rule prints."
+        }
+      ],
+      "argumentLabs": [
+        {
+          "id": "lal-lab-harm-principle-hunt",
+          "title": "The Harm Principle: Find the Premise That Draws the Line",
+          "source": {
+            "bookID": "mill-on-liberty",
+            "passageIds": [
+              "mill-on-liberty:0:9",
+              "mill-on-liberty:0:11",
+              "mill-on-liberty:0:12"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "The only purpose for which power may rightfully be exercised over a competent adult against his will is to prevent harm to others; his own good is never a sufficient warrant."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "The ultimate appeal on all practical questions is utility in the largest sense, grounded on the permanent interests of man as a progressive being (Mill forgoes any appeal to abstract right).",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "Compelling a competent adult in matters that concern only himself does not, on the whole, serve those permanent interests: he is the party most concerned in his own good and the best guardian of it, and coercion here produces more evil than good.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "Preventing harm to others, by contrast, is a purpose that the permanent interests of a progressive being do warrant compulsion to secure.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p4",
+              "text": "Human conduct sorts, exhaustively and determinately, into the self-regarding (affecting only the agent, or others only with their free and undeceived consent) and the other-regarding — so that the acts p2 protects and the acts p3 permits interference with form two clean, non-overlapping classes.",
+              "stated": false,
+              "supports": "c"
+            }
+          ],
+          "mode": "hunt",
+          "hiddenPremiseId": "p4",
+          "removedPremiseId": null,
+          "pedagogicalPoint": "The argument reads as airtight because p1 through p3 are all on the table: a utilitarian ground, a reason coercion fails in self-regarding matters, and a reason it succeeds against harm to others. But the whole edifice needs a partition it never defends — that conduct divides cleanly and completely into the self-regarding and the other-regarding. Without p4, p2 and p3 do not carve the world between them; they leave a vast contested middle where an act is 'self-regarding' in one description and a harm to others in another. Mill half-states the assumption and immediately concedes its softness — whatever affects a man 'may affect others through himself.' This is the premise the critics strike (society is a web; there is no purely private ruin), and it is the premise that decides every application in Chapter 4. For Reyes it is the load-bearing joint because it is where the invoice is printed: p4 declares, in advance, which claimants at the counter do not count.",
+          "elicitationQuestions": [
+            "Grant p1, p2, and p3. Now take a single hard case — a man who drinks himself to ruin while his children go hungry — and try to route it to a verdict. Which class does it fall in, and what did you need to assume to place it there?",
+            "State p4 in your own words as generously as you can. Would Mill sign it flat, or only with the qualification he adds in the same breath — that conduct may 'affect others through himself'? What does that qualification do to the cleanness of the division?",
+            "Why do you think Mill leaves p4 mostly unstated while stating p1 through p3 outright? Give the charitable answer and the tactical answer, and say which you believe.",
+            "Suppose the self-regarding class is not a clean set but a spectrum with a wide contested band. Does the conclusion survive as a strict rule, or does it soften into a presumption — and what would it then be worth against a determined majority?",
+            "Reyes's question: p4 is the line that says whose harm 'counts.' Name one claimant it rules out of court — someone genuinely set back by another's private conduct — and decide whether Mill is right to send them away empty-handed."
+          ],
+          "relatedClaims": [
+            "political.anti-paternalism-harm-principle",
+            "political.liberty-priority"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "lal-u1-response",
+          "kind": "response",
+          "prompt": "Mill says an adult's own good is never a sufficient warrant for society to coerce him. Choose one concrete case of self-regarding conduct society is tempted to forbid — a dangerous recreation, a ruinous habit, a refusal of medical care — and hold the harm principle to it. First reconstruct Mill's verdict and the reasoning that delivers it. Then hunt the invoice: name every person other than the agent on whom the conduct's cost actually falls, and ask whether Mill can keep calling the act 'self-regarding' once they are standing at the counter. Conclude by ruling on whether the principle survives your case intact, survives it only as a presumption, or fails it — and name the premise that gave way.",
+          "lengthWords": 500,
+          "rubric": [
+            {
+              "name": "Reconstruction of Mill's verdict",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "States the harm principle accurately, applies it to the chosen case with its utilitarian ground and its self-regarding/other-regarding machinery intact, and reaches the verdict Mill would actually reach.",
+                "B": "Broadly accurate but flattens the reasoning to the headline rule; the utilitarian ground or the self-regarding test is invoked as slogan rather than machinery.",
+                "C": "Misstates the principle or attributes to Mill a paternalism he explicitly rejects; the target of the essay is a caricature."
+              }
+            },
+            {
+              "name": "The invoice",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "Names specific real parties on whom the cost falls, and presses the genuinely hard question — whether the self-regarding classification can hold once they are counted — without letting either side off the hook.",
+                "B": "Identifies affected third parties but treats the classification question as easy, or lists costs without asking what they do to Mill's line.",
+                "C": "No serious search for the cost-bearers; the conduct is asserted to be private or public without argument."
+              }
+            },
+            {
+              "name": "Verdict and diagnosis",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Delivers a definite verdict that follows from the analysis and names the specific premise that held or gave way; the judgment is the writer's own and earned.",
+                "B": "Reaches a verdict but asserts it rather than deriving it, or gestures at 'a premise' without isolating one.",
+                "C": "No verdict, or a verdict that contradicts the essay's own findings."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "One chapter, one principle, and already the simplicity is spending down. Keep four things. First, what the principle actually says: society may coerce a competent adult only to prevent harm to others, and 'for his own good' is ruled out entirely — this forbids more than most of its admirers realize. Second, its foundation: not abstract right but utility 'grounded on the permanent interests of man as a progressive being,' which means the principle stands or falls on consequences and can, in principle, be argued away on its own currency. Third, the exemptions — children, 'backward' societies — which quietly make competence the hinge and leave open who certifies it. Fourth, and this is the whole course in miniature: the self-regarding/other-regarding partition (the lab's hidden premise, p4) is the line that decides whose harm counts, and Mill half-draws it while conceding it smears. Refusing to interfere is not the absence of an allocation; it is an allocation — the ruin lands on someone, chosen by the rule. Next week Mill leaves conduct for opinion, and argues that there is one thing society may never do to an idea, however false: silence it."
+    },
+    {
+      "number": 2,
+      "title": "Fallibility and the Living Truth: Why No Opinion May Be Silenced",
+      "reading": [
+        {
+          "bookID": "mill-on-liberty",
+          "chStart": 1,
+          "chEnd": 1
+        }
+      ],
+      "lectureOutline": [
+        "The claim at its most extreme: if all mankind minus one held an opinion, mankind would be no more justified in silencing that one than the one, if he had the power, would be in silencing mankind. Feel the size of the claim before you assess it.",
+        "The two branches: the silenced opinion may be true, or it may be false. Mill insists on taking them separately, because a different argument answers each — and both must be beaten to defend suppression.",
+        "First branch — the argument from fallibility: to silence an opinion because you are certain it is false is to assume your certainty is absolute certainty; all silencing of discussion is an assumption of infallibility.",
+        "The objection Mill builds for his opponent, at full strength: forbidding error is no more an assumption of infallibility than any action taken on fallible judgment — we must act, and acting means backing our judgment against the doubter's. Do not swat this; it is the strongest thing said against him.",
+        "Mill's answer, which is the load-bearing move: there is all the difference between assuming an opinion true for purposes of action, after leaving it open to every challenge, and assuming it true in order to forbid the challenge. Free contradiction is the only thing that earns a fallible mind the right to be confident.",
+        "The 'usefulness' dodge: silencing an opinion not because it is false but because it is dangerous — and why Mill says the usefulness of an opinion is itself a matter of opinion, as disputable and as fit for discussion.",
+        "Second branch — the dead dogma: even a wholly true received opinion, held without the challenge of dissent, decays into a formula mumbled by rote, its meaning enfeebled, its ground forgotten. Truth uncontested is truth half-dead.",
+        "The institutional payoff: free discussion is not a courtesy extended to cranks but a working procedure for a fallible species — name what it produces, and name what its absence costs the orthodox, who suffer most of all."
+      ],
+      "seminarQuestionBank": [
+        "Restate 'all silencing of discussion is an assumption of infallibility' as an argument — premises and conclusion — without the rhetoric. Is the inference tight, or does 'assumption of infallibility' do more work as a phrase than as a claim?",
+        "Mill's imagined objector says: to forbid what we are sure is pernicious is not to claim exemption from error but to do our fallible duty of acting on our convictions. State that objection in its strongest form. What, exactly, is wrong with it — if anything?",
+        "Mill answers the objector by distinguishing assuming a thing true for action from assuming it true so as to forbid refutation. Walk the distinction. Is it a real difference in kind, or a difference of degree dressed as a difference in kind?",
+        "Suppose an opinion is not merely false but demonstrably harmful to believe. Mill still forbids silencing it. Is that principled courage or reckless dogma — and does his 'usefulness is itself an opinion' reply actually meet the case?",
+        "The second branch says a true opinion, unchallenged, becomes a dead dogma. Is that a claim about logic or about psychology? What evidence would confirm or refute it — and have you watched it happen to a belief of your own?",
+        "Mill says the ban on heresy harms the orthodox believer most of all. Reconstruct that surprising claim. Who is the greater casualty of enforced consensus — the silenced dissenter or the unexamined majority?",
+        "Name the institution free discussion actually is: which body maintains it, at what cost, and who shows up to demand an exception 'just this once, for this one poisonous idea'? Would you grant the exception? What would granting it commit you to?",
+        "Behind a veil where you did not know whether your own convictions were among the truths or among the errors, would you sign a rule permitting the majority to silence what it is sure is false? Say which possibility made you keep the rule open."
+      ],
+      "argumentLabs": [
+        {
+          "id": "lal-lab-fallibility-collapse",
+          "title": "All Silencing Is an Assumption of Infallibility — Remove the Load-Bearer",
+          "source": {
+            "bookID": "mill-on-liberty",
+            "passageIds": [
+              "mill-on-liberty:1:3",
+              "mill-on-liberty:1:6"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "Society is never warranted in silencing an opinion, even one it is certain is false."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "To refuse a hearing to an opinion because one is sure it is false is to treat one's own certainty as absolute certainty — that is, to assume one's own infallibility.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "No individual and no age is infallible; we can never be certain that the opinion we would suppress is in fact false.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "The only rational assurance a fallible being can have that a belief is right is that it has been left open to contradiction and has withstood it; so leaving discussion free is the very condition that justifies acting on any opinion at all, whereas silencing forfeits that assurance without securing truth.",
+              "stated": true,
+              "supports": "c"
+            }
+          ],
+          "mode": "collapse",
+          "hiddenPremiseId": null,
+          "removedPremiseId": "p3",
+          "pedagogicalPoint": "Chapter 1 stages its own strongest objection. Mill's imagined critic grants p1 and p2 and shrugs: of course we are fallible, but we must act on our fallible judgment in everything — governing, punishing, legislating — so acting against a pernicious opinion is no special arrogance. If the argument were only p1 and p2, that objection would win: fallibility alone forbids nothing, since we act under it constantly. P3 is the premise that answers the objection and carries the conclusion. It marks the difference between assuming an opinion true for purposes of action while leaving it open to challenge, and assuming it true in order to forbid the challenge — only the second forfeits the sole warrant a fallible mind can have. Remove p3 and the structure falls straight back into the critic's hands; the conclusion no longer follows, and Mill is left saying merely 'you might be wrong,' which every actor already concedes. The lesson is where a strong argument actually lives: not in the premise everyone will grant (we are fallible) but in the premise that does the discriminating work. Reyes: p3 is the one that tells you what free discussion is FOR — the procedure, not the platitude.",
+          "elicitationQuestions": [
+            "Cover p3 with your hand and try to reach the conclusion from p1 and p2 alone. Now read the objector back to yourself — 'we act on fallible judgment all the time.' Has anything stopped him?",
+            "State p3 as a distinction between two things a person does when they are confident. Which one does Mill permit, which does he forbid, and what exactly separates them?",
+            "The objector concedes fallibility freely. Why does that concession cost him nothing until p3 is on the table? What does p3 add that mere fallibility did not?",
+            "Could Mill retreat to a weaker conclusion — 'society should rarely silence opinions' — and keep p1 and p2 without p3? What would his thesis then be worth against a majority sure of itself in the particular case?",
+            "General rule, in your own words: when you audit an argument, why is the premise everyone accepts usually not the one holding the roof up? Name the premise here that a defender of censorship must attack, and say how they would attack it."
+          ],
+          "relatedClaims": [
+            "epistemology.fallibilism",
+            "political.toleration-principle"
+          ]
+        }
+      ],
+      "closeReadingPassages": [
+        "mill-on-liberty:1:3",
+        "mill-on-liberty:1:6",
+        "mill-on-liberty:1:21",
+        "mill-on-liberty:1:34"
+      ],
+      "assignments": [
+        {
+          "id": "lal-u2-closereading",
+          "kind": "closeReading",
+          "prompt": "Take the hinge of Chapter 1: the objector's challenge that forbidding a pernicious opinion is only the fallible discharge of one's duty to act on conviction, and Mill's reply that there is 'the greatest difference' between assuming an opinion true for action and assuming it true so as to forbid refutation. Read the two moves against each other, sentence by sentence. Do not summarize the chapter — anchor to these passages and account for how the reply is built: what distinction it introduces, what work each clause of it does, and where, if anywhere, it strains. Close by stating in one paragraph whether the distinction is a genuine difference in kind or a difference of degree wearing a sharper coat.",
+          "lengthWords": 400,
+          "rubric": [
+            {
+              "name": "Attention to the text",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Reads the objection and the reply closely and in order, quoting or precisely paraphrasing the actual moves; the distinction Mill draws is reconstructed from his words, not from memory of the thesis.",
+                "B": "Stays near the passages but drifts into general summary of the chapter; some of the reply's machinery is skipped.",
+                "C": "Abandons the text for a paraphrase of 'free speech is good'; the specific passages do no work."
+              }
+            },
+            {
+              "name": "Grasp of the distinction",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "States the difference between assuming-true-for-action and assuming-true-to-forbid-refutation exactly, and shows why only the second forfeits Mill's warrant.",
+                "B": "Gets the distinction roughly right but blurs which side Mill permits, or why it matters.",
+                "C": "Misses or inverts the distinction; treats the reply as mere reassertion of fallibility."
+              }
+            },
+            {
+              "name": "The closing verdict",
+              "weight": 0.2,
+              "descriptors": {
+                "A": "Rules, with a reason, on whether the distinction is a difference in kind or degree; the verdict follows from the reading performed.",
+                "B": "Offers a verdict only loosely tied to the reading.",
+                "C": "No verdict, or one unconnected to the passages examined."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Mill's boldest chapter defends a claim that sounds reckless and turns out to be disciplined: no opinion, however false, may be silenced. Hold the architecture. Two branches, both of which a censor must beat: the opinion may be true, or it may be false-but-worth-contesting. The first branch runs on fallibility — but note the lesson the lab drove home: fallibility alone forbids nothing, because we all act under it constantly; the argument's real load sits on the premise (p3) distinguishing assuming a thing true for action, refutation still welcome, from assuming it true so as to forbid refutation. Free contradiction is the only warrant a fallible mind gets, and silencing throws it away without buying truth. The second branch is the dead dogma: a true belief unchallenged rots into rote, its grounds forgotten, its meaning drained — which is why Mill says the orthodox, not the heretic, are the enforced consensus's chief casualties. And keep the institutional reading: free discussion is not a favor to cranks but a working procedure for a species that cannot certify its own conclusions. Next week Mill turns from what we may think to how we may live — and argues that individuality is not a threat to well-being but a piece of it."
+    },
+    {
+      "number": 3,
+      "title": "Individuality as an Element of Well-Being — and the Office That Knows Better",
+      "reading": [
+        {
+          "bookID": "mill-on-liberty",
+          "chStart": 2,
+          "chEnd": 2
+        }
+      ],
+      "lectureOutline": [
+        "The thesis most readers resist: the free development of individuality is not merely compatible with well-being but is itself a necessary ingredient of it, coordinate with civilization, instruction, and culture — not a luxury a well-ordered life can skip.",
+        "Why the resistance: people accept liberty of thought readily but balk at liberty of living. Mill's diagnosis of the double standard — we grant that understanding should be our own, but not that desires and impulses should be.",
+        "Choice as a faculty exercised only by choosing: the person who lets the world or his custom choose his plan of life needs no faculty but ape-like imitation; the one who chooses employs perception, judgment, discrimination, and will. Character is a muscle that atrophies unused.",
+        "'Experiments in living': why a society needs people who try unusual modes of life — not because eccentricity is admirable in itself, but because no one knows in advance which experiments will teach the rest something worth copying.",
+        "The tyranny of custom and the ascendancy of mediocrity: Mill's fear that the great mass, comfortable and conforming, will grind individuality down not by law but by the sheer weight of collective opinion.",
+        "Where individuality meets the harm principle: the sphere of self-regarding conduct from Unit 1 is exactly the room individuality needs. The case for letting people alone and the case for their flourishing turn out to be the same case, read from two ends.",
+        "The paternalist's honest rejoinder, set up for the lab-in-miniature: if individuality is a component of well-being, and some coercions demonstrably raise well-being, may an office that truly knows better override a competent adult's refusal — and what does it cost when it does?"
+      ],
+      "seminarQuestionBank": [
+        "Mill claims individuality is not just compatible with well-being but a part of it. State the claim precisely. Is it a claim about what makes a life go well for the person living it, or about what makes a society improve — and does he need both?",
+        "The faculties argument: choosing, Mill says, exercises perception, judgment, and will, while conformity exercises none. Is that true of every conformist and no one who follows custom? Find the exception, and say what it does to the argument.",
+        "'Experiments in living' justifies eccentricity by its usefulness to others. Does that instrumentalize the eccentric — valued for what the herd learns from him? Could Mill defend individuality as good for its bearer even when no one learns a thing?",
+        "Mill fears mediocrity becoming 'the ascendant power' — not through law but through opinion. Is that a danger you recognize? Name the institution, if any, that administers the tyranny of custom, and the appeal a nonconformist could lodge with it.",
+        "The self-regarding sphere is the space individuality needs. So is Chapter 2 a new argument, or the same harm principle admired from the inside? What, if anything, does 'individuality is a good' add to 'society may not interfere'?",
+        "Suppose an office could demonstrably raise a competent adult's well-being by overriding a choice he would not have made — a mandatory saving, a forbidden risk. If individuality is itself a part of well-being, does the override subtract as much as it adds? Show your accounting.",
+        "Mill values individuality 'even though not for the better' — differences that make a life stranger without making it happier. Can that be right? Is there a point at which an experiment in living is simply a worse life, and who gets to say so?",
+        "Behind a veil where you did not know whether you would be a bold original or a person the originals unsettle and endanger, do you sign Mill's high valuation of individuality? Name the position that made you want a limit on it."
+      ],
+      "thoughtExperiments": [
+        {
+          "id": "lal-te-office-that-knows-better",
+          "title": "The Office That Knows Better",
+          "setup": "You run a public agency, and a measure is on your desk that would make your fellow citizens' lives go better by every measure your office is allowed to count. Call it what you like — a mandatory contribution to a fund that keeps the old out of poverty, a required course of a preventive that spares thousands a slow illness, a ban on a product that a minority buys knowing exactly what it will do to them. The evidence is not in doubt. Adopt the measure and the ledger improves: fewer ruined retirements, fewer early graves, a population demonstrably healthier, wealthier, longer-lived. There is one cost, and it does not show up in the ledger. A competent, informed minority does not want the measure. They have weighed it and refused it, for reasons that are theirs and that they do not owe you. They are not children; they are not deceived; the thing they are choosing falls, in the first instance, on themselves. Mill's principle is clipped to the front of the file: an adult's own good is never a sufficient warrant. Your predecessor's note is clipped behind it: the good is real, the refusers will suffer, and doing nothing is also a decision you will have signed. The measure needs your signature or your refusal by five o'clock. Which do you write, and whose name goes on the invoice either way?",
+          "philosophicalPayload": "This is the paternalism dilemma at the exact seam Mill's principle cuts — and it is built to have no baked answer. Adopt the measure and you buy a real, measurable gain in well-being at the price of overriding competent adults in what most concerns themselves, treating the state as a better judge of a person's good than the person; refuse it and you honor the harm principle at the price of a suffering you could have prevented and a cost that lands on identifiable people, including some the choosers drag down with them. The experiment isolates the question Chapter 2 forces: if individuality and self-authorship are themselves ingredients of well-being, then a paternalist override does not merely add a benefit — it also subtracts one, and the net is not obvious. It also tests where 'self-regarding' really ends, since almost every such measure is defended, in part, as preventing harm to others (the public purse, the dependent family). There is no neutral seat: refusing to choose is choosing by whatever rule already runs.",
+          "sourceRefs": [
+            "mill-on-liberty:0:9",
+            "mill-on-liberty:3:9",
+            "mill-on-liberty:4:2"
+          ],
+          "nodes": [
+            {
+              "id": "desk",
+              "text": "The measure is real, the benefit is proven, an informed minority refuses it, and it concerns them in the first instance. What do you write by five o'clock?",
+              "options": [
+                {
+                  "label": "Sign it. The good is certain and large; I will not let people ruin themselves on principle.",
+                  "next": "signed"
+                },
+                {
+                  "label": "Refuse to compel. Advise, warn, fund the case for it — but leave the choice with the adult whose life it is.",
+                  "next": "refused"
+                },
+                {
+                  "label": "Neither. Make it the default with an opt-out: everyone is enrolled unless they sign their way out.",
+                  "next": "nudge"
+                }
+              ]
+            },
+            {
+              "id": "signed",
+              "text": "You signed. Now stand behind it out loud. On what ground did you override a competent adult's standing refusal?",
+              "options": [
+                {
+                  "label": "Frankly, for their own good — I know better here, and knowing better is why the office exists.",
+                  "next": "owngood"
+                },
+                {
+                  "label": "Not for their good — for the harm their choice loads onto others: the family, the fund, the public purse.",
+                  "next": "harm"
+                }
+              ]
+            },
+            {
+              "id": "refused",
+              "text": "You refused to compel. The measure fails; over the next years the refusers suffer exactly the harms the evidence predicted, and some are not the only ones who pay. Do you hold the line?",
+              "options": [
+                {
+                  "label": "Yes. Their life, their choice, their reckoning — the suffering they chose is theirs to bear.",
+                  "next": "sovereign"
+                },
+                {
+                  "label": "No. Watching preventable ruin, I decide inaction was itself a decision I should not have signed. I compel after all.",
+                  "next": "signed"
+                }
+              ]
+            },
+            {
+              "id": "nudge",
+              "text": "You engineered the default and left an exit. Be honest about what you built.",
+              "options": [
+                {
+                  "label": "A respectful compromise: the refuser can always walk out the door, so no one is coerced.",
+                  "next": "soft"
+                },
+                {
+                  "label": "A soft coercion in a kind coat: you set the default knowing most will never leave it, steering the very choice you claim to honor.",
+                  "next": "refused"
+                }
+              ]
+            },
+            {
+              "id": "owngood",
+              "text": "You have signed as a frank paternalist: the state as better judge of a competent adult's good than the adult. It is a defensible seat, and Mill's whole essay is aimed at it. Measure what you spent to sit here — not the money, which the ledger shows, but the thing the ledger cannot: a person's standing to author the part of his life that is his. You bought real well-being with a piece of the very individuality Chapter 2 calls a part of well-being. Name whether the account still comes out ahead.",
+              "terminal": true
+            },
+            {
+              "id": "harm",
+              "text": "You have relocated the whole case out of paternalism and into the harm principle: not 'for his good' but 'to spare others the cost.' Clever — and now you owe the line. Almost every self-regarding ruin loads something onto someone; if the public purse and the dependent family are harm enough to license compulsion, the harm principle will authorize nearly everything paternalism ever wanted, in cleaner language. Draw the limit you just relied on, or admit you have quietly repealed Unit 1's rule while keeping its name.",
+              "terminal": true
+            },
+            {
+              "id": "sovereign",
+              "text": "You held Mill's line to its hardest edge: sovereignty over the self, even unto self-inflicted ruin, even with the remedy in your hand. Honor it fully by reading the whole invoice aloud. Some of what the refusers chose fell only on them; some fell on children, creditors, a fund the rest must refill. 'Their choice' was, in part, a choice about other people who never signed it. Say which of those costs you are willing to let stand as the price of the principle — and to whom you would say it, at the counter, to their face.",
+              "terminal": true
+            },
+            {
+              "id": "soft",
+              "text": "You chose the architecture of the default — soft paternalism, the nudge. It looks costless because the door is always open, and that is exactly what to interrogate. You have not compelled anyone; you have arranged the choice so that inertia does your persuading, steering outcomes while preserving the form of consent. Decide whether that respects the chooser more than an honest ban would, or less — whether a steer you designed and did not disclose is a gentler override or a quieter one. Mill wanted the adult to exercise the faculty of choosing. Did your default let him, or spare him the trouble?",
+              "terminal": true
+            }
+          ],
+          "pumps": [
+            {
+              "id": "lal-pump-body-count",
+              "afterNode": "signed",
+              "variation": "Attach the number. The measure you signed is now known to prevent a documented four thousand early deaths a year, against a refusing minority of perhaps thirty thousand who understand the risk and want it anyway. Does the size of the saved harm change your ground for signing — or only your comfort with it?",
+              "testsPrinciple": "Whether the warrant for paternalist coercion is really the magnitude of the good secured (in which case it is a utilitarian calculation with no principled floor for liberty) or something about the agent's standing that a larger number cannot touch."
+            },
+            {
+              "id": "lal-pump-thin-competence",
+              "afterNode": "refused",
+              "variation": "Now soften the competence. The refusers, you learn, are refusing under the pull of an addiction the product itself created, or on the strength of a marketing campaign engineered to defeat exactly the judgment you are honoring. Are they still the sovereign adults of Mill's principle, or has the ground for leaving them alone quietly gone out from under you?",
+              "testsPrinciple": "Whether the harm principle protects a choice or a capacity — and how much manipulation, addiction, or misinformation must corrupt a refusal before overriding it counts as protecting autonomy rather than violating it (the soft-paternalism boundary)."
+            }
+          ],
+          "interrogation": [
+            "You wrote something by five o'clock. Before you defend it — name the institution your decision empowers, and the adult it either overrules or abandons. Read both names aloud; the exercise begins there.",
+            "Mill's principle is on the file, and you either kept it or broke it. If you broke it, say exactly which clause you struck and what you put in its place. If you kept it, say what suffering you signed for by keeping it.",
+            "Chapter 2 says individuality is itself a part of well-being. Rerun your decision's ledger with that entry included: does overriding a competent choice still come out ahead once the loss of self-authorship is booked as a real cost, not a sentiment?",
+            "If you routed the compulsion through 'harm to others,' the question from the lab returns: where is the line, and does it survive the fact that nearly every private ruin loads something onto someone? If you could not draw it, was your verdict paternalism after all?",
+            "Behind the veil, not knowing whether you would be the bold refuser or the person picking up what the refusers dropped, would you sign the rule your decision implies for the next thousand cases? Say which position made you hesitate — and whether hesitating changed the rule."
+          ],
+          "relatedClaims": [
+            "political.paternalism-justified",
+            "political.anti-paternalism-harm-principle"
+          ]
+        }
+      ],
+      "closeReadingPassages": [
+        "mill-on-liberty:2:2",
+        "mill-on-liberty:2:11",
+        "mill-on-liberty:2:13"
+      ],
+      "assignments": [
+        {
+          "id": "lal-u3-imitation",
+          "kind": "imitation",
+          "prompt": "Write Chapter 2 for a reader who accepts the harm principle but shrugs at individuality — who will let people alone but does not believe their oddness is any part of living well. Keep Mill's architecture exactly: first the claim that individuality is an ingredient of well-being and not a threat to it; then the faculties argument (that choosing exercises capacities conformity leaves to rot); then the defense of experiments in living by their use to a society that cannot know in advance which will teach it something; then the warning about the tyranny of custom and the ascendancy of mediocrity. Build it from contemporary materials — your experiments in living need not be Mill's — and make the case at full strength, so that a committed conformist would feel its pull. End where Mill implicitly ends: by conceding the strongest cost of individuality (the experiments that simply fail, the lives made stranger and no better) and saying why the good still outweighs it — or honestly why, on your accounting, it might not.",
+          "lengthWords": 600,
+          "rubric": [
+            {
+              "name": "Fidelity to Mill's structure",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "All four movements present and in order — the well-being claim, the faculties argument, experiments in living, the tyranny of custom — each doing its distinct work; the modern materials map cleanly onto Mill's machinery.",
+                "B": "The movements are present but blurred, or one is vestigial; the mapping to the chapter is loose.",
+                "C": "The structure is lost — a general celebration of nonconformity rather than Mill's ordered argument."
+              }
+            },
+            {
+              "name": "Strength of the case",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "The argument is genuinely persuasive to its intended skeptic: individuality is shown to be a component of well-being, not merely tolerated; the faculties and experiments arguments are made to bite, and the writer's own hedging is nowhere visible.",
+                "B": "Competent but pulls its punches — individuality is defended as harmless rather than as a good, or the skeptic is never really engaged.",
+                "C": "The case is weak or preaches to the converted; assertion stands in for argument."
+              }
+            },
+            {
+              "name": "Honesty about the cost",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Concedes the real cost of individuality at full strength — failed experiments, lives made worse — and either shows why the good outweighs it or adjusts the verdict because it might not; the concession is genuine, not a feint.",
+                "B": "Acknowledges a cost but domesticates it, or concedes and then proceeds as if nothing were owed.",
+                "C": "No cost confronted; individuality is presented as pure upside."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Chapter 2 turns the harm principle inside out: the self-regarding sphere you fenced off in Unit 1 is the very room individuality needs to grow, so 'leave people alone' and 'let people flourish' are one argument read from two ends. Keep the load-bearing claims. Individuality is not merely compatible with well-being but a part of it — a claim about what makes a life good, which is why a paternalist gain in health or wealth is not a clean gain: it can subtract self-authorship even as it adds security. The faculties argument: choosing exercises perception, judgment, and will, and the unused faculty withers. Experiments in living earn their protection because no one knows in advance which will teach the rest of us something — though notice that this defense values the eccentric for the herd's benefit, and ask whether Mill can also value him for his own. And the standing fear: mediocrity ascendant, individuality ground down not by law but by the mass weight of opinion, with no counter to appeal to. The thought experiment showed the seam where all of this meets the office that truly knows better — and that there is no seat, not even refusal, that escapes signing an invoice. Next week Mill takes his own principle into that hard country: the limits of society's authority, and the applications where the clean line begins to smear."
+    },
+    {
+      "number": 4,
+      "title": "The Limits of Society's Authority: Where the Line Smears",
+      "reading": [
+        {
+          "bookID": "mill-on-liberty",
+          "chStart": 3,
+          "chEnd": 4
+        }
+      ],
+      "lectureOutline": [
+        "The apportionment question stated plainly: how much of a life belongs to the individual and how much to society? Mill's answer — each gets what more particularly concerns it — is a rule for drawing a line, and the whole chapter is the line refusing to stay drawn.",
+        "The paternalist's counterattack, built to full strength: no man is an island; if society protects children from themselves, why not the improvident adult; the ruin of one is a lesson and a burden to all. This is the objection Mill must survive, and he states it better than his opponents do.",
+        "Mill's two maxims for the applications: the individual is not accountable to society for conduct concerning only himself (only advice, instruction, and — if others choose — their avoidance may answer it); but for conduct harmful to others he is accountable and may be punished.",
+        "The distinction under load: 'affecting others' versus 'affecting others' interests in a way society may act on.' The drunk soldier, the man who cannot pay his debts, the merely offensive — Mill's attempt to keep contingent, self-incurred, or diffuse effects on the far side of the line from genuine harm.",
+        "Offence as pseudo-harm: why Mill will not let 'I am disgusted' or 'my morals are affronted' count as harm to others — and the cost of that refusal, which is that a community may not enforce its shared moral sense as such.",
+        "Trade, poisons, and instigation: the hard applications where free choice runs into others — may the state license or forbid the sale of what only the buyer will suffer from, and may one be free to counsel what one is free to do?",
+        "The state that does too much: even where interference would help, Mill's reasons against it — individual education by self-government, the danger of absorbing all a nation's ability into officialdom, the atrophy of a public that lets the office do everything.",
+        "Reyes's closing audit: the harm principle was never a hands-off rule; it is a rule about whose hand the harm lands in, and Chapter 4 is Mill discovering — sometimes conceding — how many hands there always are."
+      ],
+      "seminarQuestionBank": [
+        "Mill's opponent argues that no conduct is truly self-regarding, since we are woven into one another; the reckless man harms all who depend on or care for him. State that objection at full strength. Where, precisely, does Mill stop it — and is the stopping-place principled or convenient?",
+        "The two maxims of Chapter 4 draw the line between advice and punishment. Take one of Mill's own hard cases — the debtor, the drunk on duty, the idle man whose family starves — and show how the maxims sort it. Does the sorting persuade you, or does it presuppose the very line at issue?",
+        "Mill refuses to count offence — disgust, moral affront — as harm to others. What does that refusal buy, and what does it cost a community that wants to enforce its shared decency? Name the case where you feel the cost most.",
+        "'What exactly is a harm?' Bring me your definition, and I will bring the counterexample. Then repair it, and I will bring another. Where does the sequence stop — and does it stop at a definition, or at a prior list of rights the principle does not itself supply?",
+        "May one be free to counsel what one is free to do? Mill hesitates over the instigator, the pimp, the keeper of the gambling house. Reconstruct his difficulty. Is there a principled difference between doing and advising, or only a difference in how many hands touch the harm?",
+        "Consider the sale of a thing only the buyer will suffer from. If the buyer's choice is self-regarding, may the state regulate the seller? Follow the harm across the transaction and say where, if anywhere, it crosses Mill's line.",
+        "Mill's arguments against the state doing too much — even when it could do a thing better — rest on self-government as education and the danger of officialdom swallowing a nation's talent. Are these harm-principle arguments at all, or a different, more Tocquevillean fear smuggled in? Does it matter which?",
+        "After Chapter 4, is the self-regarding/other-regarding line a discovery or a decision? If it is partly a decision, who should make it, by what procedure — and does conceding that the line is drawn rather than found wreck Mill's principle or merely make it honest?",
+        "Last question of the course, and it was always going to be yours: does the harm principle survive contact with the applications — as a rule, as a presumption, or as a slogan? Answer, name the strongest case against your answer, and read the name on the invoice your verdict prints."
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "lal-elenchus-what-is-harm",
+          "openingQuestion": "What exactly is a harm — the kind that licenses society to interfere?",
+          "span": {
+            "bookID": "mill-on-liberty",
+            "chStart": 3,
+            "chEnd": 4
+          },
+          "passageIds": [
+            "mill-on-liberty:3:9",
+            "mill-on-liberty:4:2",
+            "mill-on-liberty:4:8"
+          ],
+          "classicMoves": [
+            {
+              "definition": "A harm is any physical injury or material loss one person inflicts on another.",
+              "counterexample": "Too narrow and too wide at once. It misses harms Mill plainly counts — breach of a duty to others, betrayal of trust — while catching things he refuses to count: the merchant ruined by a fair competitor suffers real material loss, yet Mill insists that successful competition, though it inflicts loss, gives no ground for interference. Mere inflicted loss is not the harm the principle means, or the principle would forbid the market itself."
+            },
+            {
+              "definition": "A harm is any setback to another person's interests.",
+              "counterexample": "This swallows the world. The winner of a post sets back every rival's interest; the man who marries the woman another loved sets back his; the shop that undersells its neighbor ruins him. All are setbacks, none are actionable on Mill's view. So 'harm' cannot mean setback-to-interests as such — it must mean setback to interests one has a right to have protected, which quietly imports a theory of rights the definition was supposed to avoid."
+            },
+            {
+              "definition": "A harm is a violation of another's rights, or a breach of a distinct and assignable obligation owed to them.",
+              "counterexample": "This is close to Mill's own refinement, and it stops the bleeding — but it makes the harm principle depend entirely on a prior list of rights and obligations that the principle itself does not draw up. The moralist simply asserts a right that public decency not be affronted; the taxpayer, a right not to fund another's folly. The line now holds only as firmly as the rights-list beneath it — so name the office that writes that list, and the party who appeals its entries."
+            }
+          ],
+          "relatedClaims": [
+            "political.anti-paternalism-harm-principle",
+            "political.toleration-principle"
+          ],
+          "reflectionPrompt": "Write the definition of 'harm to others' you were using without noticing, back in Unit 1, when the harm principle still looked simple. Now run Chapter 4's cases against it — the fair competitor, the merely offensive, the debtor, the private vice with a public bill — and mark where your definition either forbids what Mill permits or permits what he forbids. If it survived, you have drawn a line Mill could not; write it out, and name the rights-list it rests on. If it did not, say what that failure shows: not that the harm principle is worthless, but exactly what work it cannot do by itself, and who must do the rest."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "lal-u4-essay",
+          "kind": "essay",
+          "prompt": "Does the harm principle survive its own applications? Mill opens Chapter 4 by admitting his principles must be 'more generally admitted as the basis for discussion of details' before they can be consistently applied — and then spends the chapter discovering how hard the details are. Write an essay that puts the principle to the test on the ground where it is weakest. Take at least two of Mill's hard cases (the merely offensive act, the self-regarding vice with a public cost, the sale of what only the buyer will suffer from, the freedom to instigate what one is free to do) and show precisely how the self-regarding/other-regarding line either holds or smears in each. Build the paternalist's and the moralist's strongest objection — that no conduct is truly private and that a community may enforce its shared decency — to full strength before you answer it; a one-sided defense of Mill is exactly the thing Prof. Reyes distrusts. Conclude with a verdict a legislator could use: does the harm principle stand as a rule, survive only as a presumption that other considerations may override, or fail as a workable line? Your verdict may be Mill's, his opponents', or a third thing — but it must be argued, it must face its strongest opponent, and it must name who pays for it.",
+          "lengthWords": 1200,
+          "rubric": [
+            {
+              "name": "Command of the applications",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Engages at least two of Mill's actual hard cases accurately and in detail, showing exactly how the self-regarding/other-regarding line behaves in each; the cases are used as evidence, not decoration.",
+                "B": "Uses Mill's cases but unevenly — one is handled well and another gestured at, or a case is misdescribed.",
+                "C": "Argues about the harm principle in the abstract; Mill's applications are absent or wrong."
+              }
+            },
+            {
+              "name": "Both sides at full strength",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Builds the paternalist and moralist objections — no conduct is private; a community may enforce its decency — to genuine force before answering, and answers them rather than dodging; neither side is a strawman.",
+                "B": "States the opposing case but softens it, or answers a weaker version than the one built.",
+                "C": "Defends Mill against cartoons, or attacks him without building his defense; only one side stands."
+              }
+            },
+            {
+              "name": "The verdict and its invoice",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "Delivers a definite, argued verdict on the principle's status (rule, presumption, or failure), engages its strongest opponent in the final movement, and names concretely who bears the cost of the verdict.",
+                "B": "Reaches a verdict but shelters it from its strongest opponent, or leaves the cost unnamed.",
+                "C": "Ends in balance-striking or rhetorical questions; no usable verdict, no invoice."
+              }
+            },
+            {
+              "name": "Prose and precision",
+              "weight": 0.15,
+              "descriptors": {
+                "A": "Clear, economical, exact; 'harm,' 'self-regarding,' and 'interest' are used consistently and not equivocated across the argument.",
+                "B": "Serviceable prose with occasional fog, or one key term used in two senses.",
+                "C": "Unclear or inflated; the reader must reconstruct the argument, and the central terms slide."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The course ends where Mill's own confidence thins. Chapter 4 is the harm principle walking into the world and finding it crowded. Keep what the applications taught. The line between self-regarding and other-regarding conduct — the lab's hidden premise from Unit 1 — is not a fact waiting to be read off but a boundary that must be drawn, and Mill draws it case by case, sometimes cleanly (offence is not harm; fair competition is not harm), sometimes with a concession you should not miss (self-incurred ruin that lands on a family or a public purse strains the very partition the principle needs). 'What is a harm?' turned out to have no answer the principle could supply on its own: every definition either forbids what Mill permits or leans on a prior list of rights the harm principle does not itself write. That is not a refutation — it is a specification of exactly what the principle can and cannot do, and where the rest of the work has to come from. And the last lesson is Reyes's, carried the whole way: the harm principle was never a rule for keeping society's hands off. It was a rule for deciding whose hands the harm falls into, and whose claim at the counter counts. You will not leave knowing whether liberty or its limits should win. You will leave knowing, for any case you meet, exactly what each costs and whose name is on the bill — which is more than nearly everyone certain of one side or the other, and the only honest place from which to choose."
+    }
+  ]
+}

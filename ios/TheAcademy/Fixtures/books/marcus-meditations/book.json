@@ -1,0 +1,11 @@
+{
+  "bookID": "marcus-meditations",
+  "title": "Meditations",
+  "author": "Marcus Aurelius",
+  "translator": "Meric Casaubon",
+  "source": "gutenberg",
+  "sourceUrl": "https://www.gutenberg.org/cache/epub/2680/pg2680.txt",
+  "license": "public-domain-us",
+  "licenseNote": "Marcus Aurelius (2nd c.); Casaubon translation 1634 — public domain (US).",
+  "chapterCount": 12
+}

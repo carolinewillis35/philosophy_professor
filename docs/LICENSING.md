@@ -20,7 +20,7 @@ result in `editions.license` / `editions.license_note`.
 
 - **Benjamin Jowett** — Plato (d. 1893; 3rd ed. 1892) ✅
 - **W.D. Ross** — Aristotle *Nicomachean Ethics* (1925, Oxford) ✅ (verify per-volume; Ross d. 1971 but publication pre-1930 governs US PD)
-- **George Long** — Marcus Aurelius *Meditations* (1862), Epictetus ✅
+- **Meric Casaubon** — Marcus Aurelius *Meditations* (1634, PG #2680) ✅; **George Long** — Marcus Aurelius *Meditations* (1862), Epictetus ✅
 - **John Veitch** — Descartes *Meditations*, *Discourse* (1850s) ✅
 - **Elizabeth Haldane & G.R.T. Ross** — Descartes (1911) ✅
 - **Hume, Mill, Berkeley, Locke, William James, early Russell** — wrote in English; pre-1930 works PD ✅ (Russell: *Problems of Philosophy* 1912 ✅; anything 1930+ ❌)
@@ -49,10 +49,12 @@ result in `editions.license` / `editions.license_note`.
 | bookID | source | status |
 |---|---|---|
 | `republic-jowett` | Project Gutenberg #1497 (Jowett tr., d. 1893) | ✅ PD-US — **ingested** (10 books, 510 passages) |
+| `marcus-meditations` | Project Gutenberg #2680 (Casaubon tr., 1634) | ✅ PD-US — **ingested** (12 books, 243 passages; Bede, *The Stoic Gymnasium*) |
+| `mill-on-liberty` | Project Gutenberg #34901 (Mill, 1859, English original) | ✅ PD-US — **ingested** (5 chapters, 127 passages; Reyes, political) |
+| `descartes-discourse` | Project Gutenberg #59 (Veitch tr., 1850s) | ✅ PD-US — **ingested** (6 parts, 60 passages; Kojima — the cogito & mind-body, Part IV) |
 | `apology-jowett` | Project Gutenberg #1656 (Jowett tr.) | ✅ PD-US — planned (M1, *The Examined Life*) |
 | `euthyphro-jowett` | Project Gutenberg #1642 (Jowett tr.) | ✅ PD-US — planned |
-| `meditations-descartes-veitch` | Project Gutenberg #59 (Veitch tr., 1850s) | ✅ PD-US — planned (V1, rediscovery: the cogito) |
-| `enquiry-hume` | Project Gutenberg #9662 (Hume, 1748, English original) | ✅ PD-US — planned (V1, problem of induction) |
+| `enquiry-hume` | Project Gutenberg #9662 (Hume, 1748, English original) | ✅ PD-US — planned (Kojima/Whitmore; needs SECTION/PART chapterizer support) |
 | `nicomachean-ethics-ross` | Wikisource/PG (Ross tr., 1925) | ⚠️ verify source text cleanliness — planned (V1, Bede) |
 | `zarathustra-common` | Project Gutenberg #1998 (Common tr.) | ✅ PD-US — planned (V1, Lindqvist) |
 | `beyond-good-and-evil-zimmern` | Project Gutenberg #4363 (Zimmern tr.) | ✅ PD-US — planned (V1, Lindqvist) |

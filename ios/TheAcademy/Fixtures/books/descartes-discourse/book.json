@@ -1,0 +1,11 @@
+{
+  "bookID": "descartes-discourse",
+  "title": "Discourse on the Method",
+  "author": "René Descartes",
+  "translator": "John Veitch",
+  "source": "gutenberg",
+  "sourceUrl": "https://www.gutenberg.org/cache/epub/59/pg59.txt",
+  "license": "public-domain-us",
+  "licenseNote": "Descartes d.1650; Veitch translation pre-1894 — public domain (US).",
+  "chapterCount": 6
+}

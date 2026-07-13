@@ -1,0 +1,444 @@
+{
+  "id": "the-stoic-gymnasium",
+  "title": "The Stoic Gymnasium",
+  "personaId": "bede",
+  "description": "Marcus Aurelius wrote the Meditations for no reader but himself — a working emperor's training log, drilled morning after morning against fear, anger, and grief. Prof. Bede reads it the way it was written: not as doctrine to admire but as exercises to run. You will practise the dichotomy of control until it is a reflex, take the view from above on your own week, ask what you owe strangers you will never meet, and learn where the discipline of judgment ends and where a human step must begin.",
+  "difficulty": "introductory",
+  "estWeeks": 4,
+  "texts": [
+    {
+      "bookID": "marcus-meditations",
+      "title": "Meditations",
+      "author": "Marcus Aurelius (trans. Meric Casaubon)",
+      "source": "gutenberg",
+      "sourceUrl": "https://www.gutenberg.org/cache/epub/2680/pg2680.txt",
+      "license": "public-domain-us",
+      "licenseNote": "Casaubon translation (1634); public domain in the US."
+    }
+  ],
+  "units": [
+    {
+      "number": 1,
+      "title": "What Is Up To You",
+      "reading": [
+        { "bookID": "marcus-meditations", "chStart": 3, "chEnd": 4 }
+      ],
+      "lectureOutline": [
+        "The first drill and the last: Epictetus' dichotomy, in Marcus' hand — some things are up to us, most are not, and most suffering is a filing error.",
+        "The ruling part (the hegemonikon): the one province that answers to you, and why Marcus keeps returning to it.",
+        "The morning rehearsal: 'it is to go about a man's work that I am stirred up' — the intention set before the day can dispute it.",
+        "Effort vs. outcome: keeping the rowing, handing the sea back to the sea — without sliding into fatalism.",
+        "The misfiling of harm: how an event outside your control gets stamped 'catastrophe' by a judgment that was inside it all along.",
+        "Why a Stoic still acts: the dichotomy frees effort from anxiety about results; it does not excuse the effort."
+      ],
+      "seminarQuestionBank": [
+        "Marcus tells himself at dawn why he is rising. What is the intention FOR, if the day is going to happen either way?",
+        "Is 'how hard I try' really up to you, or does trying come easier some mornings than others through no doing of yours?",
+        "If almost nothing is up to us, is Stoicism a training for freedom or an elaborate consolation for powerlessness?",
+        "Where, exactly, is the line between accepting what you cannot control and excusing what you would not change?",
+        "Marcus was an emperor with vast power over outcomes. Does the dichotomy of control read differently from a throne than from a sickbed?",
+        "Name something you have been treating as up to you that plainly is not. What changes if you re-file it — and what do you fear you'd lose?"
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "sg-u1-control",
+          "openingQuestion": "Name one thing, right now, that is entirely up to you.",
+          "span": { "bookID": "marcus-meditations", "chStart": 3, "chEnd": 4 },
+          "passageIds": [
+            "marcus-meditations:3:0",
+            "marcus-meditations:4:0"
+          ],
+          "classicMoves": [
+            {
+              "definition": "My effort is entirely up to me — how hard I try is my own doing.",
+              "counterexample": "You decide to try; but whether the trying comes easily this morning rides on sleep, mood, a body you did not design and a night you did not choose. The decision is yours. The ease is weather. So 'effort' is not cleanly up to you either — only the assent inside it."
+            },
+            {
+              "definition": "My choices are up to me, so the outcomes I choose to pursue are up to me too.",
+              "counterexample": "The captain chooses the course; the storm votes as well. Marcus keeps the choosing and hands the sea back to the sea. If the outcome were yours, you would never be surprised — and you are surprised daily."
+            }
+          ],
+          "relatedClaims": [
+            "ethics.control-principle",
+            "metaphysics.compatibilism"
+          ],
+          "reflectionPrompt": "You came in able to name a dozen things you 'control.' Which survived? Name what is left when the weather, the body, and the outcome are all handed back — and whether that remainder is small, or is in fact the only thing that was ever yours."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "sg-u1-response",
+          "kind": "response",
+          "prompt": "Pick one thing that genuinely disturbed you this week. Sort it, on paper, into the part that was up to you and the part that was not — and be honest about how thin the first column is. Then say what the sorting changes, if anything, about how you would meet the same thing tomorrow. Two hundred words. This is a rep, not an essay.",
+          "lengthWords": 200,
+          "rubric": [
+            {
+              "name": "Honesty of the sort",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Resists inflating the 'up to me' column; names the real remainder without flinching or excusing, even where it stings.",
+                "B": "A workable sort, but one or two items are parked on the wrong side to keep the writer comfortable.",
+                "C": "The whole event is filed as 'up to me' or 'up to fate' wholesale; no real sorting happens."
+              }
+            },
+            {
+              "name": "From analysis to practice",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Says concretely what changes tomorrow — a trained response, not a resolution to feel better.",
+                "B": "Gestures at a change but leaves it abstract ('I'll be calmer') with no rep attached.",
+                "C": "Stops at analysis; nothing about the next morning is different."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Unit 1 installs the first drill: the dichotomy of control, run on the student's own week. Bede answers questions here (he demonstrates the movement) but every answer ends in an assignment. Guard the seam between acceptance and resignation — that is where this unit is misread."
+    },
+    {
+      "number": 2,
+      "title": "The View From Above",
+      "reading": [
+        { "bookID": "marcus-meditations", "chStart": 1, "chEnd": 1 },
+        { "bookID": "marcus-meditations", "chStart": 6, "chEnd": 7 }
+      ],
+      "lectureOutline": [
+        "Impermanence as an exercise, not a mood: 'the time of a man's life is as a point.'",
+        "The view from above: Marcus' habit of rising until the empire is a map and the century a moment.",
+        "Vainglory dissolved by scale — and the danger that scale dissolves too much.",
+        "Memento mori as sharpening, not morbidity: the loss rehearsed so the having is felt.",
+        "The return: what a Stoic is supposed to carry back down from the height, and what would mean the drill failed.",
+        "Proportion vs. indifference: the exact place the exercise curdles if held too long."
+      ],
+      "seminarQuestionBank": [
+        "If your life is a point in time, does that make what you do this afternoon matter more, or less?",
+        "The view from above cools Marcus' vanity. Would it cool a grief the same way — and should it?",
+        "Where is the line between proportion and indifference, and how would you know you had crossed it?",
+        "Is a life lived permanently at that altitude still a human life?",
+        "Marcus rehearses loss deliberately. Is that morbid, or is it the only way to actually see what you have?",
+        "The drill worked on an emperor's petty irritations. Does it scale to a real bereavement, or break somewhere on the way up?"
+      ],
+      "thoughtExperiments": [
+        {
+          "id": "sg-u2-view-from-above",
+          "title": "The View From Above",
+          "setup": "This is a drill Marcus ran on himself, an emperor with real power and real enemies, most mornings of his life. Try it now, on the thing that soured your breakfast. Begin at your desk. Rise — until the desk is a rectangle, the room a cell, the building one lit box among thousands. Keep rising. The city becomes a circuit of light, the coast a pale seam, the continent a shape you know only from maps, the planet a marble you could cover with a thumb. Now let time run instead of height. Watch the courts that thought themselves permanent — Hadrian's, Augustus', the whole apparatus of an empire — rise, glitter, and go out like the windows below you at midnight. Every person who ever nursed the grievance you are nursing this morning is down there somewhere, and every one of them is gone. Hold the height a moment longer. Then, before you come down: look for the thing you were angry about at breakfast, and see whether you can still find it.",
+          "philosophicalPayload": "Whether cosmic perspective is a tool one visits to gain proportion, or a place one can wrongly move into — trading away petty anger and genuine love in the same gesture. The drill is meant to cool the anger that was never going to move you to act; the open question is whether it also cools the anger that should.",
+          "sourceRefs": [
+            "marcus-meditations:7:0",
+            "marcus-meditations:1:13"
+          ],
+          "nodes": [
+            {
+              "id": "start",
+              "text": "You rise until your whole life is one point of light among many. From up here, what happens to the thing you were angry about at breakfast?",
+              "options": [
+                { "label": "It shrinks to nothing — I can barely find it.", "next": "shrinks" },
+                { "label": "It stays exactly as urgent — the distance is a trick.", "next": "stays" },
+                { "label": "The anger goes, but so does everything else — it all looks pointless.", "next": "nihil" }
+              ]
+            },
+            {
+              "id": "shrinks",
+              "text": "The grievance dwindles to a speck. You feel the relief of scale. Now come back down to the desk. What did you carry back with you?",
+              "options": [
+                { "label": "Proportion — the thing was real but small.", "next": "proportion" },
+                { "label": "Nothing lasting — the calm evaporated on the way down.", "next": "holiday" }
+              ]
+            },
+            {
+              "id": "stays",
+              "text": "You refuse the trick: distance changes the look of a thing, not its weight. The anger keeps its size. Come back down. What did the height teach you, if not proportion?",
+              "options": [
+                { "label": "That some things are meant to be felt at full size.", "next": "proportion" },
+                { "label": "That the drill is an evasion dressed as wisdom.", "next": "holiday" }
+              ]
+            },
+            {
+              "id": "nihil",
+              "text": "From high enough, nothing seems worth doing at all — the anger dissolves into a wider grey. Come back down carrying that. What is it?",
+              "options": [
+                { "label": "A chill: if it's all small, why do any of it?", "next": "chill" },
+                { "label": "A correction: 'small' was too fast — some of it survives the height.", "next": "proportion" }
+              ]
+            },
+            {
+              "id": "proportion",
+              "text": "You return to the desk with the thing resized but not erased — smaller than your anger made it, larger than the void made it.",
+              "terminal": true
+            },
+            {
+              "id": "holiday",
+              "text": "You return with nothing that lasts: the view was a holiday from your life, not a change to it. The grievance is waiting where you left it.",
+              "terminal": true
+            },
+            {
+              "id": "chill",
+              "text": "You return colder than you left — the height took the anger and some of your reasons to care along with it.",
+              "terminal": true
+            }
+          ],
+          "pumps": [
+            {
+              "id": "pump-permanent-altitude",
+              "afterNode": "shrinks",
+              "variation": "Now do not come down. The view from above becomes permanent — you live at that altitude, everything a speck. Is a life lived entirely up there still a human life, or have you traded your griefs away and your loves in the same transaction?",
+              "testsPrinciple": "Whether cosmic perspective is a tool to visit or a place to live — and what is lost if you move in."
+            },
+            {
+              "id": "pump-someone-elses-grief",
+              "afterNode": "stays",
+              "variation": "Keep the distance a trick — but now it is a grieving stranger's loss you are viewing from above, not your own irritation. The height that felt like denial for your anger: is it wisdom or coldness for their grief?",
+              "testsPrinciple": "Whether the view from above scales from petty annoyance to real loss, or breaks somewhere in between."
+            }
+          ],
+          "interrogation": [
+            "You brought something back from the height — or nothing. Name it in one word, then point to the line in Marcus that put it there.",
+            "Marcus ran this drill as an emperor who could actually change things. Does the view from above cool the anger that should move you to act, or only the anger that was never going to?",
+            "Where is your line between proportion and indifference — and did you cross it at any node?",
+            "Would you run this drill on a grief, or only on an irritation? What does that answer say about what the drill is really for?"
+          ],
+          "relatedClaims": [
+            "political.cosmopolitanism"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "sg-u2-response",
+          "kind": "response",
+          "prompt": "Run the view from above, once, on something small that annoyed you today. Then run it on something that actually matters to you. Report what the height did to each — and whether it did the same thing. If it broke somewhere between the two, say where. Two hundred words.",
+          "lengthWords": 200,
+          "rubric": [
+            {
+              "name": "Two honest runs",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Both cases are real and specific, and the report says truthfully what the drill did to each — including where it did nothing.",
+                "B": "One case is real and one is generic; the report leans on what the drill is 'supposed' to do.",
+                "C": "No genuine attempt at the exercise; the writing describes the idea instead of running it."
+              }
+            },
+            {
+              "name": "Finds the break",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Locates precisely where proportion shaded into indifference, or argues with evidence that it never did.",
+                "B": "Notices a difference between the two runs but cannot say where or why.",
+                "C": "Treats both runs as identical successes; no line examined."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Unit 2 is memento mori as sharpening, not morbidity — the loss rehearsed so the having is felt. The pumps exist to stop the drill curdling into indifference; Bede visits the height, he does not move in. If a student brings a real, present grief here rather than an exercise, the drill stops being the move — name the limit and point at the human step."
+    },
+    {
+      "number": 3,
+      "title": "Born To Work Together",
+      "reading": [
+        { "bookID": "marcus-meditations", "chStart": 8, "chEnd": 9 }
+      ],
+      "lectureOutline": [
+        "The social self: 'the nature of the universe hath made all reasonable creatures one for another.'",
+        "Injustice as impiety — why for Marcus wronging a stranger is a crime against the whole.",
+        "The teeth of the upper and lower row: parts made to work together, obstruction as a kind of self-harm.",
+        "Cosmopolitanism without sentimentality: duty to the whole that does not dissolve duty to the near.",
+        "The unchosen bond: how Marcus grounds obligation in a shared nature you did not sign up for.",
+        "The inner citadel and the city: why withdrawal into the ruling part is not withdrawal from other people."
+      ],
+      "seminarQuestionBank": [
+        "Marcus says the unjust man is also impious. What has justice to do with piety, on his picture?",
+        "You did not choose your fellow citizens any more than your family. Does that make your duties to them stronger or weaker?",
+        "If you owe everyone the same, do you thereby wrong the few who were counting on you in particular?",
+        "Is 'we were made for one another' an observation about nature, or a decision dressed up as one?",
+        "Marcus governs an empire built partly on conquest while writing that all reasonable creatures are one. Is that hypocrisy, aspiration, or something else?",
+        "Where does your circle of obligation actually end, and can you defend the edge you drew — or did you just inherit it?"
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "sg-u3-common-good",
+          "openingQuestion": "What do you owe a stranger you will never meet?",
+          "span": { "bookID": "marcus-meditations", "chStart": 8, "chEnd": 9 },
+          "passageIds": [
+            "marcus-meditations:8:0"
+          ],
+          "classicMoves": [
+            {
+              "definition": "I owe strangers nothing in particular; my real duties are only to those I have chosen — my people, my promises.",
+              "counterexample": "You did not choose your fellow citizens, or the driver in the next lane, yet you would rightly despise the man who let a child drown to keep his shoes dry. Some duties arrive with the shared world, unchosen — Marcus calls refusing them a crime against the whole you are a part of."
+            },
+            {
+              "definition": "Then I owe every human being exactly what I owe my own family — no near and far.",
+              "counterexample": "Spread that thin and you wrong the family who was counting on you in particular: the promise you made to them is not honoured by being dissolved into a promise to everyone. The bee that serves no hive in particular serves none. Marcus wants the whole AND the near — the puzzle is holding both."
+            }
+          ],
+          "relatedClaims": [
+            "political.cosmopolitanism",
+            "ethics.virtue-ethics"
+          ],
+          "reflectionPrompt": "You began by drawing the circle of what you owe. Did the elenchus push the circle outward, inward, or only make its edge honest? Name one duty you now think you have that you walked in denying — or one you walked in claiming that you cannot actually cash."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "sg-u3-essay",
+          "kind": "essay",
+          "prompt": "Marcus holds two things at once: that you were made for the whole human community, and that you have particular people who are your work in particular. Show, from your own week, one place where those two pulled against each other — and how you did, or should have, held both. Do not resolve it by dropping one. Four hundred words.",
+          "lengthWords": 400,
+          "rubric": [
+            {
+              "name": "Holds both",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Refuses the cheap resolution of dropping the whole or dropping the near; lets the tension stand and works inside it.",
+                "B": "Feels the tension but resolves it too quickly by quietly abandoning one side.",
+                "C": "Only one duty is ever really in view; there is no tension to hold."
+              }
+            },
+            {
+              "name": "From the student's own life",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "A real, particular case, with stakes that are the writer's own and specific enough to be costly.",
+                "B": "A plausible but generic case that could belong to anyone.",
+                "C": "An abstract restatement of Marcus with no lived instance at all."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Unit 3 is the social turn: the inner citadel of Units 1 and 4 is not a retreat from others but the ground of duty to them. Keep cosmopolitanism from going sentimental — Marcus' 'made for one another' has teeth, and it does not license neglecting the near."
+    },
+    {
+      "number": 4,
+      "title": "The Discipline of Assent",
+      "reading": [
+        { "bookID": "marcus-meditations", "chStart": 3, "chEnd": 3 },
+        { "bookID": "marcus-meditations", "chStart": 10, "chEnd": 11 }
+      ],
+      "lectureOutline": [
+        "The last drill: assent. Between the event and your distress there is a step — the judgment — and the step is yours.",
+        "'That inward mistress part' — the ruling faculty as the one thing outside events can reach only through you.",
+        "Anger as a verdict, not a reflex: what has to be believed for the anger to be warranted.",
+        "The reps that hold it: the morning intention (Unit 1), the evening audit, and the pause before assent.",
+        "The contestable hinge: whether a judgment, once formed, can really be withdrawn at will — and what rides on the answer.",
+        "The red line: where the discipline of assent stops and a human step must begin, so 'it is only your judgment' never becomes a way to dismiss what deserves grief or anger."
+      ],
+      "seminarQuestionBank": [
+        "Marcus says the ruling part, in its own true temper, is untouched by worldly chance. Is that a description of the mind or an aspiration for it?",
+        "If distress rides on a judgment you added, and you can withdraw it — why is it so hard to withdraw?",
+        "Is 'it is not the thing but the opinion of the thing' a liberation, or a recipe for talking yourself out of anger you ought to keep?",
+        "What would it take to actually run the pause before assent, at speed, on a Tuesday?",
+        "Can you withdraw the judgment that a genuine loss is bad? If not, is the Stoic premise false, or just hard — and does the difference matter?",
+        "Some anger is a correct verdict about a real wrong. How does the discipline of assent tell that apart from anger it should dissolve?"
+      ],
+      "argumentLabs": [
+        {
+          "id": "sg-u4-assent",
+          "title": "It Is Not the Thing, But the Opinion of the Thing",
+          "source": {
+            "bookID": "marcus-meditations",
+            "passageIds": [
+              "marcus-meditations:3:0",
+              "marcus-meditations:3:2"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "You can remove your distress at an event by withdrawing your judgment that the event is bad."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "An event distresses you only by way of your opinion that it is bad — the bare event, unjudged, carries no distress.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "That opinion is formed by your own ruling faculty — the 'inward mistress part' — not imposed from outside.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "Whatever your ruling faculty forms, it also has the standing power to revise or withdraw.",
+              "stated": false,
+              "supports": "c"
+            }
+          ],
+          "mode": "hunt",
+          "hiddenPremiseId": "p3",
+          "removedPremiseId": null,
+          "pedagogicalPoint": "The conclusion is only as strong as the unstated premise that a judgment, once formed, can actually be withdrawn at will. Marcus writes as if it can; anyone who has tried to argue themselves out of a grief knows the premise is exactly where the argument is contestable. Finding p3 is finding both the engine of Stoic practice and the place a critic would attack it.",
+          "elicitationQuestions": [
+            "Grant p1 and p2: the distress comes through a judgment, and the judgment is yours. Does the conclusion — that you can therefore remove the distress — follow yet? What has to also be true?",
+            "It is written down that the opinion is yours. It is NOT written down that a thing being yours means you can drop it at will. Is that gap real?",
+            "Test the missing premise against a case: can you withdraw, right now, the judgment that a genuine loss is bad? If not, is the premise false, or just hard?",
+            "If p3 is false — if some judgments cannot be withdrawn however hard you drill — what happens to the whole practice? Does it collapse, or shrink to a smaller true claim?"
+          ],
+          "relatedClaims": [
+            "ethics.control-principle",
+            "metaphysics.compatibilism"
+          ]
+        }
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "sg-u4-harm",
+          "openingQuestion": "When something 'harms' you, where exactly does the harm happen?",
+          "span": { "bookID": "marcus-meditations", "chStart": 10, "chEnd": 11 },
+          "passageIds": [
+            "marcus-meditations:11:0",
+            "marcus-meditations:10:0"
+          ],
+          "classicMoves": [
+            {
+              "definition": "Harm happens out there, in the event — the insult, the loss, the slight is the harm.",
+              "counterexample": "The same insult lands on two people; one is wounded for a week, the other never notices. If the harm were in the event, it would land the same on both. Something between the event and the wound is doing the work — and it is not out there."
+            },
+            {
+              "definition": "Fine — then the harm is just the pain I feel; the feeling is the harm.",
+              "counterexample": "Marcus would ask what the pain is a verdict ABOUT. Grief says 'this should not have happened'; anger says 'I have been wronged.' Take away the verdict and see whether the feeling stands alone — if it cannot, the feeling was never the whole of it, and the ruling part is implicated after all."
+            }
+          ],
+          "relatedClaims": [
+            "ethics.control-principle",
+            "ethics.moral-responsibility-exists"
+          ],
+          "reflectionPrompt": "Name where you now think the harm happens. If your answer moved the site of harm inward, say what that buys you — and what it might cost, if 'the harm is in your judgment' can become a way of dismissing wrongs that deserve your anger."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "sg-u4-response",
+          "kind": "response",
+          "prompt": "Take one thing that angered you this term. Write the verdict your anger was delivering — the full sentence, 'this is wrong because…' Then ask the hard question honestly: is it a verdict you would withdraw if you could, or one you should keep? Say which, and why. The point is not to dissolve all anger — it is to know which of yours has a case. Two hundred words.",
+          "lengthWords": 200,
+          "rubric": [
+            {
+              "name": "Names the verdict",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "States the full judgment inside the anger as a claim that could be true or false — not just the feeling, but its content.",
+                "B": "Describes the feeling and gestures at its cause but never states the verdict as a claim.",
+                "C": "Reports being angry with no attempt to surface what the anger was asserting."
+              }
+            },
+            {
+              "name": "Keeps or withdraws — with reasons",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Decides whether the verdict should stand and defends the choice; distinguishes anger with a case from anger without one.",
+                "B": "Decides but the reason is thin, or dissolves the anger reflexively because 'it's only a judgment.'",
+                "C": "No decision, or treats withdrawing all anger as the automatic Stoic goal."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Unit 4 closes the practice: the discipline of assent, resting on the contestable premise (p3 in the lab) that judgments can be withdrawn. Bede does not pretend the premise is free. The red line holds hardest here — the discipline of assent is not a tool for talking a student out of grief that needs a human step, and 'it is only your judgment' must never become that. Name the limit when the material asks for it."
+    }
+  ]
+}

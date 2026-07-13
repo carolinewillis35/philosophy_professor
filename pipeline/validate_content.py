@@ -171,8 +171,8 @@ def validate_ontology():
         if domain_counts.get(d, 0) < MIN_PER_DOMAIN[d]:
             err(f"ontology domain {d}: {domain_counts.get(d, 0)} claims, minimum {MIN_PER_DOMAIN[d]}")
     total = len(claims)
-    if not (66 <= total <= 80):
-        err(f"ontology: total claims {total} outside target range 66-80")
+    if not (66 <= total <= 260):
+        err(f"ontology: total claims {total} outside target range 66-260")
 
     entail_edges = sum(len(c.get("entails", [])) for c in claims)
     support_edges = sum(len(c.get("supports", [])) for c in claims)

@@ -28,6 +28,9 @@ OUTPUT_DIR = os.path.join(PIPELINE_DIR, "output")
 TARGET_TOKENS = 400
 OVERLAP_TOKENS = 50
 MAX_OVERLAP_TOKENS = 200  # skip overlap when the trailing paragraph exceeds this
+# Chapters whose body is below this are treated as table-of-contents / front-
+# matter artifacts and dropped (real prose chapters run far longer).
+MIN_CHAPTER_TOKENS = 120
 
 VOYAGE_URL = "https://api.voyageai.com/v1/embeddings"
 VOYAGE_MODEL = "voyage-3.5"
@@ -125,8 +128,25 @@ LABELED_HEADING_RE = re.compile(
     r"^(LETTER|CHAPTER|STAVE|BOOK|PART|CANTO)\s+(%s|\d+)\.?\s*$" % ROMAN,
     re.IGNORECASE)
 ROMAN_ALONE_RE = re.compile(r"^(%s)\.?$" % ROMAN)
+# Word-ordinal book headings, e.g. Marcus Aurelius' "THE FIRST BOOK". Anchored
+# on the leading "THE" so a bare-ordinal synopsis/contents ("FIRST BOOK") does
+# not double the real headings.
+WORD_ORDINALS = {
+    "FIRST": 1, "SECOND": 2, "THIRD": 3, "FOURTH": 4, "FIFTH": 5, "SIXTH": 6,
+    "SEVENTH": 7, "EIGHTH": 8, "NINTH": 9, "TENTH": 10, "ELEVENTH": 11,
+    "TWELFTH": 12, "THIRTEENTH": 13, "FOURTEENTH": 14, "FIFTEENTH": 15,
+    "SIXTEENTH": 16, "SEVENTEENTH": 17, "EIGHTEENTH": 18, "NINETEENTH": 19,
+    "TWENTIETH": 20,
+}
+ORDINAL_BOOK_RE = re.compile(
+    r"^THE\s+(%s)\s+(BOOK|PART)\.?$" % "|".join(WORD_ORDINALS), re.IGNORECASE)
 END_OF_VOL_RE = re.compile(r"^\s*END OF (THE )?(VOL|VOLUME)\b", re.IGNORECASE)
 THE_END_RE = re.compile(r"^THE END\.?$", re.IGNORECASE)
+# Standalone end-matter heading lines (appendices, glossaries, editorial notes)
+# that trail the main text with no chapter heading to bound them.
+END_MATTER_RE = re.compile(
+    r"^(APPENDIX|A?\s*GLOSSARY(\s+OF\b.*)?|NOTES|FOOTNOTES|INDEX)\.?$",
+    re.IGNORECASE)
 
 ROMAN_VALUES = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 
@@ -179,6 +199,15 @@ def find_headings(paragraphs, flush_single, book_title=None):
               if ROMAN_ALONE_RE.match(p) and len(p) > 1]
     if len(romans) >= 3:
         return romans
+    # fallback: word-ordinal "THE <ORDINAL> BOOK/PART" headings (e.g. Marcus
+    # Aurelius). Normalized to numeric labels in reading order.
+    ordinal_books = []
+    for i, p in enumerate(paragraphs):
+        m = ORDINAL_BOOK_RE.match(p)
+        if m:
+            ordinal_books.append((i, m.group(2).upper(), str(WORD_ORDINALS[m.group(1).upper()])))
+    if len(ordinal_books) >= 3:
+        return ordinal_books
     # fallback: all-caps story titles (collections). Only single flush-left
     # source lines qualify — indented caps lines are in-story display matter.
     title_cf = re.sub(r"[^a-z0-9 ]", "", (book_title or "").casefold()).strip()
@@ -195,9 +224,10 @@ def find_headings(paragraphs, flush_single, book_title=None):
 
 def clean_chapter_body(paras):
     """Trim inter-volume title pages / END OF VOL blocks from a chapter body."""
-    # truncate at an END OF VOL marker: everything after is divider material
+    # truncate at an END OF VOL / end-matter marker: everything after is
+    # divider or editorial back-matter, not chapter prose.
     for i, p in enumerate(paras):
-        if END_OF_VOL_RE.match(p):
+        if END_OF_VOL_RE.match(p) or END_MATTER_RE.match(p):
             paras = paras[:i]
             break
     # trim a trailing "THE END."
@@ -231,6 +261,12 @@ def chapterize(paragraphs, flush_single, book_title=None):
         end = headings[n + 1][0] if n + 1 < len(headings) else len(paragraphs)
         body = clean_chapter_body(paragraphs[idx + 1:end])
         if not body:
+            continue
+        # Drop table-of-contents pseudo-chapters: a heading whose "body" is just
+        # the TOC's next entries is a handful of words; real chapters run to
+        # hundreds+. Only filter when it leaves enough real chapters, so short
+        # genuinely-structured works are not gutted.
+        if est_tokens("\n\n".join(body)) < MIN_CHAPTER_TOKENS:
             continue
         chapters.append({"kind": kind, "label": label, "paras": body})
 

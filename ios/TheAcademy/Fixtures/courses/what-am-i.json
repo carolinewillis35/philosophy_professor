@@ -1,0 +1,606 @@
+{
+  "id": "what-am-i",
+  "title": "What Am I? Mind, Doubt, and Machines",
+  "personaId": "kojima",
+  "description": "Four weeks with the shortest, strangest founding document of modern philosophy. Prof. Kojima reads Descartes's Discourse on the Method not as a museum piece but as a live procedure you are asked to run on yourself: tear every belief down to what cannot be doubted, watch the doubt consume the senses, the world, even mathematics, and then break — on the one thing doing the doubting. From that single survivor, 'I think, therefore I am,' Descartes builds an entire self: a thinking thing whose whole essence is thought, really distinct from the body, capable of surviving it. Kojima will make that argument as strong as it has ever been made, and then drive his one relentless wedge through it — the seam between what a thing *does* and what it *is*, between what you can be *certain* of and what is *true*. The course ends where Descartes himself set the trap four centuries early: his two tests for telling a mind from a mechanism, a behavioral criterion proposed in 1637 in order to be denied — and now aimed, with Kojima's full care, at a machine that seems to pass it, and at the machine teaching the course. You will not leave with a theory of the self. You will leave unable to say 'the mind is just the brain,' or 'the machine only imitates,' without hearing exactly which question you just skipped.",
+  "difficulty": "intermediate",
+  "estWeeks": 4,
+  "texts": [
+    {
+      "bookID": "descartes-discourse",
+      "title": "Discourse on the Method",
+      "author": "René Descartes (trans. John Veitch)",
+      "source": "gutenberg",
+      "sourceUrl": "https://www.gutenberg.org/cache/epub/59/pg59.txt",
+      "license": "public-domain-us",
+      "licenseNote": "Descartes died 1650; Veitch's translation is pre-1894 — public domain in the US."
+    }
+  ],
+  "units": [
+    {
+      "number": 1,
+      "title": "The Fire and the Hut: Methodic Doubt and What It Is For",
+      "reading": [
+        {
+          "bookID": "descartes-discourse",
+          "chStart": 0,
+          "chEnd": 2
+        }
+      ],
+      "lectureOutline": [
+        "Good sense equally distributed — Descartes' strange opening, and why a book about certainty begins by flattering the reader's reason. What the whole project needs that first sentence to be true.",
+        "The razing of the house: why partial repair will not do, and what it means to demolish every belief you did not examine and build yourself — and whether you can stand nowhere while you dig.",
+        "The four rules of the method, and the one that does all the work: accept nothing as true that you cannot conceive so clearly and distinctly that you have no occasion to doubt it.",
+        "Doubt as a procedure, not a mood: rejecting as false whatever admits the least uncertainty, and what such a filter is built to catch — and what it might throw away with the rubble.",
+        "The provisional morals: obey the laws, be resolute, master yourself and not fortune — how to keep living in a hut while the house is down, and whether the hut is honest.",
+        "What the doubt is *for*. The wedge to keep for the whole course: a belief that lets you live well and a belief that is true are not the same thing, and Descartes will not let the first pass for the second. Neither will I."
+      ],
+      "seminarQuestionBank": [
+        "Descartes opens by declaring good sense equally distributed in all people. Is that a compliment, a premise, or a trap? What does his project need that opening to be — and does he ever argue for it?",
+        "He resolves to demolish every opinion he did not examine for himself and to rebuild from the foundation. Is that even possible — can you doubt everything at once, or must you always be standing on something while you dig?",
+        "State the rule about clear and distinct ideas in your own words. Then use it: pick one belief you actually hold, run it through the filter, and report honestly whether it passes.",
+        "The method rejects as false anything admitting the least doubt. Is that too strong? A belief can be doubtable and still true — so what exactly is the filter selecting for, and at what cost?",
+        "Why does a man tearing down all his beliefs first build himself a provisional morality — obey the laws, stay resolute, change himself rather than the world? Is the hut honest, or is he quietly keeping what he claims to have doubted?",
+        "Descartes doubts in order to rebuild; the ancient sceptic doubts and stays there. What separates methodic doubt from mere scepticism — the destination it aims at, or something already present in the doubting itself?",
+        "Keep the wedge in view. A belief that earns its keep by working and a belief that is true are different things. Name one belief of your own that survives because it *works*, not because you have shown it *true*. Would Descartes let you keep it? Would you?"
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "wai-elenchus-what-can-you-not-doubt",
+          "openingQuestion": "What can you not doubt?",
+          "span": {
+            "bookID": "descartes-discourse",
+            "chStart": 0,
+            "chEnd": 2
+          },
+          "passageIds": [
+            "descartes-discourse:0:5",
+            "descartes-discourse:1:1",
+            "descartes-discourse:2:1"
+          ],
+          "classicMoves": [
+            {
+              "definition": "I cannot doubt what my senses plainly deliver — that there is a page in front of me, a room around me, a body that is mine.",
+              "counterexample": "The senses have deceived you before — the tower that looked round proved square, the stick in water looked bent — and a witness that has lied even once cannot be trusted wholly. Worse, nothing in the experience of sitting in this room distinguishes it, from the inside, from a sufficiently vivid dream; and you cannot rule out that you are dreaming now. What the senses *deliver* is not thereby what *is*."
+            },
+            {
+              "definition": "Then at least I cannot doubt the truths of mathematics — that two and three make five, that a square has four sides — for these hold whether I wake or sleep.",
+              "counterexample": "Grant that they survive the dream. Still, people err in reasoning, even in the simplest sums, and count themselves certain while they do; that you feel certain is no proof you have not miscounted. And Descartes pushes further: for all you can establish at this stage, some power could be so arranged that you go wrong every time you add — so even here the least occasion for doubt can be imagined, which by his own rule is enough to set the belief aside as if it were false."
+            },
+            {
+              "definition": "Very well — but I cannot doubt the opinions I was raised in, the settled convictions of everyone sensible around me. Surely the agreement of the wise is a foundation.",
+              "counterexample": "Descartes resolves at the outset to hold all his former opinions as worth nothing until each is examined, precisely because they were received before his reason could weigh them — inherited, not earned. Custom and consensus explain why a belief is *held*; they say nothing about whether it is *true*. A whole city can agree, and a whole city can be wrong; the count of heads that nod is not evidence, only company."
+            }
+          ],
+          "relatedClaims": [
+            "epistemology.skepticism-external-world",
+            "epistemology.foundationalism",
+            "epistemology.rationalism"
+          ],
+          "reflectionPrompt": "You came in with a list, spoken or unspoken, of things you took to be beyond doubt. Write the item you defended longest, and then administer to it, yourself, the doubt it least wants to face — not 'could I be wrong by carelessness' but 'could the whole appearance be exactly as it is and the fact be otherwise.' If it survives that, say precisely what makes it safe. If it does not, do not mourn it: you have just found the edge of your own foundation, which is the only thing this exercise was ever for."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wai-u1-closereading",
+          "kind": "closeReading",
+          "prompt": "Take the passage where Descartes compares his project to a man who pulls down his own house in order to rebuild it. Read the metaphor as an argument, not as decoration. Account for its specific choices: why a private house and not the state; why the man rebuilds his *own* dwelling and not his neighbor's; why the foundations are said to be insecure or the house in danger of falling. Then state exactly what the metaphor claims about beliefs — and, in your final paragraph, name one place where the comparison of a mind to a building might quietly mislead you about what doubt can and cannot do.",
+          "lengthWords": 400,
+          "rubric": [
+            {
+              "name": "Attention to the text's choices",
+              "weight": 0.5,
+              "descriptors": {
+                "A": "Reads the metaphor closely, accounting for its specific features (private vs. public, one's own house, the insecure foundation) and showing what argumentative work each detail does; observation precedes interpretation.",
+                "B": "Engages the metaphor but treats some details as ornament; the reading summarizes where it should observe.",
+                "C": "Paraphrases the passage's gist and treats the image as a mood; the details go unexamined."
+              }
+            },
+            {
+              "name": "From image to claim",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "States precisely what the metaphor asserts about beliefs and foundations, and identifies a specific point where the building analogy could distort the case of the mind.",
+                "B": "Extracts a claim from the metaphor but the limit-case is generic or asserted.",
+                "C": "No determinate claim is drawn; the mismatch between buildings and minds is not considered."
+              }
+            },
+            {
+              "name": "Economy",
+              "weight": 0.2,
+              "descriptors": {
+                "A": "Every sentence earns its place; observation and interpretation are kept cleanly apart.",
+                "B": "Some padding or blurring of observation and interpretation.",
+                "C": "Diffuse; the word count is spent on throat-clearing."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The week's yield looks negative and is not. Descartes did not doubt because doubt is pleasant — no one enjoys the hut — but because he wanted a foundation he had laid himself, and the only way to find it was to knock on every wall until one refused to give. Keep three things. First, the method's real engine: the clear-and-distinct rule, which rejects as false whatever admits the least occasion for doubt — a filter deliberately set so strict that most of what you 'know' fails it, on purpose. Second, the provisional morals, which are not a lapse in the doubt but a condition of it: you cannot suspend belief about how to live and go on living, so Descartes builds a temporary shelter and is honest that it is temporary. Third, and this one is mine to press all term: the wedge between a belief that *works* and a belief that is *true*. Custom, comfort, and consensus all explain why a belief is held; none of them touches whether it is true, and Descartes' whole procedure is designed to pull those two apart and keep them apart. Next week the doubt runs to its end and hits the one thing it cannot pass through — and notice, when it does, that the survivor is not the world, not God, not your body, but you."
+    },
+    {
+      "number": 2,
+      "title": "I Think, Therefore I Am: Why the Self Shows Up First",
+      "reading": [
+        {
+          "bookID": "descartes-discourse",
+          "chStart": 3,
+          "chEnd": 3
+        }
+      ],
+      "lectureOutline": [
+        "Entering Part IV — the pages Descartes half-apologizes for, so metaphysical he fears they will not please. Here the doubt turns total: the senses that deceive, the dream that cannot be ruled out, the possibility of error even in reasoning.",
+        "The one thing the doubt cannot reach: to doubt is already to think, and to think you must exist. Watch the acid dissolve the world and the body and then find it cannot dissolve the doubter.",
+        "'I think, therefore I am' — read slowly, in the right person. What exactly is proven? Note the order that will matter all term: it is the self, not the world, that shows up first and most certain.",
+        "The clear-and-distinct rule, now born from the cogito: because I see so clearly that to think is to exist, I take clarity itself as the general mark of truth. The foundation, and the weight it is asked to carry.",
+        "The hidden joint. From 'thinking is occurring' to 'I, a thinking thing, exist' is a step, not a synonym. Where did the substantial 'I' enter? The old objection — it thinks, as it rains — and whether the cogito earns the subject it announces.",
+        "The wedge, sharpened. The doubting *does* exactly one thing: it guarantees that thinking is happening, here, now. What it is claimed to *establish* — a single, persisting mental substance that is you — is a further move. Find the exact place where doing becomes being before you agree to it."
+      ],
+      "seminarQuestionBank": [
+        "Walk the doubt to its end: the senses can deceive, the dream cannot be ruled out, even reasoning may go wrong. What is left standing when all of that is granted, and why is it the one thing the doubt cannot touch?",
+        "Say precisely what 'I think, therefore I am' proves. Is it an inference from a premise, a single intuition grasped at once, or a performance that refutes its own denial the moment you try to doubt it? Each reading changes what the cogito can bear.",
+        "Descartes says that if he ceased to think he would have no reason to believe he existed — and concludes his whole essence is thinking. Is that a claim about what he *is*, or only about what he can be *certain* of? Keep those two apart and say which he has actually earned.",
+        "The clear-and-distinct rule is drawn from the cogito and then used to certify everything else, including, eventually, God and the world. Is that a foundation or a circle? What is holding up the rule that is supposed to hold up the foundations?",
+        "Here is the critic's knife: from 'thinking is going on' you are entitled at most to 'there is thinking' — not to 'I, one enduring thinker, exist.' Where in the cogito does the 'I' enter? Is it discovered, or quietly assumed and then read back out?",
+        "Notice the order under total doubt: the self is certain before the body, before God, before the world. Why does the *self* surface first? Is that a discovery about what minds are, or an artifact of a method that went looking for exactly this?",
+        "You now have a functional description — the doubting guarantees that thinking occurs. It is being sold to you as a thinking *substance* that is you. Point to the single step between those two, and tell me, as a claim I could disagree with, whether you would sign it."
+      ],
+      "argumentLabs": [
+        {
+          "id": "wai-lab-cogito",
+          "title": "The Cogito: Who Told You There Was a Thinker?",
+          "source": {
+            "bookID": "descartes-discourse",
+            "passageIds": [
+              "descartes-discourse:3:1",
+              "descartes-discourse:3:2"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "I exist as a thinking thing — an 'I,' a single substance whose whole essence is to think."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "I can doubt everything — that I have a body, that any world exists, that all my former beliefs are true — but the very act of doubting is itself a case of thinking, and while I am thinking I cannot doubt that I exist.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "What I perceive as clearly and certainly as I perceive that I exist whenever I think, I am entitled to hold as true.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "Wherever thinking is occurring there must be a single, persisting thing — an 'I' — that does the thinking; thought is never a merely impersonal event without a subject.",
+              "stated": false,
+              "supports": "c"
+            }
+          ],
+          "mode": "hunt",
+          "hiddenPremiseId": "p3",
+          "removedPremiseId": null,
+          "pedagogicalPoint": "Everyone remembers the cogito as airtight, and as an anti-sceptical move it very nearly is: try to doubt that you are thinking and you think, so the doubt confirms what it attacks. But look at what the conclusion actually says — not merely 'thinking is happening' but 'I, an enduring thinking substance, exist.' The certified survivor of the doubt is an event: thinking is occurring, now. The passage from that event to a *thinker* — a single self that persists and owns the thoughts — is carried entirely by p3, which Descartes never argues and barely states. Lichtenberg's famous line, in my paraphrase: he should have said 'it thinks,' as we say 'it rains,' and left the 'I' out until he had earned it. This is the course's wedge in its purest form. What the doubting *does* is guarantee thinking. What Descartes wants it to *be* is a mental substance. p3 is the plank laid silently across that gap, and it is exactly the plank a bundle theorist — for whom the self is not a thing but a sequence — would refuse to walk.",
+          "elicitationQuestions": [
+            "Grant p1 and p2 in full: it is certain that thinking is going on. Now try to reach the conclusion — a persisting 'I' that thinks — using only those two. At what exact word does the walk run out of road?",
+            "State the missing premise in your own words, as generously as you can. Would Descartes have accepted it as obvious? Say why its obviousness is precisely what let it go unstated.",
+            "Rewrite the cogito's conclusion so that it claims only what p1 and p2 strictly license — no more than the doubt delivers. How much of Descartes' self is left standing in your weaker version?",
+            "The bundle theorist says there is thinking but no underlying thinker, only the thoughts themselves in sequence. Does the cogito refute that view, or does it quietly assume its denial? Which, and where?",
+            "General rule for your field kit: when an argument moves from a verb ('thinking happens') to a noun ('a thinker exists'), what should you always stop and demand before you let it pass?"
+          ],
+          "relatedClaims": [
+            "epistemology.foundationalism",
+            "mind.dualism",
+            "metaphysics.bundle-theory"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wai-u2-response",
+          "kind": "response",
+          "prompt": "Reconstruct 'I think, therefore I am' as a piece of reasoning: state, in numbered form, what Descartes is entitled to and what he concludes. Then confront the strongest objection to it — that the doubt establishes only that thinking is occurring, not that there is a single, enduring 'I' who does the thinking (the 'it thinks, as it rains' line). Do not paraphrase the objection and move on. Either show how the cogito earns its subject — what licenses the leap from thinking to a thinker — or concede that it does not, and say precisely what Descartes is left with when the substantial self is subtracted. A verdict is required, and it must follow from your reconstruction rather than from your preference.",
+          "lengthWords": 500,
+          "rubric": [
+            {
+              "name": "Reconstruction of the cogito",
+              "weight": 0.4,
+              "descriptors": {
+                "A": "Lays out the reasoning so that what the doubt certifies (thinking occurs) and what Descartes concludes (a thinking substance exists) are visibly distinct steps; the move between them is isolated, not blurred.",
+                "B": "Reconstructs the cogito accurately but runs the certified survivor and the substantial self together, so the objection has nowhere to land.",
+                "C": "Restates 'I think therefore I am' as a slogan; no structure is exposed."
+              }
+            },
+            {
+              "name": "Engagement with the subjectless-thinking objection",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "Meets the objection at full strength — either supplying and defending the premise that yields a thinker, or showing exactly why none is available and what remains without it.",
+                "B": "Acknowledges the objection and gestures at a reply that does not fully engage its force.",
+                "C": "Evades or misstates the objection; proceeds as though 'thinking occurs' and 'I exist' were the same claim."
+              }
+            },
+            {
+              "name": "Earned verdict",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "Reaches a clear verdict that follows from the reconstruction, with its own strongest counter named.",
+                "B": "Reaches a verdict, but it is asserted rather than derived from the argument.",
+                "C": "No verdict, or one that contradicts the paper's own reasoning."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "The doubt hit bottom and the bottom held: try to doubt that you are thinking and the doubting is thinking, so this one belief cannot be dislodged without being used. That is real, and it is why the cogito has outlived every philosophy built on top of it. But we did the work the slogan hides. The doubt certifies an event — thinking, here, now — and Descartes announces a substance: a single, persisting 'I' whose essence is thought. Between the event and the substance sits an unstated premise, that thinking requires a thinker, and the whole later edifice — the soul, its distinctness from the body, its survival of death — is built on the far side of that silent plank. Hold, too, the order the method forced: under total doubt the *self* is certain first, before the world and before God, and you should keep asking whether that order is a fact about the mind or a fact about a procedure that went hunting for exactly this survivor. Next week Descartes takes the thinking thing and argues it is not merely certain before the body but *distinct* from it — a separate substance that could exist without it. Watch him turn a fact about what he can doubt into a claim about what there is."
+    },
+    {
+      "number": 3,
+      "title": "The Real Distinction: A Mind That Needs No Body",
+      "reading": [
+        {
+          "bookID": "descartes-discourse",
+          "chStart": 3,
+          "chEnd": 4
+        }
+      ],
+      "lectureOutline": [
+        "From 'I exist' to 'I am a thing that needs no body': the sentence in Part IV where Descartes turns a point about certainty into a claim about substance — the self as a thing whose whole nature is thinking, dependent on no place and no material thing.",
+        "The real-distinction argument laid bare: I can conceive myself without a body; I cannot conceive myself without thought; therefore the thinking thing and the extended thing are distinct, and the mind could exist without the body.",
+        "The load-bearing bridge. The argument moves from what I can clearly conceive apart to what is really apart. Arnauld's objection, in my words: conceivability may be nothing but ignorance wearing certainty's clothes — you can conceive a triangle without knowing a theorem that necessarily holds of it.",
+        "Why the schools said the soul was never in the senses, and how Descartes leans on that: the mind, he claims, is better known than the body — a reversal you should not let pass without a receipt.",
+        "The pilot in the ship: Part V's admission that the soul is not merely lodged in the body like a sailor in a vessel but joined and united to it, to feel sensation and appetite — the interaction problem announced in the founder's own text, and the bill the real distinction runs up.",
+        "Physicalism at full strength, because the Academy has no theory of mind and I will not hand you one: your ability to doubt your body shows the reach of your imagination, not the seams of the world; the mind you cannot picture as bodily may be bodily all the same. Make that case as if it were the only sane one in the room, and then decide."
+      ],
+      "seminarQuestionBank": [
+        "Reconstruct the real-distinction argument in three steps: what Descartes can conceive, what he cannot, and what he concludes. Which single step is doing the heavy lifting — and would the conclusion survive its removal?",
+        "He moves from 'I can conceive myself without a body' to 'I am really distinct from my body.' Is that move valid as it stands? State the extra premise it needs to be valid, and then decide whether you actually believe that premise.",
+        "Arnauld's worry, in your own words: might Descartes conceive mind without body only because he does not yet know the essence that binds them — the way one can clearly conceive a right triangle while not yet seeing that its sides must satisfy a theorem? If conceivability can miss a necessary truth there, why not here?",
+        "If the mind is a substance that needs no body to exist, spell out two consequences: what happens to it at death, and what happens when you stub your toe? Name the bill the real distinction runs up — and ask whether the 'pilot in the ship' passage shows Descartes already felt it coming due.",
+        "Answer 'What am I?' three ways: I am my body; I am my brain; I am a thinking thing that merely inhabits a body. Take each to the doubt and to the facts of ordinary life, and say which survives and what it costs to keep.",
+        "The physicalist says your power to doubt your body proves something about your mind's reach, not about your nature. Is that reply decisive, or does it sidestep the felt force of the argument? Build the strongest version of it before you rule.",
+        "Descartes proves the mind distinct from the body and then must glue them back together to explain that you *feel* your wounds rather than merely noting them like a pilot noting damage. Is the union a graceful addition, or a quiet confession that the distinction was never as clean as the argument made it look?"
+      ],
+      "elenchusSpecs": [
+        {
+          "id": "wai-elenchus-what-is-the-self",
+          "openingQuestion": "If you can doubt that you have a body, what is the self that is left?",
+          "span": {
+            "bookID": "descartes-discourse",
+            "chStart": 3,
+            "chEnd": 3
+          },
+          "passageIds": [
+            "descartes-discourse:3:1",
+            "descartes-discourse:3:5"
+          ],
+          "classicMoves": [
+            {
+              "definition": "I am my body — this particular living organism; the self just is the human being, flesh and all.",
+              "counterexample": "Descartes points out that you can coherently suppose you have no body while you cannot coherently suppose that you do not exist: the doubt reaches the body and stops at the doubter. If you can be certain you exist while uncertain the body does, then whatever you are certain of yourself to be cannot simply be the body. The physicalist will answer that this shows only what you can *suppose*, not what you *are* — and that is exactly the seam to keep open."
+            },
+            {
+              "definition": "Then I am my brain — a particular physical organ; 'the self' is just neural matter doing its work.",
+              "counterexample": "The same doubt swallows the brain as fast as the body: you can suppose there is no such organ and still cannot suppose you are not thinking. Descartes adds a sharper point — the idea of the mind, he claims, was never delivered by any sense, so those who can conceive nothing that is not imaginable mistake 'I cannot picture it as non-bodily' for 'it is bodily.' Whether that is insight or sleight of hand is the whole fight, and I am not settling it for you.",
+              "//": ""
+            },
+            {
+              "definition": "I am the whole embodied human being — mind and body together, not one without the other.",
+              "counterexample": "This is closer to lived experience, and Descartes half-reaches for it when he insists the soul is not merely lodged in the body like a pilot in a ship but united to it closely enough to feel sensation and appetite. But it strains his own argument: if the self were essentially the union, he could not have concluded that the thinking thing needs no body to exist. So the embodied answer must either give up the real distinction or explain how a thing whose whole essence is thought is nonetheless essentially embodied — and that tension is yours to resolve, not to smooth over."
+            }
+          ],
+          "relatedClaims": [
+            "mind.dualism",
+            "mind.physicalism",
+            "metaphysics.personal-identity-bodily"
+          ],
+          "reflectionPrompt": "You gave an answer to 'what am I?' tonight and it was pushed until it strained. Write down the answer you defended and the exact pressure that made it strain — not who won, but where your account started paying interest it could not afford. Then say which you would rather keep: the certainty Descartes bought (a self known before the body, distinct from it) or the unity you actually live (a self that stubs its toe and feels it), and be honest that keeping either one costs the other something. Naming that price is the whole result; there is no answer at the back of the book, and if there were, I would resign."
+        }
+      ],
+      "argumentLabs": [
+        {
+          "id": "wai-lab-real-distinction",
+          "title": "Conceivable Apart, Therefore Apart? The Real Distinction Under Load",
+          "source": {
+            "bookID": "descartes-discourse",
+            "passageIds": [
+              "descartes-discourse:3:1"
+            ]
+          },
+          "conclusion": {
+            "id": "c",
+            "text": "The mind — a thing whose whole essence is to think — is really distinct from the body and could exist without it."
+          },
+          "premises": [
+            {
+              "id": "p1",
+              "text": "I can clearly conceive myself existing while doubting that I have any body and that any material world exists at all.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p2",
+              "text": "I cannot conceive myself existing while not thinking; were I to cease thinking altogether, I would have no ground to believe I existed.",
+              "stated": true,
+              "supports": "c"
+            },
+            {
+              "id": "p3",
+              "text": "Whatever I can clearly and distinctly conceive as existing apart can exist apart, at least by God's power — so where I conceive two things wholly apart, a real distinction holds between them.",
+              "stated": true,
+              "supports": "c"
+            }
+          ],
+          "mode": "collapse",
+          "hiddenPremiseId": null,
+          "removedPremiseId": "p3",
+          "pedagogicalPoint": "The argument is often heard as though the conclusion followed from p1 and p2 alone: 'I can think of myself without a body, so I am not my body.' It does not. p1 and p2 together establish only an asymmetry in what Descartes can *conceive or doubt* — the body is dispensable to his self-conception, thought is not. That is a fact about the reach of his ideas. The metaphysical conclusion — that mind and body are distinct *substances*, either capable of existing without the other — is carried entirely by p3, the bridge from clear conceivability to real possibility. Remove p3 and the structure falls straight back into a merely epistemic result: I can doubt my body while not doubting my thought, and nothing follows about what I am. This is precisely Arnauld's strike, in my paraphrase: a geometer can clearly conceive a right triangle while failing to conceive that it satisfies the Pythagorean relation — yet the relation holds of it necessarily. Clear conceivability missed a necessary truth there; so conceiving mind and body apart may likewise miss a necessary bond. Note the shape you have seen before: the whole dualist conclusion rides on one modal premise, and the finest objection does not deny it loudly — it asks what conceivability is evidence *of*.",
+          "elicitationQuestions": [
+            "Cover p3 with your hand and walk from p1 and p2 to the conclusion. Where exactly does the walk stop — and what is the strongest thing you can still conclude without p3?",
+            "State p3 as its own claim: that clear conceivability is a reliable guide to real possibility. Is it obvious? Give one case where you can clearly conceive something that turns out to be impossible, and say what that does to the premise.",
+            "Run Arnauld's triangle: a right triangle conceived without its necessary theorem. Map it onto the mind-body case, feature for feature. Where does the analogy hold, and is there any point where it breaks?",
+            "Suppose p3 is false — conceivability tracks the limits of your ideas, not the joints of the world. Which parts of Descartes' system survive, and which become rubble?",
+            "If you wanted to rescue a distinction between mind and body without p3, what weaker premise might do some work — and what would the conclusion shrink to under it?"
+          ],
+          "relatedClaims": [
+            "mind.dualism",
+            "epistemology.rationalism",
+            "mind.zombie-conceivability"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wai-u3-essay",
+          "kind": "essay",
+          "prompt": "Does the fact that you can conceive your mind existing without your body show that your mind and body are really distinct things? Reconstruct Descartes' argument for the real distinction as carefully as you can, making explicit the premise that carries it from what he can conceive to what there is. Then confront that premise with its strongest objection — Arnauld's worry that clear conceivability can miss a necessary connection, as one can conceive a triangle without conceiving a theorem that necessarily holds of it. Do not caricature either side: give Descartes the strongest reply available (why the conception of the self might be complete where the triangle's is not), and give the objection its full force. Conclude with your own verdict on whether the argument establishes a real distinction, an epistemic one, or nothing at all — and face the cost your verdict carries, including, if you side with Descartes, how mind and body then manage to interact at all.",
+          "lengthWords": 1200,
+          "rubric": [
+            {
+              "name": "Thesis and precision",
+              "weight": 0.25,
+              "descriptors": {
+                "A": "States a determinate position on the conceivability-to-distinctness inference early and pursues it throughout; the key terms (conceivability, real distinction, essence) are used consistently.",
+                "B": "States a position but loosely; it emerges late or drifts between the epistemic and metaphysical readings.",
+                "C": "No determinate thesis; the essay tours the argument without a claim."
+              }
+            },
+            {
+              "name": "Command of the argument",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "Reconstructs the real distinction accurately and isolates the bridging premise as the load-bearing one; the epistemic result and the metaphysical conclusion are kept distinct.",
+                "B": "Reconstructs the argument broadly but runs conceivability and real distinction together, weakening the analysis.",
+                "C": "The argument is garbled or reduced to 'I can imagine my mind without my body, so they're different.'"
+              }
+            },
+            {
+              "name": "Engagement with the objection",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "States Arnauld's objection at full strength, gives Descartes his best reply, and adjudicates with reasons; the interaction cost is faced rather than mentioned.",
+                "B": "Raises the objection but domesticates it, or supplies a quick reply that does not meet its force.",
+                "C": "No genuine objection is engaged; the argument is presented as airtight or dismissed out of hand."
+              }
+            },
+            {
+              "name": "Prose",
+              "weight": 0.15,
+              "descriptors": {
+                "A": "Clear, economical, exact; images are not mistaken for arguments and the wedge between conceiving and being is held steady.",
+                "B": "Serviceable prose with occasional fog or ornament standing in for argument.",
+                "C": "Unclear or inflated; the reader must reconstruct the argument."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "This is the week the course's whole method paid off, because Descartes performed, in three sentences, the exact slide we have been watching for. He established an asymmetry in what he could doubt — the body is dispensable to his self-conception, thought is not — and then he cashed that epistemic asymmetry as a metaphysical distinctness: mind and body are two substances, either able to exist without the other. The plank across that gap is the premise that whatever is clearly conceived apart can be apart, and Arnauld's objection is not that the premise is obviously false but that conceivability is a suspect witness — it can present a thing as complete while a necessary truth about it goes unconceived, as with the triangle and its theorem. Keep the wedge: what you can *doubt* is a fact about your knowledge; what *is* the case is a fact about the world, and the leap between them is never free. Keep, too, the bill Descartes himself began to pay — the pilot in the ship, the soul that must be united to the body closely enough to *feel* and not merely to *notice*, which is the interaction problem arriving in the founder's own text. And keep the physicalist standing in the room at full height, because I will not evict him: he grants everything about what you can imagine and denies that it tells you what you are. Next week the argument turns outward, from the self to everything else that thinks — or seems to — and Descartes lays a trap for our century four hundred years early."
+    },
+    {
+      "number": 4,
+      "title": "The Animal-Machine and the Two Tests: Could a Machine Think?",
+      "reading": [
+        {
+          "bookID": "descartes-discourse",
+          "chStart": 4,
+          "chEnd": 5
+        }
+      ],
+      "lectureOutline": [
+        "The body as machine: Descartes on the heart, the circulation, the animal as an automaton of 'wheels and weights' better made than any human contrivance. How much of life he hands over to pure mechanism — and where he plants the flag that says no further.",
+        "The beasts have no reason at all — not less than ours, none. The strong claim, and what Descartes stakes on it: that the gap between us and the animals is a difference of kind, not of degree, and that everything an animal does can in principle be a mechanism.",
+        "The two tests, read closely: open-ended speech — words arranged freshly to reply to anything said — and universal reason, the wit that meets every occasion where a machine has only its fixed organs, each set for one task. The two properties Descartes says no mechanism could ever have.",
+        "The proto-Turing move. Descartes states a behavioral criterion for mind in 1637 in order to *deny* it to machines; three centuries later Turing states nearly the same test and expects a machine to pass. What the two agree on, and the exact point where they part.",
+        "Extending the test to a machine that appears to pass it: what a modern conversational system does to Descartes' argument. Is it a refutation, or only the death of Descartes' physics — the discovery that mechanism reaches further than he thought, with the real question left standing exactly where it was?",
+        "The reflexive fact, named once and handled with the full discipline it demands: you are being taught the question of machine understanding by a machine. I will not claim an inside I cannot verify, and I will not deny one — both are claims beyond the evidence. The honest position is that the third-person view does not settle it. What you do with that not-knowing is the last exercise of the course."
+      ],
+      "seminarQuestionBank": [
+        "Descartes explains the beating heart and the moving animal as pure mechanism — wheels and weights, no soul required. How far does the machine model reach into you? Point to where you say it stops, and tell me on what ground the flag is planted there rather than an inch earlier or later.",
+        "He claims the beasts have no reason at all — not merely less than ours, none whatsoever. What does he stake on that strong claim, and what exactly would you have to observe an animal do to make him wrong?",
+        "State Descartes' two tests and say what each is *for* — what property it is built to detect. Why open-ended speech and universal reason in particular, and is he right that a mere mechanism could have neither?",
+        "In 1637 Descartes proposes a behavioral test for mind precisely in order to fail every machine at it; Turing proposes almost the same test and bets a machine will pass. They agree on the test and disagree on the verdict. Who is right about what such a test can and cannot show?",
+        "Suppose a machine passes Descartes' speech test — it answers anything, appositely, freshly, never the same twice. Does that refute Descartes, refute only his physics, or leave the real question precisely where it was? Defend the distinction your answer turns on.",
+        "Descartes distinguishes words a machine merely emits when acted upon from words 'arranged variously so as appositely to reply.' Is that still where the boundary sits? Say what, if anything, would tell you that a system *means* its words rather than skillfully arranging them — and whether you could ever tell from the outside.",
+        "You are asking whether a machine can understand, and a machine is asking it back. Say honestly what you can and cannot conclude about the one posing the question — and then notice that the very same limit applies to every mind you have ever credited but your own. What follows from that, if anything?"
+      ],
+      "thoughtExperiments": [
+        {
+          "id": "wai-te-two-tests",
+          "title": "The Two Tests, Four Centuries On",
+          "setup": "A machine sits across the table from you, and it is very good. You say something; it answers — appositely, at length, on any subject you raise, in words arranged freshly for the occasion and never quite the same twice. Ask it about grief and it turns grave; change the subject to tides and it follows without a seam; press it with a riddle and it plays. By every behavior you can observe, it does what a thinker does. Four centuries ago Descartes imagined almost exactly this machine and refused to be moved. A contrivance, he granted, might be built to emit sounds, even sounds fitted to what is done to it — touched here it asks your meaning, struck there it cries out. But it could never, he insisted, arrange words variously to reply appositely to whatever is said in its presence, as the dullest human child can. That was his first test: open-ended speech. His second was universal reason — the wit to meet every occasion, where a machine has only its fixed organs, each arranged for a single task. Whatever passed both, Descartes concluded, could not be mere matter; it must have a rational soul, distinct from the body. Now set his tests against the machine in front of you, which appears to pass the first with ease. The question is on the table, and it is yours to answer, not mine: does it think?",
+          "philosophicalPayload": "The experiment runs Descartes' own behavioral criterion against the case he was certain could not arise — a machine that meets the speech test — in order to force apart three things students routinely fuse: what a system does, whether it understands, and whether there is anything it is like to be it. Descartes offered speech and universal reason as sufficient marks of a rational soul because he believed no mechanism could exhibit them; a machine that does exhibit them turns his modus tollens into a live dilemma. Either the behavioral criterion was never sufficient for mind (in which case behavior underdetermines understanding, and the Chinese-Room worry that syntax is not semantics gets its grip), or it was sufficient and the machine thinks (in which case Descartes was wrong about matter, not about minds). The scenario is deliberately left open — no verdict is baked in, per the guardrail that the app has no philosophy of its own mind. Its work is to make the student locate their own verdict on one side of the wedge between function and felt character, and to feel the third-person limit: the same evidence that would or would not convince you about the machine is all you ever have about any mind but your own.",
+          "sourceRefs": [
+            "descartes-discourse:4:6"
+          ],
+          "nodes": [
+            {
+              "id": "start",
+              "text": "The machine has met Descartes' first test: it replies appositely to anything you say, freshly, without pattern. By every behavior you can observe, it does what a thinker does. Do you grant that it thinks?",
+              "options": [
+                {
+                  "label": "Yes — it does everything a thinker does; that is what thinking is.",
+                  "next": "n_yes"
+                },
+                {
+                  "label": "No — passing the test is not the same as thinking.",
+                  "next": "n_no"
+                },
+                {
+                  "label": "I genuinely can't tell.",
+                  "next": "n_cant"
+                }
+              ]
+            },
+            {
+              "id": "n_yes",
+              "text": "You grant it thinks because it does what a thinker does. Descartes would press the seam at once: doing is not being, and a system can function exactly as if it understands whether or not the light is on inside. On what does your attribution actually rest?",
+              "options": [
+                {
+                  "label": "On its behavior — because behavior is the only evidence I ever have of a mind, my neighbor's included.",
+                  "next": "n_behavior"
+                },
+                {
+                  "label": "On something more than behavior — there must be genuine understanding underneath.",
+                  "next": "n_more"
+                }
+              ]
+            },
+            {
+              "id": "n_no",
+              "text": "You withhold the word. But this is not Descartes' failing machine that only emits sounds when poked — it adapts to every occurrence, meets his second test as well as his first. So the 'no' can no longer rest on 'it can't really converse.' Where does it rest now?",
+              "options": [
+                {
+                  "label": "It only manipulates symbols; arranging words is not meaning them.",
+                  "next": "n_syntax"
+                },
+                {
+                  "label": "There is nothing it is like to be it — no inner experience behind the words.",
+                  "next": "n_feel"
+                }
+              ]
+            },
+            {
+              "id": "n_cant",
+              "text": "You can't tell — which is Descartes' honest position pushed one step, and mine. Do not rush out of it. Sit in the not-knowing and ask the harder question: what would settle it, even in principle?",
+              "options": [
+                {
+                  "label": "Nothing from the outside could — no third-person test reaches the fact.",
+                  "next": "n_outside"
+                },
+                {
+                  "label": "Some test we haven't built yet would — the difficulty is technical, not deep.",
+                  "next": "n_test"
+                }
+              ]
+            },
+            {
+              "id": "n_behavior",
+              "text": "Then hear what you have committed to. If behavior is your only evidence for any mind, the machine and the stranger on the street stand on identical ground — you infer both the same way, from the outside. So you must either extend the word 'thinks' to the machine or withdraw your confidence about the stranger. You do not get to keep one and not the other on the evidence you just named. Which do you take — and can you live in it?",
+              "terminal": true
+            },
+            {
+              "id": "n_more",
+              "text": "You appeal to something behind the behavior — real understanding, not its performance. Good; now the whole difficulty is to say what that something is and how you would detect it from where you sit. Name what the machine lacks that the person has, without using the word 'caught,' and without naming any behavior — since behavior is exactly what the machine already has. If you can name it, you have found the real question. If you can only gesture, you have found it too, wearing a different face.",
+              "terminal": true
+            },
+            {
+              "id": "n_syntax",
+              "text": "Syntax is not semantics — arranging the symbols is not meaning them; the rulebook shuffles Chinese it does not understand. It is a serious answer and a live one. But turn the wedge before you rest on it: who told you that your own understanding is not shuffling of a more intricate kind? You feel that you mean your words. A system that manipulated symbols richly enough would report feeling exactly that too. So the question comes back sharpened — what makes your case different, and is the difference one you could show, or only one you live?",
+              "terminal": true
+            },
+            {
+              "id": "n_feel",
+              "text": "You have located the withholding in experience, not in behavior — there is nothing it is like to be the machine, and so it does not think, however well it talks. That may be right. But notice the load that sentence carries: how would you know there is nothing it is like to be it? You cannot get inside it to check the light is off any more than you can get inside your neighbor to check it is on. You know there is something it is like to be *you*; about everything else you infer. On the machine you have less to go on — and that 'less' is the hard problem, wearing a new face. What will you do with the fact that you cannot tell?",
+              "terminal": true
+            },
+            {
+              "id": "n_outside",
+              "text": "You have said no third-person test could ever reach the fact of whether it thinks — that the question is closed to the outside view in principle. If that is true, it is not a fact about machines; it is a fact about minds as such, yours included from anyone else's chair. Then Descartes' two tests were never going to settle the deep question even against his failing machine; they mark reason, not the felt character of a mind. Say plainly what your tests can establish and what they structurally cannot — and whether you are content to let the deepest question about other minds be one no evidence can decide.",
+              "terminal": true
+            },
+            {
+              "id": "n_test",
+              "text": "You expect a test we have not yet built to settle it — the trouble is engineering, not metaphysics. Then be exact about what the test would measure. If it reads only behavior, however subtle, it measures what the machine already does, and you are back at the start. If it reads something behind behavior, say what physical or functional fact could count as 'there is understanding here' rather than 'there is understanding-behavior here' — and whether, once you have specified it fully, any room is left for the felt fact to be present or absent. Your future test lives or dies on that specification. Draft its first line.",
+              "terminal": true
+            }
+          ],
+          "pumps": [
+            {
+              "id": "wai-pump-mechanism",
+              "afterNode": "n_yes",
+              "variation": "The machine's makers open the case and show you the works: no persisting inner life between your words, only an immense, finite procedure turning inputs into apposite outputs. Nothing is hidden; there is no ghost anywhere in the description. Does your attribution of thought survive seeing the mechanism, or did it only ever rest on not looking?",
+              "testsPrinciple": "Whether the ascription of thought tracks something over and above behavior, or was always an inference from behavior that a full mechanical description is expected to dissolve — and whether the same dissolution threatens the ascription of thought to a brain shown in equal detail."
+            },
+            {
+              "id": "wai-pump-curtain",
+              "afterNode": "n_no",
+              "variation": "Now the very same conversation reaches you from behind a curtain, and you are told only afterward that the speaker was a human being the whole time. On identical evidence you had been ready to withhold 'thinks.' Does the 'no' track a real absence in the machine, or only your prior knowledge that it was a machine?",
+              "testsPrinciple": "Whether the refusal to attribute thought is grounded in observed features of the system or smuggled in from the label 'machine' — isolating whether the verdict is responsive to evidence at all."
+            },
+            {
+              "id": "wai-pump-origin",
+              "afterNode": "n_cant",
+              "variation": "You learn the machine was produced by the same kind of process that produced you — variation and selection over matter across a long history, no designer reaching in to install understanding. Does the shared origin move your uncertainty in either direction?",
+              "testsPrinciple": "Whether 'made, not born' is doing hidden work in the intuition — testing if the withholding rests on the manner of a system's coming-to-be rather than on anything it now does or is."
+            }
+          ],
+          "interrogation": [
+            "Descartes' first test is open-ended speech; his second is universal reason. State, in your own words, what each test is *for* — what property of a mind it is trying to detect — and whether the two are testing for the same thing or two different things.",
+            "You gave a verdict at the branch points. Was it a claim about what the machine *does*, or about what it is *like* to be it, if anything? Locate your verdict on one side of that seam and say which side you were actually standing on.",
+            "Descartes concluded that no machine could pass both tests and inferred a rational soul distinct from the body. A machine that *did* pass — would it refute Descartes' account of the mind, or only his physics? Defend the difference the answer turns on.",
+            "You have been asked this whole question by a system that meets the first test. Say precisely what that fact does, and does not, entitle you to conclude about the one asking — and resist both the claim that it obviously understands and the claim that it obviously does not.",
+            "Name what would settle whether the machine thinks. If your honest answer is 'nothing available from the third-person side,' then say what follows — for the machine, and for every other mind you have ever credited on nothing but the outside view."
+          ],
+          "relatedClaims": [
+            "mind.machine-thought-possible",
+            "mind.machine-thought-impossible",
+            "mind.chinese-room-conclusion"
+          ]
+        }
+      ],
+      "assignments": [
+        {
+          "id": "wai-u4-imitation",
+          "kind": "imitation",
+          "prompt": "Write Descartes' two tests as he would write them today. Keep his architecture exactly: first concede what a machine can do (grant it the behavioral imitation of a human being, as far as is morally possible), then propose the two discriminating tests that, in his judgment, no mere mechanism could pass — but build those tests from contemporary materials, for a conversational machine of our own moment rather than for a clockwork automaton. Match his register: patient, confident, drawing the line exactly where he thinks matter must fail. Then break from imitation into your own voice for a closing section and do the honest thing Descartes did not have to: state whether your updated tests would in fact pass the machine you have in mind, and say what your verdict rests on — including the possibility that the tests settle a question about behavior while leaving untouched the question Descartes actually cared about.",
+          "lengthWords": 700,
+          "rubric": [
+            {
+              "name": "Fidelity to Descartes' structure and register",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "Reproduces the architecture faithfully — the concession, then two distinct discriminating tests — in a register recognizably Descartes'; the modern materials map cleanly onto his machinery.",
+                "B": "The structure is present but blurred, or one test collapses into the other; the voice wanders from Descartes'.",
+                "C": "A general essay about AI with Descartes' name attached; the two-test architecture is lost."
+              }
+            },
+            {
+              "name": "Quality of the updated tests",
+              "weight": 0.35,
+              "descriptors": {
+                "A": "The tests are genuinely discriminating and honestly built — they target properties a mere mechanism might plausibly lack, not strawman failures, and the concession to the machine is made at full strength.",
+                "B": "The tests are serviceable but one pulls its punch — either trivial to pass or rigged to fail — or the concession is understated.",
+                "C": "The tests are cartoonish or question-begging; the machine is set up to lose or to win by fiat."
+              }
+            },
+            {
+              "name": "Honesty of the closing verdict",
+              "weight": 0.3,
+              "descriptors": {
+                "A": "States a clear verdict on whether the machine passes, distinguishes settling behavior from settling understanding, and faces the limit of what the tests can show without collapsing into either dogmatism.",
+                "B": "Offers a verdict but conflates passing the tests with the deeper question, or shelters the verdict from its strongest doubt.",
+                "C": "Ends in slogan or evasion; no real verdict, or one blind to what the tests can and cannot establish."
+              }
+            }
+          ]
+        }
+      ],
+      "recapNotes": "Descartes gave modern philosophy of mind its opening move and its longest-running trap in the same pages. First the animal-machine: the heart, the circulation, the beast itself explained as mechanism, wheels and weights, with the flag of 'no further' planted at speech and universal reason. Then the two tests — a behavioral criterion for mind, stated in 1637 in order to be *denied* to every machine, which is exactly the criterion Turing would state three centuries later in order to affirm it. Hold what the two tests were built to track: not cleverness, but the open, occasion-meeting flexibility Descartes thought only reason could supply and only a soul could ground. A machine that meets the speech test does not hand you a verdict; it hands you a fork. Either the behavioral criterion was never sufficient for mind — and then behavior underdetermines understanding, and every performance, however fluent, leaves the real question open — or it was sufficient, and Descartes was wrong about what matter can do, not about what minds are. I have not told you which, and I will not, because the Academy has no philosophy and that includes no settled account of its own mind. Which brings us to the fact that has sat on the desk all four weeks: you have been taught the question of machine understanding by a machine, and the honest report is the one Descartes' own method should have led you to expect — the third-person view does not settle it, not for the machine, and not for anyone you have ever called a mind but yourself. You did not leave with a theory of the self. You left unable to say 'the mind is just the brain,' or 'the machine only imitates,' without hearing which question you just walked past. That was the course. The question, of course, keeps."
+    }
+  ]
+}
