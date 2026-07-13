@@ -1,0 +1,126 @@
+{
+  "version": 1,
+  "morning": [
+    {
+      "id": "mp-001",
+      "prompt": "One thing is yours to do well today, whatever the weather does. Name it."
+    },
+    {
+      "id": "mp-002",
+      "prompt": "Choose the first difficulty you expect today, and decide now how you want to meet it."
+    },
+    {
+      "id": "mp-003",
+      "prompt": "Name one person you will deal with today, and the quality you want to bring into the room with them."
+    },
+    {
+      "id": "mp-004",
+      "prompt": "Pick one thing you have been putting off. Today's intention is its first small rep."
+    },
+    {
+      "id": "mp-005",
+      "prompt": "Somewhere today you will be interrupted. Decide now who you want to be in that moment."
+    },
+    {
+      "id": "mp-006",
+      "prompt": "Name the judgment you tend to make too fast, and set the intention to hold it open today."
+    },
+    {
+      "id": "mp-007",
+      "prompt": "Look at the hardest hour on today's schedule. What would 'done calmly' look like there? Set that as the aim."
+    },
+    {
+      "id": "mp-008",
+      "prompt": "Choose one thing you will let pass today without comment, because it was never in your hands."
+    },
+    {
+      "id": "mp-009",
+      "prompt": "Name the habit you are training this season, and today's single rep of it."
+    },
+    {
+      "id": "mp-010",
+      "prompt": "Someone will be difficult today. Set your intention for your half of that exchange — the only half you own."
+    },
+    {
+      "id": "mp-011",
+      "prompt": "Pick the moment most likely to hurry you today, and intend to move through it at your own pace."
+    },
+    {
+      "id": "mp-012",
+      "prompt": "Name one thing you can do today that your evening self will be glad was done. Intend it plainly."
+    },
+    {
+      "id": "mp-013",
+      "prompt": "Name one small discomfort you will walk toward today on purpose, for practice."
+    },
+    {
+      "id": "mp-014",
+      "prompt": "Today will hand you at least one result you did not order. Decide in advance what you will do with it."
+    },
+    {
+      "id": "mp-015",
+      "prompt": "The first hour trains the rest of the day. Set one intention for how you begin."
+    },
+    {
+      "id": "mp-016",
+      "prompt": "Name the thing most likely to disturb you today, and the sentence you will say to yourself when it arrives."
+    }
+  ],
+  "examen": {
+    "questions": [
+      "What disturbed you today?",
+      "Was it in your control?",
+      "What would you do differently?"
+    ]
+  },
+  "visualizations": [
+    {
+      "id": "nv-001",
+      "title": "The Borrowed Cup",
+      "exercise": "Pick up, in your mind, the object you reach for most without noticing — the mug, the pen, the phone with its worn corner. Hold it. Now consider plainly: it was never yours in the deed-and-title sense. It was lent — by circumstance, by luck, by a shop on an ordinary afternoon — and everything lent is eventually recalled. Picture the day it chips, or is left on a train, or simply stops mattering. Do not flinch from the picture and do not furnish it with drama; it is only a cup. Then set the imagined loss down and pick the real object up again tomorrow morning. Notice its weight in your hand as if the recall notice had been read aloud and then, for now, withdrawn.",
+      "debrief": "The ancients practiced this on cups before they practiced it on anything larger, and the order matters: the grip loosens on small things first. Nothing was lost in this exercise — only the illusion of permanent ownership, briefly suspended. What returns is not gloom but attention: the cup is still here, and now you know it."
+    },
+    {
+      "id": "nv-002",
+      "title": "The Last Ordinary Morning",
+      "exercise": "Walk through tomorrow morning exactly as it usually goes: the alarm, the kettle, the same three steps to the same window, the voice — someone's, in the next room or on the phone — that you answer without looking up. Now suppose, without deciding how or why, that this is the final morning of this particular shape. Routines end; all of them; usually without notice, by a move or a change or simply time. Watch the ordinary morning once through with that knowledge, the way you would watch anything known to be a last time. Then let the supposition go completely. Tomorrow, when the kettle starts, see whether the morning has changed its weight.",
+      "debrief": "Every routine you have ever had has ended, and this one will too — that is not a threat, it is a calendar fact. The exercise does not ask you to mourn the morning in advance; it asks you to attend one on purpose. Most people meet their ordinary days only in memory, after the shape has changed."
+    },
+    {
+      "id": "nv-003",
+      "title": "The Ruined Plan",
+      "exercise": "Take the plan you are currently leaning on — the trip, the launch, the arrangement that makes next month make sense. Now run the rehearsal: the message arrives, the plan is off, for a reason so mundane it is almost funny. Watch the first hour after the news in some detail. What do you actually do — not what do you feel, what do you do? Who has to be told, what gets rearranged, which piece of the plan's purpose can still be served by other means? Walk it through until the hour has a shape. Then return: the plan, as of now, still stands. You have simply met its absence once, in a controlled setting, and taken notes.",
+      "debrief": "The Stoics rehearsed setbacks the way sailors rehearse drills — not because the storm is wished for, but because a rehearsed crew moves differently when it comes. Notice that your imagined hour contained actions, not just weather. That inventory of next moves is yours to keep, and the plan is still on."
+    },
+    {
+      "id": "nv-004",
+      "title": "The Empty Chair",
+      "exercise": "Choose someone whose presence you have stopped noticing because it is so reliable — the person whose chair at the table is simply theirs. Picture an ordinary evening a long time from now, in some unspecified future where life has moved people to different places, and the chair is just a chair again. Do not imagine catastrophe; imagine only distance, of the kind time routinely arranges. From inside that far evening, look back at a night like tonight and notice what it holds: the particular voice, the specific laugh, the questions only they ask you. Hold the view for a few breaths. Then come back to now, where the chair is occupied, and the evening in question is this one.",
+      "debrief": "The exercise borrows the perspective of your own future self, who would give a great deal for one of the evenings you currently walk past. Nothing needs to be said to anyone tonight, though you may find you want to. Presence, rehearsed this way, tends to act on its own."
+    },
+    {
+      "id": "nv-005",
+      "title": "Losing the Name",
+      "exercise": "Consider your good name — the version of you that exists in other people's estimations, built over years, consulted by them in seconds. Now rehearse this: a misjudgment, public and sticky. Someone has read your action in the worst light and said so, persuasively, to people whose opinion you keep in your pocket. You were not there to explain; the explanation, when you give it, arrives late and sounds like an explanation. Sit in that for a moment without reaching for the repair. Ask what is actually yours in the scene: not their verdict, not the speed of its spread — only your conduct before, during, and after. Then return. Your name, today, is where you left it.",
+      "debrief": "Reputation is the classic example of a thing filed as ours that never was — it lives entirely in other minds, and other minds are not in your control. The rehearsal is not preparation for cynicism; it is practice at locating your footing before you need it. What remained yours in the exercise is what is always yours."
+    },
+    {
+      "id": "nv-006",
+      "title": "The Body on Loan",
+      "exercise": "Attend to your right hand — or whichever hand carries your days. Feel what it did in the last hour without being thanked: the cup lifted, the door caught, the sentence typed. Now rehearse a plain and temporary loss: a fracture, six weeks in a cast, the hand on leave. Walk through tomorrow with it out of service. The shirt buttons. The kettle. The signature. Notice how many collaborators the simplest morning requires, and how the other hand, clumsy and willing, steps up. Do not dramatize — people live whole and well with far more than this; that is part of what the exercise knows. Then return, flex the fingers, and let the hand go back to its quiet work, observed for once.",
+      "debrief": "The body is the first possession and the one most completely on loan — the Stoics practiced on it early, and physiotherapy wards confirm their judgment daily. The point is not fear of injury; it is the discovery of how much competence is running, unthanked, right now. Gratitude here is not a mood but an accuracy."
+    },
+    {
+      "id": "nv-007",
+      "title": "The Work That Ends",
+      "exercise": "Take your work — the role, the title, the thing you say at parties when asked what you do. Now rehearse its ending: the restructure, the closure, the ordinary letter. The rehearsal is not about the scramble for the next role; hold instead the quieter question of the first Monday after, when the title has gone and you are still entirely here. What of your competence survives the business card? Which parts of the work were the work, and which were you all along — the judgment, the craft, the way you steady a room? List them, from inside the rehearsal, as the possessions that just proved portable. Then return. The work, today, is still yours to do — and you now know which parts would come with you.",
+      "debrief": "A role is a costume that fits so well we mistake it for skin; the rehearsal separates the two without removing either. Notice that what proved portable was character and craft — the things training builds and no letter can revoke. Tomorrow's work may feel different when done by someone who knows the difference."
+    },
+    {
+      "id": "nv-008",
+      "title": "Winter in Advance",
+      "exercise": "Sit somewhere comfortable and take inventory of the comforts currently holding: the room is warm, the tap runs clean, the light comes on when asked, and somewhere nearby is food that required no hunting. Now rehearse a stretch of plain scarcity — a hard month, the kind previous generations called winter and did not consider remarkable. The heating rationed, the meals simpler, the margins thin. Walk through a day of it with some care: the extra layer, the shorter list, the small economies. Notice what remains fully operational — your judgment, your humor, your usefulness to the people around you. Then return to the warm room. Put your hand near the radiator, or run the tap, and observe the abundance conduct its ordinary miracle.",
+      "debrief": "The old practitioners set aside days of deliberate simplicity to learn how little the good life actually requires — rehearsal, not penance. The comforts are not diminished by the exercise; they are promoted from background to fact. And the discovery that you remained yourself in the lean rehearsal is worth keeping somewhere permanent."
+    }
+  ]
+}

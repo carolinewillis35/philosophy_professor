@@ -24,8 +24,16 @@ struct CatalogView: View {
                     // authored case per week, crowd after answering.
                     DropCard()
 
+                    // The news, read philosophically (§15.2/§15.5): the
+                    // week's live question, right under the drop. No
+                    // aggregates on news, ever.
+                    NewsCard()
+
                     // "Bring me an argument" — the clinic door (§13.5).
                     ClinicEntryCard()
+
+                    // Bede's wing (§15.3/§15.5): the daily practice rooms.
+                    PracticeWingCard()
 
                     ForEach(app.courses) { course in
                         NavigationLink(value: course) {

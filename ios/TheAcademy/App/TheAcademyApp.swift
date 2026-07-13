@@ -48,8 +48,12 @@ struct RootTabView: View {
     /// card and answers it with the mock professor, `-demo-clinic` opens a
     /// mock Argument Clinic, `-demo-drop` opens this week's drop fresh,
     /// `-demo-steelman` opens a mock steelman session against a fixture
-    /// commitment, and `-demo-changelog` opens the Worldview tab with the
-    /// extended fixture (screenshots/UI checks from the command line).
+    /// commitment, `-demo-changelog` opens the Worldview tab with the
+    /// extended fixture, `-demo-news` opens this week's newsRead session
+    /// fresh, `-demo-practice` opens the Practice Wing with the morning flow
+    /// pre-run, and `-demo-reencounter` opens this week's drop with a seeded
+    /// prior-cycle response so the badge and the compare view show
+    /// (screenshots/UI checks from the command line).
     private func handleDemoLaunchArguments() async {
         #if DEBUG
         if CommandLine.arguments.contains("-demo-worldview")
@@ -81,6 +85,38 @@ struct RootTabView: View {
             await app.loadIfNeeded()
             app.drops.resetForDemo()
             if let drop = app.drops.thisWeekDrop {
+                catalogPath.append(SessionRoute(drop: drop))
+            }
+            return
+        }
+        if CommandLine.arguments.contains("-demo-news") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            if let brief = app.newsBrief {
+                catalogPath.append(SessionRoute(news: brief))
+            }
+            return
+        }
+        if CommandLine.arguments.contains("-demo-practice") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            app.practice.resetForDemo()
+            catalogPath.append(PracticeRoute())
+            if let prompt = app.practice.todayMorningPrompt {
+                await app.practice.submitMorning(
+                    prompt: prompt,
+                    intention: "Meet the noon meeting calmly, whatever it brings.",
+                    client: app.makeSessionClient(practiceMode: .morning,
+                                                  practiceExercise: prompt))
+            }
+            return
+        }
+        if CommandLine.arguments.contains("-demo-reencounter") {
+            selectedTab = .catalog
+            await app.loadIfNeeded()
+            app.drops.resetForDemo()
+            if let drop = app.drops.thisWeekDrop {
+                app.drops.seedPriorResponseForDemo(drop: drop)
                 catalogPath.append(SessionRoute(drop: drop))
             }
             return
@@ -124,6 +160,12 @@ struct SessionRoute: Hashable {
     let drop: Drop?
     /// §14.4: the student's own commitment a steelman session takes aim at.
     let steelmanTarget: SteelmanTarget?
+    /// §15.2: the week's brief a newsRead session teaches from.
+    let newsBrief: NewsBrief?
+    /// §15.3: the practice mode + rotated exercise (persona is bede
+    /// server-side; the route pins it for the UI).
+    let practiceMode: PracticeMode?
+    let practiceExercise: PracticeExercise?
 
     init(course: Course, unit: Int, kind: SessionKind) {
         self.course = course
@@ -132,9 +174,13 @@ struct SessionRoute: Hashable {
         self.personaId = nil
         self.drop = nil
         self.steelmanTarget = nil
+        self.newsBrief = nil
+        self.practiceMode = nil
+        self.practiceExercise = nil
     }
 
-    /// §13.1 standalone route (dailyQuestion, argumentClinic).
+    /// §13.1 standalone route (dailyQuestion, argumentClinic — and §15.3
+    /// practiceReview, whose persona is bede).
     init(standalone kind: SessionKind, personaId: String) {
         self.course = nil
         self.unit = 0
@@ -142,6 +188,9 @@ struct SessionRoute: Hashable {
         self.personaId = personaId
         self.drop = nil
         self.steelmanTarget = nil
+        self.newsBrief = nil
+        self.practiceMode = nil
+        self.practiceExercise = nil
     }
 
     /// §14.3 weekly-drop route: the drop's persona teaches the case.
@@ -152,6 +201,9 @@ struct SessionRoute: Hashable {
         self.personaId = drop.personaId
         self.drop = drop
         self.steelmanTarget = nil
+        self.newsBrief = nil
+        self.practiceMode = nil
+        self.practiceExercise = nil
     }
 
     /// §14.4 steelman route: default persona whitmore, silently.
@@ -162,11 +214,45 @@ struct SessionRoute: Hashable {
         self.personaId = personaId
         self.drop = nil
         self.steelmanTarget = target
+        self.newsBrief = nil
+        self.practiceMode = nil
+        self.practiceExercise = nil
+    }
+
+    /// §15.2 newsRead route: the week's brief, the server's default
+    /// professor unless the student picked one.
+    init(news brief: NewsBrief, personaId: String = "whitmore") {
+        self.course = nil
+        self.unit = 0
+        self.kind = .newsRead
+        self.personaId = personaId
+        self.drop = nil
+        self.steelmanTarget = nil
+        self.newsBrief = brief
+        self.practiceMode = nil
+        self.practiceExercise = nil
+    }
+
+    /// §15.3 practice route: Bede's wing, always (the server forces the
+    /// persona; evening needs no exercise — the examen is fixed).
+    init(practice mode: PracticeMode, exercise: PracticeExercise? = nil) {
+        self.course = nil
+        self.unit = 0
+        self.kind = .practice
+        self.personaId = "bede"
+        self.drop = nil
+        self.steelmanTarget = nil
+        self.newsBrief = nil
+        self.practiceMode = mode
+        self.practiceExercise = exercise
     }
 
     /// The professor in the room, however the route was built.
     var resolvedPersonaId: String? { personaId ?? course?.personaId }
 }
+
+/// The Practice Wing surface (§15.5) — pushable from anywhere on the stack.
+struct PracticeRoute: Hashable {}
 
 struct ReaderRoute: Hashable {
     let bookID: String
@@ -187,6 +273,7 @@ struct AcademyDestinations: ViewModifier {
             .navigationDestination(for: SessionRoute.self) { SessionView(route: $0) }
             .navigationDestination(for: ReaderRoute.self) { ReaderView(route: $0) }
             .navigationDestination(for: EssayRoute.self) { EssayEditorView(route: $0) }
+            .navigationDestination(for: PracticeRoute.self) { _ in PracticeWingView() }
     }
 }
 

@@ -33,6 +33,12 @@ struct DropCard: View {
                     .foregroundStyle(Theme.inkSecondary)
                     .fixedSize(horizontal: false, vertical: true)
 
+                // §15.4 re-encounter badge: this week's drop has a
+                // PRIOR-cycle response — the case remembers you.
+                if let prior = store.priorResponse(for: drop) {
+                    reencounterBadge(prior)
+                }
+
                 Rectangle().fill(Theme.rule).frame(height: 1)
 
                 if store.isCompleted(drop) {
@@ -114,6 +120,50 @@ struct DropCard: View {
                 .fill(tint.opacity(0.08)))
         }
         .buttonStyle(.plain)
+
+        // §15.4: a completed re-encounter earns the side-by-side — both
+        // runs, neither graded.
+        if let prior = store.priorResponse(for: drop),
+           let current = store.completion, current.dropId == drop.id {
+            NavigationLink {
+                DropCompareView(drop: drop, prior: prior, current: current)
+            } label: {
+                HStack(spacing: 8) {
+                    Image(systemName: "arrow.left.arrow.right")
+                        .font(.footnote)
+                    Text("Then & now — compare your two runs")
+                        .font(.footnote.weight(.medium))
+                        .fontDesign(.serif)
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                        .font(.caption2.weight(.semibold))
+                }
+                .foregroundStyle(tint)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 9)
+                .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+                    .fill(tint.opacity(0.08)))
+            }
+            .buttonStyle(.plain)
+        }
+    }
+
+    /// "You've been here before" — a fact about the calendar, not a nudge.
+    private func reencounterBadge(_ prior: DropStore.CompletionRecord) -> some View {
+        HStack(spacing: 6) {
+            Image(systemName: "clock.arrow.circlepath")
+                .font(.caption2)
+            Text("You've been here before — \(DropCompareView.displayDate(prior.localDate))")
+                .font(.caption.weight(.medium))
+                .fontDesign(.serif)
+                .italic()
+        }
+        .foregroundStyle(tint)
+        .padding(.horizontal, 10)
+        .padding(.vertical, 5)
+        .background(Capsule().fill(tint.opacity(0.10)))
+        .overlay(Capsule().strokeBorder(tint.opacity(0.35), lineWidth: 1))
+        .accessibilityLabel("You answered this drop before, on \(DropCompareView.displayDate(prior.localDate))")
     }
 
     private func shareText(_ drop: Drop) -> String {

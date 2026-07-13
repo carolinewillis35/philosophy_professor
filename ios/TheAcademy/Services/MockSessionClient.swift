@@ -19,6 +19,9 @@ final class MockSessionClient: SessionClient {
     private var steelmanTurn = 0
     private var steelmanTarget: String?
     private var pumpFired = false
+    private var newsTurn = 0
+    private var practiceTurn = 0
+    private var reviewTurn = 0
 
     private let assignmentId: String
     /// The current course unit, so the scripted professor can lean on the
@@ -27,12 +30,29 @@ final class MockSessionClient: SessionClient {
     /// A weekly drop's spec (§14.3): the same thoughtExperiment flow run
     /// standalone, the way the server loads the spec from `drops`.
     private let dropSpec: ThoughtExperimentSpec?
+    /// The week's brief (§15.2): the mock teaches from it the way the server
+    /// hands the cached brief to the kind's instructionBlock.
+    private let newsBrief: NewsBrief?
+    /// Practice session inputs (§15.3): the mode and the rotated exercise,
+    /// the way the server loads the doc from `practice_exercises`.
+    private let practiceMode: PracticeMode?
+    private let practiceExercise: PracticeExercise?
+    private let examenQuestions: [String]
 
     init(assignmentId: String = "wij-u1-response", unit: Unit? = nil,
-         dropSpec: ThoughtExperimentSpec? = nil) {
+         dropSpec: ThoughtExperimentSpec? = nil,
+         newsBrief: NewsBrief? = nil,
+         practiceMode: PracticeMode? = nil,
+         practiceExercise: PracticeExercise? = nil,
+         examenQuestions: [String] = Examen.questions) {
         self.assignmentId = assignmentId
         self.unit = unit
         self.dropSpec = dropSpec
+        self.newsBrief = newsBrief
+        self.practiceMode = practiceMode
+        self.practiceExercise = practiceExercise
+        self.examenQuestions = examenQuestions.count == 3
+            ? examenQuestions : Examen.questions
     }
 
     func send(_ request: SessionRequest) -> AsyncStream<SessionEvent> {
@@ -165,6 +185,155 @@ final class MockSessionClient: SessionClient {
             }
             defer { steelmanTurn += 1 }
             return steelmanStep(steelmanTurn)
+        case .newsRead:
+            defer { newsTurn += 1 }
+            return newsReadStep(newsTurn)
+        case .practice:
+            defer { practiceTurn += 1 }
+            return practiceStep(practiceTurn, userText: request.userText)
+        case .practiceReview:
+            defer { reviewTurn += 1 }
+            return practiceReviewStep(reviewTurn)
+        }
+    }
+
+    // MARK: - News, read philosophically (§15.2: brief → lensA → lensB →
+    // split → position; even-handed BY CONSTRUCTION — both lenses get a full
+    // phase, no ranking, no verdict, no crowd numbers, citations empty)
+
+    private func newsReadStep(_ turn: Int) -> Step {
+        let brief = newsBrief
+        let a = brief?.lensPair.a
+        let b = brief?.lensPair.b
+        switch turn {
+        case 0: // brief: the story, neutrally, then the question inside it.
+            return Step(envelope: Envelope(
+                say: "This week's story, plainly. \(brief?.summary.components(separatedBy: ". ").prefix(3).joined(separator: ". ") ?? "A public dispute with a philosophical question inside it.")\n\nThe court's narrow question is the law's business. Ours is the live one underneath it: \(brief?.question ?? "what is actually at issue?") We will read it twice — once through each of two frameworks that careful people actually hold — and then find precisely where they part. I favor neither; that is the whole discipline. Do you have the question?",
+                uiHints: UIHints(checkInQuestion: "Do you have the question — in your own words?")))
+        case 1: // → lensA: the student reasons; the professor supplies discipline.
+            return Step(envelope: Envelope(
+                say: "Good. First reading: \(a?.name ?? "the first framework"). Its claim, in one line: \(a?.oneLiner ?? "") Hold the story up to that light. On this view, the question about the app is a question about what the system DOES — take the conversations, the memory of the man, the replies fitted to him, and ask: what work was being done, and would that work count as thinking if you found it anywhere else? Don't tell me your verdict; reason it through as this framework would. Which feature of the case does it seize on first?",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "What would this framework say here — and why?")))
+        case 2: // → lensB: same work, same rigor — the even-handedness contract.
+            return Step(envelope: Envelope(
+                say: "That is the reading, and you did it honestly — you let the framework be strong. Now the second, and I will hold it to the same standard: \(b?.name ?? "the second framework"). Its claim: \(b?.oneLiner ?? "") This view does not deny a single fact you just used. It asks a different question: not what the system does, but what doing it is like from inside — and it answers: nothing. The replies were fluent; was anything meant? Reason the case through this lens as carefully as you did the first. What does IT seize on?",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "And this framework — what would it say, and why?")))
+        case 3: // → split: the payload — structured disagreement, not noise.
+            return Step(envelope: Envelope(
+                say: "Now look at where you stood a moment ago and where you stand now, because the two readings did not disagree about the facts — not one. Here is the split, precisely: \(brief?.lensPair.splitHint ?? "the frameworks weigh the same facts by different pictures of the person.") The first framework takes performance as the evidence that matters; the second holds that performance, however complete, is the wrong kind of evidence entirely. That is not noise, and it is not a muddle — it is a structured disagreement about what a mind IS, and the court briefly inherited it. See the joint clearly before we go on.",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "Can you name the premise the two readings do not share?")))
+        case 4: // → position: taking one is optional and said so.
+            return Step(envelope: Envelope(
+                say: "Last step, and it is genuinely optional. You may take a position — yours, in your words, knowing now exactly what it costs and where its rival bites. Or you may decline: on a question this deep, 'I can now state both sides and I am not done deciding' is a philosophical position with a long and honorable history, and I will say so without relief or disappointment either way. Which is it tonight?",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "A position — or an honest suspension?")))
+        default: // completeSession from position; no verdict, ever.
+            return Step(envelope: Envelope(
+                say: "Then that is where you stand this week, and notice what you can now do that you could not on Monday: you can state the other reading well enough that its holders would nod. The story will leave the front page; the split will meet you again wearing different clothes. When it does, you have the tools. Same time next week.",
+                stateOps: [.completeSession],
+                uiHints: UIHints(endOfSession: true)))
+        }
+    }
+
+    // MARK: - Practice (§15.3: Bede's wing — training, never therapy; no
+    // mood tracking, no scores, no streak talk; citations stay empty)
+
+    private func practiceStep(_ turn: Int, userText: String?) -> Step {
+        switch practiceMode ?? .morning {
+        case .morning: return morningStep(turn, userText: userText)
+        case .evening: return eveningStep(turn)
+        case .visualization: return visualizationStep(turn)
+        }
+    }
+
+    /// Two beats (§15.3): the prompt, then ONE reply (≤80 words, Stoic
+    /// register) that completes the session in the same turn.
+    private func morningStep(_ turn: Int, userText: String?) -> Step {
+        if turn == 0 {
+            return Step(envelope: Envelope(
+                say: "Morning. Today's work: \(practiceExercise?.prompt ?? "One thing is yours to do well today, whatever the weather does. Name it.") One sentence. Set it and go.",
+                uiHints: UIHints(checkInQuestion: "Your intention, in a sentence.")))
+        }
+        let intention = userText?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        return Step(envelope: Envelope(
+            say: "Good — it names an action, and the action is yours. Notice the intention already sorts the day: how they respond, how it lands, what the afternoon does with it — none of that is in the sentence, because none of it is in your hands. It will be tested before noon; count on it and want it. The rep is the meeting of the two. Go train.",
+            stateOps: [.completeSession],
+            uiHints: UIHints(endOfSession: true)))
+    }
+
+    /// The examen (§15.3): the 3 fixed questions, one per turn, then a brief
+    /// reflection about the DAY — never about the self's worth.
+    private func eveningStep(_ turn: Int) -> Step {
+        let questions = examenQuestions
+        switch turn {
+        case 0:
+            return Step(envelope: Envelope(
+                say: "Evening. The examen — three questions, the same three every night; the sameness is the instrument. Take them one at a time and answer about the day, not about yourself. First: \(questions[0])",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: questions[0])))
+        case 1:
+            return Step(envelope: Envelope(
+                say: "Heard, and set down. Second: \(questions[1])",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: questions[1])))
+        case 2:
+            return Step(envelope: Envelope(
+                say: "That distinction is the whole exercise — keep it. Third: \(questions[2])",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: questions[2])))
+        default:
+            return Step(envelope: Envelope(
+                say: "One pattern from tonight's three answers, and then we close: the thing that disturbed you sat at the edge of your control, and your 'differently' moved the effort back inside the line — toward what you would say and do, not what they would. That is the day examined, which is all the examen asks. The page is written; leave it on the page. Sleep.",
+                stateOps: [.completeSession],
+                uiHints: UIHints(endOfSession: true)))
+        }
+    }
+
+    /// The weekly rehearsal (§15.3): the authored exercise walked in 2–3
+    /// turns, then its authored debrief. Never morbid for its own sake.
+    private func visualizationStep(_ turn: Int) -> Step {
+        let ex = practiceExercise
+        switch turn {
+        case 0:
+            return Step(envelope: Envelope(
+                say: "This week's rehearsal: \(ex?.title ?? "a small rehearsal of loss"). Do it slowly; the exercise leads and I only pace it.\n\n\(ex?.exercise ?? "Pick up, in your mind, the thing you reach for most without noticing, and consider plainly that it was lent, not deeded.") Take your time in it, then tell me where the picture resisted you.",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "Where did the picture resist you?")))
+        case 1:
+            return Step(envelope: Envelope(
+                say: "That resistance is the grip you came to train — hold the image one breath past comfortable, and notice you are still standing in it. Nothing in the rehearsal is happening; that is the point of a rehearsal. Set the imagined loss down now, completely, and come back to the room. What do you notice about the real thing, now that you have practiced its absence once?",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "Back in the room — what do you notice?")))
+        default:
+            return Step(envelope: Envelope(
+                say: "\(ex?.debrief ?? "Nothing was lost in this exercise — only the illusion of permanent ownership, briefly suspended. What returns is not gloom but attention.") That is the week's rep, done. Carry the attention, not the shadow.",
+                stateOps: [.completeSession],
+                uiHints: UIHints(endOfSession: true)))
+        }
+    }
+
+    // MARK: - Practice review (§15.3: review → reflection, from the week's
+    // digest; patterns about the days, never about the student's worth)
+
+    private func practiceReviewStep(_ turn: Int) -> Step {
+        switch turn {
+        case 0:
+            return Step(envelope: Envelope(
+                say: "The week's page is open in front of me — your entries, your words. Three things I actually see. Twice this week what disturbed you was the same meeting wearing different dates; the disturbance is a schedule, not a surprise, and schedules can be trained for. On two evenings you answered 'was it in your control?' with 'partly' — both times the part that wasn't got the worry. And your morning intentions kept naming patience with the same person; an intention that recurs unmet is not a failure, it is a bearing. Receipts on request. What do you make of the 'partly'?",
+                uiHints: UIHints(checkInQuestion: "What do you make of the recurring 'partly'?")))
+        case 1:
+            return Step(envelope: Envelope(
+                say: "That is honest, and it points somewhere specific. So: one adjustment for next week — yours, in your words, and small enough to fail visibly. Not a resolution; a rep. Name it.",
+                stateOps: [.advancePhase],
+                uiHints: UIHints(checkInQuestion: "One adjustment for next week — small enough to fail visibly.")))
+        default:
+            return Step(envelope: Envelope(
+                say: "Good — and note what makes it good: it starts with your own conduct, it fits inside a morning, and next week's page will say plainly whether it happened. I sharpen nothing further; the adjustment is yours, not assigned. The week is reviewed. Close the book and begin the next one at dawn.",
+                stateOps: [.completeSession],
+                uiHints: UIHints(endOfSession: true)))
         }
     }
 

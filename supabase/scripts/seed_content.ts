@@ -13,6 +13,8 @@
 //   content/ontology/claims.json     — claim ontology (CONTRACTS §12.6)
 //   content/daily/questions.json     — daily-question bank (CONTRACTS §13.2)
 //   content/drops/drops.json         — weekly thought-experiment drops (§14.3)
+//   content/practice/exercises.json  — Practice Wing exercises (§15.3)
+//   content/news/lenses.json         — news lens pairs (§15.2)
 //
 // Book text (editions/chapters/passages) is seeded separately via the
 // pipeline's seed.sql — see supabase/README.md.
@@ -201,6 +203,71 @@ if (dropsBank) {
     Deno.exit(1);
   }
   console.log(`drops: ${drops.length} ✓`);
+}
+
+// --- Practice Wing exercises (CONTRACTS §15.3 -> practice_exercises) ---------
+
+const exercisesPath = "content/practice/exercises.json";
+// deno-lint-ignore no-explicit-any
+let exercises: any = null;
+try {
+  exercises = JSON.parse(await Deno.readTextFile(exercisesPath));
+} catch {
+  console.warn(`no ${exercisesPath} — skipping practice exercises`);
+}
+
+if (exercises) {
+  const version = exercises.version ?? 1;
+  const rows = [
+    // deno-lint-ignore no-explicit-any
+    ...(exercises.morning ?? []).map((m: any) => ({
+      id: m.id,
+      kind: "morning",
+      doc: m,
+      version,
+    })),
+    {
+      id: "examen",
+      kind: "examen",
+      doc: { id: "examen", questions: exercises.examen?.questions ?? [] },
+      version,
+    },
+    // deno-lint-ignore no-explicit-any
+    ...(exercises.visualizations ?? []).map((v: any) => ({
+      id: v.id,
+      kind: "visualization",
+      doc: v,
+      version,
+    })),
+  ];
+  const { error: exErr } = await db.from("practice_exercises").upsert(rows);
+  if (exErr) {
+    console.error(`practice_exercises: ${exErr.message}`);
+    Deno.exit(1);
+  }
+  console.log(`practice_exercises: ${rows.length} ✓`);
+}
+
+// --- News lens pairs (CONTRACTS §15.2 -> news_lenses) ------------------------
+
+const lensesPath = "content/news/lenses.json";
+let lenses: { version?: number; pairs: { id: string }[] } | null = null;
+try {
+  lenses = JSON.parse(await Deno.readTextFile(lensesPath));
+} catch {
+  console.warn(`no ${lensesPath} — skipping lenses`);
+}
+
+if (lenses) {
+  const pairs = lenses.pairs ?? [];
+  const { error: lnErr } = await db.from("news_lenses").upsert(
+    pairs.map((p) => ({ id: p.id, doc: p, version: lenses.version ?? 1 })),
+  );
+  if (lnErr) {
+    console.error(`news_lenses: ${lnErr.message}`);
+    Deno.exit(1);
+  }
+  console.log(`news_lenses: ${pairs.length} ✓`);
 }
 
 console.log("done");

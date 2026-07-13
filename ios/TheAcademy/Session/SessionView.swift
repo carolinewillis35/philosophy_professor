@@ -28,6 +28,7 @@ struct SessionView: View {
         }
         .background(Theme.paper)
         .navigationTitle(route.drop?.experiment.title
+                         ?? route.practiceMode?.displayName
                          ?? (route.course == nil
                              ? route.kind.displayName
                              : "\(route.kind.displayName) · Unit \(route.unit + 1)"))
@@ -53,9 +54,15 @@ struct SessionView: View {
                                       enrollmentId: enrollmentId,
                                       client: app.makeSessionClient(
                                         course: route.course, unit: route.unit,
-                                        dropSpec: route.drop?.experiment),
+                                        dropSpec: route.drop?.experiment,
+                                        newsBrief: route.newsBrief,
+                                        practiceMode: route.practiceMode,
+                                        practiceExercise: route.practiceExercise),
                                       drop: route.drop,
                                       steelmanTarget: route.steelmanTarget,
+                                      newsBrief: route.newsBrief,
+                                      practiceMode: route.practiceMode,
+                                      practiceExerciseId: route.practiceExercise?.id,
                                       voice: app.professorVoice,
                                       voiceEnabled: { userStore.voiceReplies })
             viewModel = vm
@@ -135,6 +142,15 @@ private struct SessionContent: View {
                             SteelmanPhaseStrip(phase: viewModel.steelmanState.phase, tint: tint)
                         }
 
+                        // News read: brief → lens A → lens B → the split →
+                        // your position (§15.2/§15.5), lens names from the
+                        // pair where they fit.
+                        if viewModel.kind == .newsRead {
+                            NewsPhaseStrip(phase: viewModel.newsPhase,
+                                           pair: viewModel.newsBrief?.lensPair,
+                                           tint: tint)
+                        }
+
                         ForEach(viewModel.messages) { message in
                             MessageBubble(message: message, persona: persona, tint: tint,
                                           pump: pump(for: message))
@@ -200,6 +216,22 @@ private struct SessionContent: View {
                             crowdLink(drop)
                         }
 
+                        // A completed re-encounter (§15.4): the side-by-side
+                        // of both runs — growth or consistency, never graded.
+                        if viewModel.endOfSession, let drop = viewModel.drop,
+                           let prior = app.drops.priorResponse(for: drop),
+                           let current = app.drops.completion,
+                           current.dropId == drop.id {
+                            compareLink(drop: drop, prior: prior, current: current)
+                        }
+
+                        // The sources footer (§15.2/§15.5): the story's URLs
+                        // render client-side from the brief — the professor
+                        // read only the brief; citations stay empty.
+                        if viewModel.kind == .newsRead, let brief = viewModel.newsBrief {
+                            NewsSourcesFooter(brief: brief, tint: tint)
+                        }
+
                         Color.clear.frame(height: 1).id("bottom")
                     }
                     .padding()
@@ -246,7 +278,46 @@ private struct SessionContent: View {
                 app.drops.recordCompletion(drop: drop,
                                            path: viewModel.experimentState.path)
             }
+            // A completed practice session mirrors the server's
+            // practice_entries row locally (§15.3): the student's words for
+            // the day, in the journal.
+            if ended, viewModel.kind == .practice,
+               let mode = viewModel.practiceMode {
+                let words = viewModel.messages
+                    .filter { $0.role == .user }
+                    .map(\.text)
+                    .joined(separator: " — ")
+                app.practice.recordEntry(mode: mode,
+                                         exerciseId: viewModel.practiceExerciseId,
+                                         entry: words)
+            }
         }
+    }
+
+    /// "Then & now" — the §15.4 side-by-side, offered once the repeat run
+    /// is complete.
+    private func compareLink(drop: Drop, prior: DropStore.CompletionRecord,
+                             current: DropStore.CompletionRecord) -> some View {
+        NavigationLink {
+            DropCompareView(drop: drop, prior: prior, current: current)
+        } label: {
+            HStack(spacing: 8) {
+                Image(systemName: "arrow.left.arrow.right")
+                    .font(.footnote)
+                Text("You've been here before — compare your two runs")
+                    .font(.footnote.weight(.medium))
+                    .fontDesign(.serif)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .font(.caption2.weight(.semibold))
+            }
+            .foregroundStyle(tint)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
+            .background(RoundedRectangle(cornerRadius: 10, style: .continuous)
+                .fill(tint.opacity(0.08)))
+        }
+        .buttonStyle(.plain)
     }
 
     /// "See where the crowd landed" — the only door to the CROWD screen.
@@ -437,6 +508,11 @@ private struct SessionContent: View {
         case .argumentLab: return "Name the premise…"
         case .argumentClinic: return "Your argument, as you'd say it…"
         case .steelman: return "Their best case, in your words…"
+        case .newsRead: return "Reason it through…"
+        case .practice:
+            return viewModel.practiceMode == .evening
+                ? "About the day, plainly…" : "Stay in the exercise…"
+        case .practiceReview: return "What you make of it…"
         default: return "Respond…"
         }
     }

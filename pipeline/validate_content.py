@@ -24,6 +24,10 @@ Validates:
     personaId -> registry cross-check
   - content/drops/drops.json (section 14.7): >=4 drops, unique ids, teaser,
     personaId -> registry, experiment validated as a thoughtExperiment spec
+  - content/news/lenses.json (section 15.6): >=6 pairs covering every domain,
+    ontologyIds -> ontology, both lenses named, splitHint nonempty
+  - content/practice/exercises.json (section 15.6): morning >=14 unique,
+    exactly 3 examen questions, visualizations >=7 with title/exercise/debrief
 
 Exit code 0 iff clean; nonzero with a readable report otherwise.
 """
@@ -621,6 +625,109 @@ def validate_drops(claim_ids, persona_ids, books):
 
 
 # ---------------------------------------------------------------------------
+# News lenses (CONTRACTS section 15.6)
+# ---------------------------------------------------------------------------
+
+LENSES_PATH = ROOT / "content" / "news" / "lenses.json"
+LENSES_MIN = 6
+
+
+def validate_lenses(claim_ids):
+    try:
+        bank = json.loads(LENSES_PATH.read_text())
+    except FileNotFoundError:
+        err(f"lenses: {LENSES_PATH} not found")
+        return
+    except json.JSONDecodeError as e:
+        err(f"lenses: invalid JSON: {e}")
+        return
+
+    pairs = bank.get("pairs", [])
+    if len(pairs) < LENSES_MIN:
+        err(f"lenses: {len(pairs)} pairs; contract minimum is {LENSES_MIN}")
+
+    seen = Counter(p.get("id", "<missing>") for p in pairs)
+    for pid, n in seen.items():
+        if n > 1:
+            err(f"lenses: duplicate pair id {pid!r}")
+
+    covered = set()
+    for p in pairs:
+        pid = p.get("id", "<missing id>")
+        ctx = f"lens pair {pid}"
+        domain = p.get("domain")
+        if domain not in DOMAINS:
+            err(f"{ctx}: domain {domain!r} not one of {sorted(DOMAINS)}")
+        else:
+            covered.add(domain)
+        if not str(p.get("splitHint", "")).strip():
+            err(f"{ctx}: splitHint is empty")
+        for side in ("a", "b"):
+            lens = p.get(side)
+            if not isinstance(lens, dict):
+                err(f"{ctx}: missing lens {side!r}")
+                continue
+            if not str(lens.get("name", "")).strip():
+                err(f"{ctx}.{side}: name is empty")
+            if not str(lens.get("oneLiner", "")).strip():
+                err(f"{ctx}.{side}: oneLiner is empty")
+            if lens.get("ontologyId") not in claim_ids:
+                err(f"{ctx}.{side}: ontologyId {lens.get('ontologyId')!r} not in the ontology")
+    missing = DOMAINS - covered
+    if missing:
+        err(f"lenses: domains without a pair: {sorted(missing)}")
+    print(f"lenses: {len(pairs)} pairs covering {len(covered)}/6 domains")
+
+
+# ---------------------------------------------------------------------------
+# Practice exercises (CONTRACTS section 15.6)
+# ---------------------------------------------------------------------------
+
+PRACTICE_PATH = ROOT / "content" / "practice" / "exercises.json"
+
+
+def validate_practice():
+    try:
+        bank = json.loads(PRACTICE_PATH.read_text())
+    except FileNotFoundError:
+        err(f"practice: {PRACTICE_PATH} not found")
+        return
+    except json.JSONDecodeError as e:
+        err(f"practice: invalid JSON: {e}")
+        return
+
+    morning = bank.get("morning", [])
+    if len(morning) < 14:
+        err(f"practice: {len(morning)} morning prompts; contract minimum is 14")
+    seen = Counter(m.get("id", "<missing>") for m in morning)
+    for mid, n in seen.items():
+        if n > 1:
+            err(f"practice: duplicate morning id {mid!r}")
+    for m in morning:
+        if not str(m.get("prompt", "")).strip():
+            err(f"practice morning {m.get('id')}: prompt is empty")
+
+    questions = bank.get("examen", {}).get("questions", [])
+    if len(questions) != 3:
+        err(f"practice: examen has {len(questions)} questions; contract says exactly 3")
+
+    vis = bank.get("visualizations", [])
+    if len(vis) < 7:
+        err(f"practice: {len(vis)} visualizations; contract minimum is 7")
+    seen = Counter(v.get("id", "<missing>") for v in vis)
+    for vid, n in seen.items():
+        if n > 1:
+            err(f"practice: duplicate visualization id {vid!r}")
+    for v in vis:
+        vid = v.get("id", "<missing id>")
+        for f in ("title", "exercise", "debrief"):
+            if not str(v.get(f, "")).strip():
+                err(f"practice visualization {vid}: {f} is empty")
+
+    print(f"practice: {len(morning)} morning, 3 examen questions, {len(vis)} visualizations")
+
+
+# ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
 
@@ -630,6 +737,8 @@ def main():
     persona_ids = validate_personas()
     validate_daily(claim_ids, persona_ids)
     validate_drops(claim_ids, persona_ids, books)
+    validate_lenses(claim_ids)
+    validate_practice()
 
     course_files = sorted(glob.glob(str(COURSES_DIR / "*.json")))
     if not course_files:
@@ -648,7 +757,7 @@ def main():
         for e in errors:
             print(f"  - {e}")
         return 1
-    print("\nOK: ontology, courses, personas, the daily bank, and the drops all pass.")
+    print("\nOK: ontology, courses, personas, daily bank, drops, lenses, and practice all pass.")
     return 0
 
 

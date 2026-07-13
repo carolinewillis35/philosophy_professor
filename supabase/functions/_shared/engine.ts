@@ -28,6 +28,7 @@ import {
   type ThoughtExperimentSpec,
 } from "./kinds_academy.ts";
 import { type DailyQuestionSpec, engagementKinds } from "./kinds_engagement.ts";
+import { lifeKinds, type NewsReadSpec, type PracticeSpec } from "./kinds_life.ts";
 
 // ---------------------------------------------------------------------------
 // Course JSON shapes (CONTRACTS §7 + §11.4 authored specs)
@@ -48,7 +49,10 @@ export type SessionKind =
   | "argumentLab"
   | "dailyQuestion"
   | "argumentClinic"
-  | "steelman";
+  | "steelman"
+  | "newsRead"
+  | "practice"
+  | "practiceReview";
 
 export interface ReadingSpan {
   bookID: string;
@@ -126,14 +130,16 @@ export interface CourseUnit {
   argumentLabs?: ArgumentLabSpec[];
 }
 
-/** Any kind-specific authored spec asset (§11.4 + §12.5 + §13.2). */
+/** Any kind-specific authored spec asset (§11.4 + §12.5 + §13.2 + §15). */
 export type KindSpec =
   | DisputeSpec
   | CraftLabSpec
   | ElenchusSpec
   | ThoughtExperimentSpec
   | ArgumentLabSpec
-  | DailyQuestionSpec;
+  | DailyQuestionSpec
+  | NewsReadSpec
+  | PracticeSpec;
 
 export interface CourseDoc {
   id: string;
@@ -181,6 +187,8 @@ export interface KindContext {
   profileDigestPresent?: boolean;
   /** Commitment digest is present in <context> this turn (§12.2). */
   commitmentDigestPresent?: boolean;
+  /** Practice digest is present in <context> this turn (§15.3). */
+  practiceDigestPresent?: boolean;
 }
 
 // ---------------------------------------------------------------------------
@@ -713,6 +721,10 @@ export const KIND_REGISTRY: Record<SessionKind, KindDef> = {
   dailyQuestion: engagementKinds.dailyQuestion,
   argumentClinic: engagementKinds.argumentClinic,
   steelman: engagementKinds.steelman,
+  // Life kinds (§15, standalone) — defined in kinds_life.ts.
+  newsRead: lifeKinds.newsRead,
+  practice: lifeKinds.practice,
+  practiceReview: lifeKinds.practiceReview,
 };
 
 // ---------------------------------------------------------------------------

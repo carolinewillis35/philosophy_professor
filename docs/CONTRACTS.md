@@ -1041,3 +1041,131 @@ per target + attempt counts, computed client-side.
 `validate_content.py` gains a drops pass (§14.3). The daily-bank pass (§13.6)
 and all §12 passes unchanged.
 
+---
+
+# ENGAGEMENT addendum (§15) — E-M3: the Life
+
+Additive to §1–14. Scope source: `docs/SCOPE-ADDENDUM.md` §1.2–§1.3, §3.
+Three systems: the News Read Philosophically, the Practice Wing (Prof. Bede),
+and drop re-encounters.
+
+## 15.1 New faculty: Prof. Aurelius Bede
+
+`content/personas/bede.md` at the standing quality bar (12 exemplar
+exchanges, red lines, disputation volleys) + registry entry. Tradition:
+philosophy as a way of life — Stoic practice, Aristotle on flourishing.
+His course (*The Stoic Gymnasium*) remains V1; at E-M3 he teaches the
+Practice Wing (§15.3) and is available for disputations.
+
+## 15.2 `newsRead` — the news, read philosophically
+
+A weekly STANDALONE session (§13.1): one live public question run through
+two authored frameworks. The session model NEVER searches — the envelope
+contract stays intact.
+
+- **The weekly brief (prefetch, cached):** table `news_briefs`
+  (`week int PK` = weeksSinceEpoch, `doc jsonb`, `created_at`; read
+  authenticated, writes service role). On the week's FIRST newsRead start,
+  the server runs a MODEL_LIGHT call **with the web_search tool** to produce
+  the brief: `{ headline, summary (≤200 words, neutral register), question
+  (the live philosophical question), domain, sourceUrls[], lensPairId }` —
+  then caches it; every later session that week reuses it (one search per
+  week, one shared community question). If search/generation fails, start
+  fails gracefully ("this week's question isn't ready").
+- **Lenses (authored):** `content/news/lenses.json` — `{ version, pairs:
+  [{ id, domain, a: {name, ontologyId, oneLiner}, b: {…}, splitHint }] }`.
+  Each pair = two genuinely opposed frameworks (e.g. harm-principle
+  consequentialism vs. Kantian dignity); `ontologyId`s exist in the
+  ontology; ≥1 pair per domain. The brief's `lensPairId` picks the pair;
+  MODEL_LIGHT chooses it from the authored list by domain.
+- **State machine:** `brief` (present the story + the question, neutrally) →
+  `lensA` (reason the question through framework A — the student does the
+  reasoning, the professor steers) → `lensB` (same, other framework) →
+  `split` (name precisely where and WHY the frameworks diverge — the split
+  is the payload) → `position` (the student may take a position —
+  commitmentOps apply; declining to take one is a legitimate outcome and
+  said so) → close. `advancePhase` walks it; `canComplete`: `position` only.
+- **Guardrails:** even-handed BY CONSTRUCTION — both lenses get a full
+  phase, the professor never ranks them, the server never injects a verdict
+  (§12.8 "the app has no philosophy"); **no crowd aggregates on news
+  questions, ever** (§14.6); citations empty (no retrieval; the canon is
+  discussed, not excerpted; source URLs render client-side from the brief).
+
+## 15.3 The Practice Wing (`practice`, `practiceReview`)
+
+Stoic practice with Prof. Bede — framed as practice, never as therapy.
+
+- **Content asset** `content/practice/exercises.json`:
+  `{ version, morning: [{id, prompt}], examen: {questions: [3 fixed
+  questions]}, visualizations: [{id, title, exercise, debrief}] }`.
+  Morning bank ≥ 14; visualizations ≥ 7; rotation by
+  `daysSinceEpoch % bank` (A16 arithmetic). Seeded to catalog table
+  `practice_exercises` (id, kind, doc, version).
+- **Kind `practice`** — STANDALONE with Bede, `mode` in state:
+  - `morning`: today's intention prompt; the student sets ONE intention in
+    a sentence; Bede replies once (≤80 words, Stoic register — the reply
+    contract mirrors §13.2); auto-completes like dailyQuestion.
+  - `evening`: the examen — the 3 fixed questions, one per turn ("What
+    disturbed you today?", "Was it in your control?", "What would you do
+    differently?"); Bede reflects briefly after the third; completes.
+  - `visualization`: today's authored negative-visualization exercise walked
+    in 2–3 turns, then its authored debrief; completes.
+- **Table `practice_entries`:** `id`, `user_id`, `mode text check in
+  ('morning','evening','visualization')`, `exercise_id text null`,
+  `entry text` (the student's words: intention / examen answers /
+  reflection), `reply text default ''`, `local_date date`, `session_id`,
+  `created_at`; unique `(user_id, mode, local_date)`. Written by the server
+  on completion. RLS owner select; writes service role. Streaks derived
+  client-side (rolling ratio, §13.2 pattern — the notification carries the
+  prompt, never "come back").
+- **Kind `practiceReview`** — STANDALONE with Bede, weekly: the server
+  injects a **practice digest** (last 7 days of `practice_entries`,
+  verbatim-quoted sparingly, ≤200 tokens) into `<context>`; phases
+  `review` (patterns Bede actually sees in the week — what disturbed
+  repeatedly, what was outside control and treated as inside) →
+  `reflection` (the student names one adjustment for next week);
+  `canComplete`: `reflection`.
+- **Guardrails (hard):** practice never diagnoses, never treats; the register
+  is training, not therapy. Bede's red lines include: distress beyond the
+  philosophical → name the limit plainly and point at the human step
+  (§13.4 language). The examen's questions are ABOUT the day, never about
+  the self's worth. No mood tracking, no scores on practice.
+
+## 15.4 Re-encounters
+
+No new storage. `drop_responses` already keys `(user_id, drop_id, week)`;
+answering the same drop in a LATER cycle is a re-encounter:
+
+- The drop card badges "you've been here before — <date>" when the current
+  week's drop has a prior response by this user (client reads own rows).
+- After completing a re-encounter run, the client shows the SIDE-BY-SIDE:
+  both runs' first choices + paths + dates. Copy frames difference as
+  growth, sameness as consistency — neither is graded (§14.6 spirit).
+- The server allows the repeat insert (distinct week) — already true.
+
+## 15.5 iOS additions (E-M3)
+
+- **News card** on the home surface (below the drop card): this week's
+  headline + question once the brief exists; runs the newsRead session with
+  a lens-phase strip (brief → lens A → lens B → the split → your position);
+  source URLs render as links from the brief; NO aggregate anywhere on it.
+- **Practice Wing surface:** a Practice section (Bede's wing): morning
+  intention card (dawn-context), evening examen card, weekly visualization
+  card, a journal list (practice_entries), and the weekly review session
+  entry. Calm register throughout; streak shown as a quiet rolling ratio,
+  never a guilt mechanic.
+- **Re-encounter:** badge on the drop card + side-by-side compare view
+  after a repeat run.
+- Fixtures: bede in personas.json + bede.md excerpt fixture as the app
+  ships personas, exercises bank, lenses, a mock news brief, a prior-cycle
+  drop response for the re-encounter demo.
+- Demo launch args: `-demo-news`, `-demo-practice`, `-demo-reencounter`.
+
+## 15.6 Validation
+
+`validate_content.py` gains: a lenses pass (pairs ≥ 6 covering every domain;
+ontologyIds exist; both lenses named; splitHint nonempty) and a practice pass
+(morning ≥ 14 unique prompts; exactly 3 examen questions; visualizations ≥ 7
+with title/exercise/debrief). The personas pass picks up `bede`
+automatically.
+

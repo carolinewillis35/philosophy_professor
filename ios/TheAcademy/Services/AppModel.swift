@@ -31,6 +31,11 @@ final class AppModel {
     let daily: DailyQuestionStore
     /// The weekly drop (§14.3): bank, rotation, completion, crowd aggregate.
     let drops: DropStore
+    /// The Practice Wing (§15.3): Bede's exercise bank, rotations, journal.
+    let practice: PracticeStore
+    /// This week's news brief (§15.2); a fixture mock in mock mode, the
+    /// cached `news_briefs` row in live mode. nil ⇒ the card doesn't render.
+    private(set) var newsBrief: NewsBrief?
 
     // Voice mode (DECISIONS #11): one mic, one synthesizer, app-wide.
     let speechTranscriber: SpeechTranscriber
@@ -50,6 +55,7 @@ final class AppModel {
         self.worldview = WorldviewStore()
         self.daily = DailyQuestionStore()
         self.drops = DropStore()
+        self.practice = PracticeStore()
 
         // Recording and speaking never overlap: the mic silences the
         // professor, and the professor won't start while the mic is open.
@@ -75,6 +81,10 @@ final class AppModel {
             daily.load(bank: (try? await content.loadDailyQuestions()) ?? [])
             // Same posture for the weekly drop bank (§14.3).
             drops.load(bank: (try? await content.loadDrops()) ?? [])
+            // …and for the Practice Wing (§15.3) and the news brief (§15.2):
+            // a missing bank/brief simply means the surface doesn't render.
+            practice.load(bank: try? await content.loadPracticeExercises())
+            newsBrief = try? await content.loadNewsBrief()
             isLoaded = true
         } catch {
             loadError = error.localizedDescription
@@ -116,7 +126,10 @@ final class AppModel {
     /// session passes its spec the same way (§14.3).
     func makeSessionClient(course: Course? = nil, unit: Int? = nil,
                            assignmentId: String? = nil,
-                           dropSpec: ThoughtExperimentSpec? = nil) -> SessionClient {
+                           dropSpec: ThoughtExperimentSpec? = nil,
+                           newsBrief: NewsBrief? = nil,
+                           practiceMode: PracticeMode? = nil,
+                           practiceExercise: PracticeExercise? = nil) -> SessionClient {
         if let endpoint = config.sessionEndpoint, let key = config.supabaseAnonKey {
             let auth = self.auth
             return LiveSessionClient(
@@ -127,7 +140,11 @@ final class AppModel {
             unit.flatMap { u in course.units.first { $0.number == u + 1 } }
         }
         return MockSessionClient(assignmentId: assignmentId ?? "wij-u1-response",
-                                 unit: courseUnit, dropSpec: dropSpec)
+                                 unit: courseUnit, dropSpec: dropSpec,
+                                 newsBrief: newsBrief,
+                                 practiceMode: practiceMode,
+                                 practiceExercise: practiceExercise,
+                                 examenQuestions: practice.examenQuestions)
     }
 
     // MARK: account

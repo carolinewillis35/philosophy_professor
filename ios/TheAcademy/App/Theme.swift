@@ -48,6 +48,9 @@ enum Theme {
         case "lindqvist": // the continental: oxblood
             return dynamic(light: UIColor(red: 0.478, green: 0.176, blue: 0.157, alpha: 1),
                            dark: UIColor(red: 0.796, green: 0.478, blue: 0.443, alpha: 1))
+        case "bede": // the ancient: worn bronze
+            return dynamic(light: UIColor(red: 0.545, green: 0.404, blue: 0.169, alpha: 1),
+                           dark: UIColor(red: 0.792, green: 0.643, blue: 0.404, alpha: 1))
         default:
             return accent
         }

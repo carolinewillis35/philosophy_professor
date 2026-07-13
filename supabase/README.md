@@ -14,6 +14,8 @@ supabase/
   migrations/0005_engagement.sql         # standalone sessions + daily_questions/daily_answers (§13)
   migrations/0006_ladder.sql             # commitment_events, tension resolution, drops + crowd
                                          # aggregate RPC, steelman kind + scores (§14)
+  migrations/0007_life.sql               # news briefs + lenses, practice exercises/entries,
+                                         # newsRead/practice/practiceReview kinds (§15)
   functions/
     _shared/                   # anthropic client, envelope schema (v2), say streamer,
                                # retrieval, prompt assembly, per-kind registry (engine.ts),
@@ -38,7 +40,7 @@ supabase/
 supabase init          # safe to skip if you deploy straight to a linked project
 supabase link --project-ref <PROJECT_REF>
 
-# apply migrations/ (0001_init … 0006_ladder)
+# apply migrations/ (0001_init … 0007_life)
 supabase db push
 ```
 

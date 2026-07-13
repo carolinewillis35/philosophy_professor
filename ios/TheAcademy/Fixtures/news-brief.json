@@ -1,0 +1,27 @@
+{
+  "headline": "Court asked to decide whether an AI companion's 'testimony' counts as anyone speaking",
+  "summary": "A state appeals court this week heard arguments in a probate dispute over whether transcripts from an AI companion app can be introduced as evidence of a deceased user's wishes. The user, who lived alone, spent his final two years in daily conversation with the app, and his relatives disagree about what he intended for his estate. One side argues the transcripts record his settled views, faithfully reflected back by a system that knew him well; the other side argues the app merely generated plausible continuations of his prompts, so the words attributed to the exchange were never anyone's considered thoughts at all. The court did not rule on the estate itself; the judges instead asked both parties to brief a narrower question: whether the system's side of the conversation is testimony from a participant or output from an instrument. Legal scholars note the answer may turn less on evidence law than on what the app was doing when it 'replied.'",
+  "question": "When a conversational machine replies, is anything thinking — or is the appearance of a second mind in the conversation an artifact of ours?",
+  "domain": "mind",
+  "sourceUrls": [
+    "https://news.example.com/2026/07/ai-companion-estate-appeal",
+    "https://courts.example.gov/filings/2026-cv-1147",
+    "https://law-review.example.edu/notes/instrument-or-interlocutor"
+  ],
+  "lensPairId": "lp-006",
+  "lensPair": {
+    "id": "lp-006",
+    "domain": "mind",
+    "a": {
+      "name": "Machine thought is possible",
+      "ontologyId": "mind.machine-thought-possible",
+      "oneLiner": "Thinking is what a system does, not what it is made of — the right functioning would be real thought."
+    },
+    "b": {
+      "name": "Machine thought is impossible",
+      "ontologyId": "mind.machine-thought-impossible",
+      "oneLiner": "However fluent the output, symbol manipulation without understanding is imitation, not thought."
+    },
+    "splitHint": "They diverge on whether impressive machine performance is evidence of a mind or only of mimicry — one asks what the system does, the other what doing it is like from inside."
+  }
+}

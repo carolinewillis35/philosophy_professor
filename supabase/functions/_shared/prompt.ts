@@ -154,6 +154,9 @@ export interface ContextBlockInput {
    * only when the user has ≥3 non-abandoned commitments. Already wrapped in
    * <commitments> tags by buildCommitmentDigest. */
   commitmentDigest?: string | null;
+  /** Practice digest (§15.3): last 7 days of practice entries, for
+   * practiceReview sessions. */
+  practiceDigest?: string | null;
   /** Marginalia time-travel: highlights from a PRIOR enrollment (§11.5). */
   pastHighlights?: PastHighlight[];
   /** craftLab damaged text (§11.2) — clearly marked as the ALTERED version. */
@@ -175,6 +178,10 @@ export function buildContextBlock(input: ContextBlockInput): string {
 
   if (input.commitmentDigest) {
     parts.push(input.commitmentDigest);
+  }
+
+  if (input.practiceDigest) {
+    parts.push(`<practiceDigest>\n${input.practiceDigest}\n</practiceDigest>`);
   }
 
   // Session state without internal bookkeeping fields.

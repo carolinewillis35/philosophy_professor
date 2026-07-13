@@ -25,6 +25,13 @@ final class SessionViewModel {
     /// Non-nil for steelman sessions (§14.4): the student's own live
     /// commitment the exercise takes aim at.
     let steelmanTarget: SteelmanTarget?
+    /// Non-nil for newsRead sessions (§15.2): the week's cached brief — the
+    /// phase strip's lens names and the sources footer render from it.
+    let newsBrief: NewsBrief?
+    /// Non-nil for practice sessions (§15.3): the mode and the rotated
+    /// exercise the start request carries (persona is bede server-side).
+    let practiceMode: PracticeMode?
+    let practiceExerciseId: String?
 
     private let client: SessionClient
 
@@ -59,6 +66,14 @@ final class SessionViewModel {
     /// The verdict's one-sentence justification — display only; the state
     /// shape itself mirrors the server's.
     private(set) var steelmanJustification: String?
+    /// newsRead (§15.2): brief → lensA → lensB → split → position, folded
+    /// from advancePhase — the client mirror of NewsReadState.
+    private(set) var newsPhase: NewsPhase = .brief
+    /// practice (§15.3): examen questions asked / visualization steps walked
+    /// — the client mirror of PracticeState.step.
+    private(set) var practiceStep = 0
+    /// practiceReview (§15.3): review → reflection.
+    private(set) var reviewPhase: PracticeReviewPhase = .review
 
     var inputText = ""
 
@@ -67,6 +82,9 @@ final class SessionViewModel {
          enrollmentId: String, client: SessionClient,
          drop: Drop? = nil,
          steelmanTarget: SteelmanTarget? = nil,
+         newsBrief: NewsBrief? = nil,
+         practiceMode: PracticeMode? = nil,
+         practiceExerciseId: String? = nil,
          voice: ProfessorVoice? = nil,
          voiceEnabled: @escaping () -> Bool = { false }) {
         self.course = course
@@ -77,6 +95,9 @@ final class SessionViewModel {
         self.client = client
         self.drop = drop
         self.steelmanTarget = steelmanTarget
+        self.newsBrief = newsBrief
+        self.practiceMode = practiceMode
+        self.practiceExerciseId = practiceExerciseId
         self.voice = voice
         self.voiceEnabled = voiceEnabled
 
@@ -159,6 +180,17 @@ final class SessionViewModel {
             request = .startSteelman(targetClaim: steelmanTarget?.claim ?? "",
                                      targetOntologyId: steelmanTarget?.ontologyId,
                                      personaId: personaId ?? "whitmore")
+        } else if kind == .newsRead {
+            // §15.2: nothing beyond localDate (+ optional persona) — the
+            // server owns the week's cached brief.
+            request = .startNewsRead(localDate: DailyQuestion.localDateString(),
+                                     personaId: personaId)
+        } else if kind == .practice {
+            // §15.3: mode + exerciseId + localDate; persona is bede
+            // server-side.
+            request = .startPractice(mode: practiceMode ?? .morning,
+                                     exerciseId: practiceExerciseId,
+                                     localDate: DailyQuestion.localDateString())
         } else if kind.isStandalone {
             // Standalone kinds (§13.1) start with user + persona, no
             // enrollment.
@@ -411,6 +443,20 @@ final class SessionViewModel {
             case .probe: steelmanState.phase = .verdict
             case .verdict, .debrief: break
             }
+        case .newsRead:
+            // brief → lensA → lensB → split → position (§15.2), mirroring
+            // the kind's onOps: clamped at position.
+            let phases = NewsPhase.allCases
+            if let i = phases.firstIndex(of: newsPhase), i + 1 < phases.count {
+                newsPhase = phases[i + 1]
+            }
+        case .practice:
+            // §15.3: evening counts questions asked; visualization counts
+            // steps walked — the server's PracticeState.step exactly.
+            practiceStep += 1
+        case .practiceReview:
+            // review → reflection (§15.3).
+            if reviewPhase == .review { reviewPhase = .reflection }
         default:
             break
         }

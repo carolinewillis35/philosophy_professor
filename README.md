@@ -28,6 +28,8 @@ the faculty disagree with each other so no house view can leak.**
 | `content/ontology/claims.json` | **The claim ontology** — canonical positions + classical entailments/tensions; powers the Commitment Map |
 | `content/daily/questions.json` | The Daily Question bank (§13.2) — one-tap positions mapped to ontology claims |
 | `content/drops/drops.json` | Weekly thought-experiment drops (§14.3) — five branching labs with crowd compare |
+| `content/practice/exercises.json` | The Practice Wing (§15.3) — morning intentions, the examen, negative visualizations |
+| `content/news/lenses.json` | News lens pairs (§15.2) — opposed frameworks the weekly story is read through |
 | `content/courses/` | Authored course JSON incl. elenchus specs, thought experiments, argument labs |
 | `pipeline/` | Text ingestion (Gutenberg → chapters → passages → embeddings → seed SQL) + content validator |
 | `supabase/` | Schema + RLS + retrieval RPC, session-engine Edge Function, commitment pipeline |

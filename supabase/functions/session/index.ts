@@ -46,6 +46,12 @@ import {
 import type { ElenchusSpec } from "../_shared/kinds_academy.ts";
 import type { DailyQuestionSpec } from "../_shared/kinds_engagement.ts";
 import {
+  buildPracticeDigest,
+  type PracticeExerciseDoc,
+  type PracticeSpec,
+} from "../_shared/kinds_life.ts";
+import { generateNewsBrief, loadNewsBrief } from "../_shared/news.ts";
+import {
   loadReaderProfile,
   profileDigest,
   updateReaderProfile,
@@ -109,12 +115,22 @@ const KINDS: SessionKind[] = [
   "dailyQuestion",
   "argumentClinic",
   "steelman",
+  "newsRead",
+  "practice",
+  "practiceReview",
 ];
 
 /** Standalone kinds (§13.1): no enrollment, no course, no retrieval.
  * thoughtExperiment ALSO runs standalone when started as a weekly drop
  * (§14.3, request carries dropId). */
-const STANDALONE_KINDS: SessionKind[] = ["dailyQuestion", "argumentClinic", "steelman"];
+const STANDALONE_KINDS: SessionKind[] = [
+  "dailyQuestion",
+  "argumentClinic",
+  "steelman",
+  "newsRead",
+  "practice",
+  "practiceReview",
+];
 
 /** Session kinds driven by an authored spec from the course unit JSON. */
 const SPEC_KINDS: SessionKind[] = [
@@ -152,6 +168,9 @@ interface RequestBody {
   /** steelman start extras (§14.4). */
   targetClaim?: string;
   targetOntologyId?: string;
+  /** practice start extras (§15.3). */
+  mode?: "morning" | "evening" | "visualization";
+  exerciseId?: string;
 }
 
 function jsonResponse(status: number, payload: unknown): Response {
@@ -228,6 +247,19 @@ async function loadStandaloneContext(
     const { data: d } = await db
       .from("drops").select("doc").eq("id", session.state.dropId).maybeSingle();
     if (d) standaloneSpec = (d.doc as { experiment: KindSpec }).experiment;
+  } else if (session.kind === "newsRead" && typeof session.state?.week === "number") {
+    const brief = await loadNewsBrief(db, session.state.week);
+    if (brief) standaloneSpec = { brief };
+  } else if (session.kind === "practice" && session.state?.exerciseId) {
+    const { data: ex } = await db
+      .from("practice_exercises").select("doc")
+      .eq("id", session.state.exerciseId).maybeSingle();
+    if (ex) {
+      standaloneSpec = {
+        mode: session.state.mode,
+        exercise: ex.doc as PracticeExerciseDoc,
+      } as PracticeSpec;
+    }
   }
   return {
     enrollment: syntheticEnrollment(userId),
@@ -539,6 +571,23 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
     console.error("commitment digest failed (continuing without):", e);
   }
 
+  // --- practice digest (§15.3): last 7 days of entries, practiceReview only -
+  let practiceDigest: string | null = null;
+  if (kind === "practiceReview") {
+    try {
+      const since = new Date(Date.now() - 7 * 86_400_000).toISOString().slice(0, 10);
+      const { data: entries } = await db
+        .from("practice_entries")
+        .select("mode, entry, local_date")
+        .eq("user_id", enrollment.user_id)
+        .gte("local_date", since)
+        .order("local_date", { ascending: false });
+      practiceDigest = buildPracticeDigest(entries ?? []);
+    } catch (e) {
+      console.error("practice digest failed (continuing without):", e);
+    }
+  }
+
   // --- marginalia time-travel (§11.5): past-self highlights on the unit span
   let pastHighlights: { bookId: string; ch: number; note?: string | null }[] = [];
   const marginaliaSpan = ctx.unitDef.reading?.[0];
@@ -574,6 +623,7 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
     essayBody: tc.essayBody ?? undefined,
     profileDigest: digest,
     commitmentDigest,
+    practiceDigest,
     pastHighlights,
     alteredText: kind === "craftLab" && spec
       ? {
@@ -601,6 +651,7 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
       coReading: tc.coReading,
       profileDigestPresent: !!digest,
       commitmentDigestPresent: !!commitmentDigest,
+      practiceDigestPresent: !!practiceDigest,
     }) + (tc.softBudget ? SOFT_BUDGET_NOTE : ""),
     summary: state._summary ?? null,
     rawTurns: priorTurns.slice(-KEEP_RAW_TURNS),
@@ -750,7 +801,12 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
   const newState = applied.state;
   // §13.4 "the ritual stays small": a dailyQuestion session auto-completes on
   // its single reply, whether or not the model remembered completeSession.
-  if (kind === "dailyQuestion" && !applied.completeSession) {
+  // §15.3: the morning intention has the same one-reply shape.
+  if (
+    !applied.completeSession &&
+    (kind === "dailyQuestion" ||
+      (kind === "practice" && state.mode === "morning" && !tc.isOpening))
+  ) {
     applied.completeSession = true;
   }
   for (const rejected of applied.rejectedOps) {
@@ -898,6 +954,30 @@ async function runProfessorTurn(tc: TurnContext, send: Send): Promise<void> {
       .eq("id", session.id);
     envelope.uiHints.endOfSession = true;
     delete newState._memoryBuffer;
+
+    // Practice (§15.3): journal the completed session. The entry is the
+    // student's own words; the reply is kept for the morning's one response.
+    // Never fails the turn; the unique constraint absorbs duplicates.
+    if (ctx.standalone && kind === "practice" && newState.localDate) {
+      const userWords = [
+        ...priorTurns.filter((t) => t.role === "user").map((t) => t.content),
+        ...(tc.userText.trim() ? [tc.userText.trim()] : []),
+      ].filter((t) => t.trim());
+      if (userWords.length > 0) {
+        const { error: peErr } = await db.from("practice_entries").insert({
+          user_id: enrollment.user_id,
+          mode: newState.mode,
+          exercise_id: newState.exerciseId ?? null,
+          entry: userWords.join("\n"),
+          reply: newState.mode === "morning" ? envelope.say : "",
+          local_date: newState.localDate,
+          session_id: session.id,
+        });
+        if (peErr && peErr.code !== "23505") {
+          console.error("practice entry insert failed:", peErr.message);
+        }
+      }
+    }
 
     // Weekly drop (§14.3): record the response for the crowd aggregate.
     // Never fails the turn; the unique constraint absorbs duplicates.
@@ -1055,6 +1135,47 @@ async function handleStandaloneStart(
       if (!claimRow) throw new Error(`unknown targetOntologyId: ${body.targetOntologyId}`);
     }
     personaId = body.personaId ?? "whitmore";
+  } else if (kind === "newsRead") {
+    // §15.2: teach from the week's cached brief; generate it on first start.
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(body.localDate ?? "")) {
+      throw new Error("newsRead start requires localDate (YYYY-MM-DD)");
+    }
+    const week = Math.floor(daysSinceEpoch(body.localDate!) / 7);
+    let brief = await loadNewsBrief(db, week);
+    if (!brief) {
+      try {
+        brief = await generateNewsBrief(db, week, usage);
+      } catch (e) {
+        console.error("news brief generation failed:", e);
+        throw new Error("this week's question isn't ready — try again shortly");
+      }
+    }
+    spec = { brief };
+    dropWeek = week; // reuse the stamp below
+    personaId = body.personaId ?? "whitmore";
+  } else if (kind === "practice") {
+    // §15.3: the Stoic wing runs with Bede, always.
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(body.localDate ?? "")) {
+      throw new Error("practice start requires localDate (YYYY-MM-DD)");
+    }
+    const mode = body.mode;
+    if (mode !== "morning" && mode !== "evening" && mode !== "visualization") {
+      throw new Error("practice start requires mode (morning|evening|visualization)");
+    }
+    const exerciseId = mode === "evening" ? "examen" : body.exerciseId;
+    if (!exerciseId) throw new Error(`practice ${mode} requires exerciseId`);
+    const { data: exRow, error: exErr } = await db
+      .from("practice_exercises").select("kind, doc").eq("id", exerciseId).maybeSingle();
+    if (exErr) throw new Error(`exercise load failed: ${exErr.message}`);
+    if (!exRow) throw new Error(`unknown exerciseId: ${exerciseId}`);
+    const wantKind = mode === "evening" ? "examen" : mode;
+    if (exRow.kind !== wantKind) {
+      throw new Error(`exercise ${exerciseId} is not a ${wantKind} exercise`);
+    }
+    spec = { mode, exercise: exRow.doc as PracticeExerciseDoc } as PracticeSpec;
+    personaId = "bede";
+  } else if (kind === "practiceReview") {
+    personaId = "bede";
   } else {
     personaId = body.personaId ?? "whitmore";
   }
@@ -1075,6 +1196,8 @@ async function handleStandaloneStart(
     state.targetClaim = body.targetClaim!.trim();
     state.targetOntologyId = body.targetOntologyId ?? null;
   }
+  if (kind === "newsRead") state.week = dropWeek;
+  if (kind === "practice") state.localDate = body.localDate;
 
   const { data: session, error: sErr } = await db
     .from("sessions")

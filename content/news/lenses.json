@@ -1,0 +1,140 @@
+{
+  "version": 1,
+  "pairs": [
+    {
+      "id": "lp-001",
+      "domain": "ethics",
+      "a": {
+        "name": "Consequentialism",
+        "ontologyId": "ethics.consequentialism",
+        "oneLiner": "An act is right insofar as it produces the best overall outcomes for everyone affected."
+      },
+      "b": {
+        "name": "Deontology",
+        "ontologyId": "ethics.deontology",
+        "oneLiner": "Some acts are required or forbidden in themselves, whatever good their violation might buy."
+      },
+      "splitHint": "They diverge the moment a policy helps many by wronging a few: the consequentialist runs the arithmetic, the deontologist rules the trade off the table."
+    },
+    {
+      "id": "lp-002",
+      "domain": "ethics",
+      "a": {
+        "name": "Moral universalism",
+        "ontologyId": "ethics.moral-universalism",
+        "oneLiner": "Some moral standards bind every society, and a practice can be wrong even where it is customary."
+      },
+      "b": {
+        "name": "Moral relativism",
+        "ontologyId": "ethics.moral-relativism",
+        "oneLiner": "Moral standards are internal to cultures, and judging one society by another's code is a confusion."
+      },
+      "splitHint": "They split over cross-border judgment: whether condemning another culture's practice is moral seriousness or moral imperialism."
+    },
+    {
+      "id": "lp-003",
+      "domain": "ethics",
+      "a": {
+        "name": "Psychological egoism",
+        "ontologyId": "ethics.psychological-egoism",
+        "oneLiner": "All human action, however generous it looks, is ultimately moved by self-interest."
+      },
+      "b": {
+        "name": "Genuine altruism",
+        "ontologyId": "ethics.altruism-possible",
+        "oneLiner": "People sometimes act for another's sake, full stop — the giving is not a disguised purchase."
+      },
+      "splitHint": "They diverge on how to read a conspicuous good deed: as reputation, tax, and self-image doing the real work, or as evidence that concern for others can be the engine itself."
+    },
+    {
+      "id": "lp-004",
+      "domain": "epistemology",
+      "a": {
+        "name": "Inductive confidence",
+        "ontologyId": "epistemology.induction-justified",
+        "oneLiner": "Past regularities rationally license forecasts — models and track records are how knowledge of the future works."
+      },
+      "b": {
+        "name": "Inductive skepticism",
+        "ontologyId": "epistemology.inductive-skepticism",
+        "oneLiner": "No amount of past pattern guarantees the next case, and confidence in extrapolation outruns its warrant."
+      },
+      "splitHint": "They diverge over what a model's past success actually proves: whether a strong track record justifies acting on the forecast, or merely reports that the surprise hasn't arrived yet."
+    },
+    {
+      "id": "lp-005",
+      "domain": "metaphysics",
+      "a": {
+        "name": "Hard determinism",
+        "ontologyId": "metaphysics.hard-determinism",
+        "oneLiner": "Every choice is the outcome of prior causes, so no one is ultimately responsible in the way blame assumes."
+      },
+      "b": {
+        "name": "Libertarian free will",
+        "ontologyId": "metaphysics.libertarian-free-will",
+        "oneLiner": "Agents genuinely could have done otherwise, and that open alternative is what makes praise and blame apt."
+      },
+      "splitHint": "They diverge at the courtroom door: whether a wrongdoer's biography and biology excuse, mitigate, or leave untouched the claim that they could have chosen differently."
+    },
+    {
+      "id": "lp-006",
+      "domain": "mind",
+      "a": {
+        "name": "Machine thought is possible",
+        "ontologyId": "mind.machine-thought-possible",
+        "oneLiner": "Thinking is what a system does, not what it is made of — the right functioning would be real thought."
+      },
+      "b": {
+        "name": "Machine thought is impossible",
+        "ontologyId": "mind.machine-thought-impossible",
+        "oneLiner": "However fluent the output, symbol manipulation without understanding is imitation, not thought."
+      },
+      "splitHint": "They diverge on whether impressive machine performance is evidence of a mind or only of mimicry — one asks what the system does, the other what doing it is like from inside."
+    },
+    {
+      "id": "lp-007",
+      "domain": "political",
+      "a": {
+        "name": "Liberty first",
+        "ontologyId": "political.liberty-priority",
+        "oneLiner": "The state's first duty is to leave people free; coercion needs justification, freedom does not."
+      },
+      "b": {
+        "name": "Equality first",
+        "ontologyId": "political.equality-priority",
+        "oneLiner": "Freedom that only some can afford is a privilege wearing liberty's name; fair shares come first."
+      },
+      "splitHint": "They diverge whenever a rule restricts choice to level the field: one sees liberty taxed, the other sees liberty finally being distributed."
+    },
+    {
+      "id": "lp-008",
+      "domain": "political",
+      "a": {
+        "name": "Consent of the governed",
+        "ontologyId": "political.legitimacy-requires-consent",
+        "oneLiner": "Political power is legitimate only insofar as those subject to it have genuinely consented."
+      },
+      "b": {
+        "name": "Utilitarian statecraft",
+        "ontologyId": "political.state-utilitarian-justification",
+        "oneLiner": "Institutions are justified by the welfare they produce, whether or not anyone signed anything."
+      },
+      "splitHint": "They diverge when an unpopular measure works: one asks whether the governed agreed to it, the other asks only whether it left them better off."
+    },
+    {
+      "id": "lp-009",
+      "domain": "aesthetics",
+      "a": {
+        "name": "Art's moral accountability",
+        "ontologyId": "aesthetics.art-has-moral-duties",
+        "oneLiner": "Art acts on its audience and its subjects, and can be judged — even removed — on moral grounds."
+      },
+      "b": {
+        "name": "Aesthetic autonomy",
+        "ontologyId": "aesthetics.aesthetic-value-autonomous",
+        "oneLiner": "A work's value as art is one thing and its morals another; conflating them judges the wrong object."
+      },
+      "splitHint": "They diverge at every cancellation and every museum wall label: whether a work's moral failings count against the art itself or only against something adjacent to it."
+    }
+  ]
+}

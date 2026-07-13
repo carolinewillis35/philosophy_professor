@@ -10,6 +10,8 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
     // standalone: no enrollment, no course unit; bound to user + persona
     // instead.
     case dailyQuestion, argumentClinic, steelman
+    // Life kinds (CONTRACTS §15, migration 0007) — also standalone.
+    case newsRead, practice, practiceReview
 
     var displayName: String {
         switch self {
@@ -25,6 +27,9 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .dailyQuestion: return "Daily Question"
         case .argumentClinic: return "Argument Clinic"
         case .steelman: return "Steelman"
+        case .newsRead: return "Read Philosophically"
+        case .practice: return "Practice"
+        case .practiceReview: return "Weekly Review"
         }
     }
 
@@ -42,13 +47,22 @@ enum SessionKind: String, Codable, Hashable, CaseIterable {
         case .dailyQuestion: return "sun.max"
         case .argumentClinic: return "stethoscope"
         case .steelman: return "shield.lefthalf.filled"
+        case .newsRead: return "newspaper"
+        case .practice: return "figure.mind.and.body"
+        case .practiceReview: return "calendar.badge.clock"
         }
     }
 
     /// §13.1: not course-bound — sessions carry user + persona instead of an
     /// enrollment.
     var isStandalone: Bool {
-        self == .dailyQuestion || self == .argumentClinic || self == .steelman
+        switch self {
+        case .dailyQuestion, .argumentClinic, .steelman,
+             .newsRead, .practice, .practiceReview:
+            return true
+        default:
+            return false
+        }
     }
 }
 
@@ -303,6 +317,10 @@ struct SessionRequest: Encodable {
     /// examination; `targetOntologyId` only when the claim is canonical.
     var targetClaim: String?
     var targetOntologyId: String?
+    /// practice start extras (§15.3): the mode and the rotated exercise.
+    /// The persona is forced to bede server-side.
+    var mode: String?
+    var exerciseId: String?
 
     static func start(enrollmentId: String, kind: SessionKind, unit: Int,
                       essayBody: String? = nil) -> SessionRequest {
@@ -357,6 +375,29 @@ struct SessionRequest: Encodable {
                        nodeId: nil, choice: nil, personaId: personaId,
                        targetClaim: targetClaim,
                        targetOntologyId: targetOntologyId)
+    }
+
+    /// §15.2 newsRead start: nothing beyond localDate (+ the optional
+    /// student-picked professor) — the server owns the weekly brief.
+    static func startNewsRead(localDate: String,
+                              personaId: String?) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: .newsRead, unit: nil, userText: nil,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil, personaId: personaId,
+                       localDate: localDate)
+    }
+
+    /// §15.3 practice start: mode + exerciseId + localDate; the server runs
+    /// the Stoic wing with Bede, always (evening derives `examen` itself).
+    static func startPractice(mode: PracticeMode, exerciseId: String?,
+                              localDate: String) -> SessionRequest {
+        SessionRequest(action: "start", sessionId: nil, enrollmentId: nil,
+                       kind: .practice, unit: nil, userText: nil,
+                       userAnnotations: nil, essayBody: nil,
+                       nodeId: nil, choice: nil,
+                       localDate: localDate,
+                       mode: mode.rawValue, exerciseId: exerciseId)
     }
 
     static func turn(sessionId: String, kind: SessionKind, userText: String?,

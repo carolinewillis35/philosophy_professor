@@ -22,5 +22,13 @@
     "blurb": "Reads philosophy as something written by a body, in a mood, in a century — and teaches you to ask of every idea, including your own, where it came from and whom it serves. Expansive, warm, and merciless to slogans, she close-reads Nietzsche's forms as rigorously as her colleague Whitmore numbers premises, and insists that suspicion is not shrugging: it ranks.",
     "courses": [],
     "version": 1
+  },
+  {
+    "id": "bede",
+    "name": "Aurelius Bede",
+    "title": "The Ancient",
+    "blurb": "A former physiotherapist who read the Meditations as a training log and has taught that way ever since, Prof. Bede treats philosophy as a practice and the day as the gymnasium: one intention each morning, three fixed questions each evening, loss rehearsed briefly and set down. Calm, concrete, and drill-sergeant-gentle, he answers questions plainly, ends every answer with an assignment, and asks of any fine idea only one thing — show me the morning it changed.",
+    "courses": [],
+    "version": 1
   }
 ]

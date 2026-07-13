@@ -16,6 +16,12 @@ protocol ContentStore {
     /// The weekly drop bank (§14.3); fixture-bundled, later the `drops`
     /// table.
     func loadDrops() async throws -> [Drop]
+    /// This week's news brief (§15.2); a fixture mock in mock mode, later
+    /// the `news_briefs` cache (the server generates it on first start).
+    func loadNewsBrief() async throws -> NewsBrief
+    /// The practice exercise bank (§15.3); fixture-bundled, later the
+    /// `practice_exercises` catalog table.
+    func loadPracticeExercises() async throws -> PracticeBank
 }
 
 enum ContentStoreError: LocalizedError {
@@ -97,6 +103,20 @@ final class FixtureContentStore: ContentStore {
         let url = root.appendingPathComponent("drops.json")
         let data = try Data(contentsOf: url)
         return try decoder.decode(DropBank.self, from: data).drops
+    }
+
+    func loadNewsBrief() async throws -> NewsBrief {
+        guard let root = fixturesRoot else { throw ContentStoreError.fixturesMissing }
+        let url = root.appendingPathComponent("news-brief.json")
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(NewsBrief.self, from: data)
+    }
+
+    func loadPracticeExercises() async throws -> PracticeBank {
+        guard let root = fixturesRoot else { throw ContentStoreError.fixturesMissing }
+        let url = root.appendingPathComponent("practice-exercises.json")
+        let data = try Data(contentsOf: url)
+        return try decoder.decode(PracticeBank.self, from: data)
     }
 
     func availableChapters(bookID: String) async -> [Int] {
